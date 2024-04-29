@@ -1,20 +1,8 @@
-import { Link, LinkProps, LinkTypeMap, Typography, useTheme } from "@mui/joy";
-import { Link as RouterLink } from "react-router-dom";
+import { Link, LinkProps } from "@drincs/react-components";
 
-interface TextMenuButtonProps extends LinkProps<LinkTypeMap['defaultComponent'], {
-    component?: React.ElementType;
-    focusVisible?: boolean;
-}> {
-    to?: string;
-    selected?: boolean;
-}
-
-export default function TextMenuButton(props: TextMenuButtonProps) {
+export default function TextMenuButton(props: LinkProps) {
     const {
         sx,
-        children,
-        disabled,
-        selected,
         ...rest
     } = props;
 
@@ -25,19 +13,7 @@ export default function TextMenuButton(props: TextMenuButtonProps) {
                 pointerEvents: "auto",
                 ...sx
             }}
-            component={RouterLink}
-            disabled={disabled}
             {...rest}
-        >
-            <Typography
-                textColor={
-                    selected ? useTheme().palette.primary[500] :
-                        disabled ? useTheme().palette.neutral[500] :
-                            useTheme().palette.neutral[300]
-                }
-            >
-                {children}
-            </Typography>
-        </Link>
+        />
     );
 }

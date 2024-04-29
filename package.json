@@ -12,10 +12,7 @@
   },
   "dependencies": {
     "@drincs/pixi-vn": "^0.3.0",
-    "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.15.10",
-    "@mui/joy": "^5.0.0-beta.28",
+    "@drincs/react-components": "^0.1.0",
     "i18next": "^23.11.2",
     "i18next-browser-languagedetector": "^7.2.1",
     "react": "^18.2.0",
