@@ -1,4 +1,4 @@
-import { CssVarsProvider, extendTheme } from '@drincs/react-components';
+import { CssVarsProvider, extendTheme, get10ColorShades } from '@drincs/react-components';
 import { createContext, useContext, useMemo, useState } from 'react';
 
 type Iprops = {

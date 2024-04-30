@@ -140,7 +140,7 @@ export default function QuickActions() {
                 }}
                 confirmText={t("confirm")}
                 cancelText={t("cancel")}
-                startDecoratorButton={<CloudDownloadIcon />}
+                startDecorator={<CloudDownloadIcon />}
             >
                 <Typography>
                     {t("you_sure_to_quick_load")}
