@@ -1,4 +1,4 @@
-import { ModalDialogExtended } from '@drincs/react-components';
+import { ModalConfirmation } from '@drincs/react-components';
 import AutoModeIcon from '@mui/icons-material/AutoMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
@@ -311,43 +311,25 @@ export default function Settings() {
                 </Sheet>
             </Drawer>
 
-            <ModalDialogExtended
+            <ModalConfirmation
                 open={openYouSure}
                 setOpen={setOpenYouSure}
                 color='danger'
-                head={<Typography level="h4"
-                    startDecorator={<ExitToAppIcon />}
-                >
-                    {t("attention")}
-                </Typography>}
-                actions={<>
-                    <Button
-                        key={'exit'}
-                        color='danger'
-                        variant="outlined"
-                        onClick={() => {
-                            navigate('/')
-                            setOpen(false)
-                            setOpenYouSure(false)
-                        }}
-                        startDecorator={<ExitToAppIcon />}
-                    >
-                        {t("exit")}
-                    </Button>
-                    <Button
-                        key={'cancel'}
-                        color="neutral"
-                        variant="plain"
-                        onClick={() => setOpenYouSure(false)}
-                    >
-                        {t("cancel")}
-                    </Button>
-                </>}
+                headText={t("attention")}
+                startDecorator={<ExitToAppIcon />}
+                confirmText={t("exit")}
+                cancelText={t("cancel")}
+                variantButton='outlined'
+                onClick={() => {
+                    navigate('/')
+                    setOpen(false)
+                    return true
+                }}
             >
                 <Typography>
                     {t("you_sure_to_return_main_menu")}
                 </Typography>
-            </ModalDialogExtended>
+            </ModalConfirmation>
         </>
     );
 }
