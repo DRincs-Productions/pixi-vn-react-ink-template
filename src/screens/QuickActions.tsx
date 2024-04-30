@@ -1,3 +1,4 @@
+import { ModalDialogExtended } from '@drincs/react-components';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import { Button, Grid, Typography } from '@mui/joy';
 import { useState } from 'react';
@@ -9,7 +10,6 @@ import { openHistoryState } from '../atoms/openHistoryState';
 import { openSettingsState } from '../atoms/openSettingsState';
 import { reloadInterfaceDataEventState } from '../atoms/reloadInterfaceDataEventState';
 import { skipEnabledState } from '../atoms/skipEnabledState';
-import ModalDialogCustom from '../components/ModalDialog';
 import TextMenuButton from '../components/TextMenuButton';
 import { addQuickSave, goBack, loadGameSave, loadQuickSave, saveGame } from '../utility/ActionsUtility';
 import { useMyNavigate } from '../utility/useMyNavigate';
@@ -129,7 +129,7 @@ export default function QuickActions() {
                 </Grid>
             </Grid >
 
-            <ModalDialogCustom
+            <ModalDialogExtended
                 open={openYouSure}
                 setOpen={setOpenYouSure}
                 color="primary"
@@ -164,7 +164,7 @@ export default function QuickActions() {
                 <Typography>
                     {t("you_sure_to_quick_load")}
                 </Typography>
-            </ModalDialogCustom>
+            </ModalDialogExtended>
         </>
     );
 }

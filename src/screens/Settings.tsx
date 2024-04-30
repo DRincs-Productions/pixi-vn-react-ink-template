@@ -1,3 +1,4 @@
+import { ModalDialogExtended } from '@drincs/react-components';
 import AutoModeIcon from '@mui/icons-material/AutoMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
@@ -14,7 +15,6 @@ import { useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { openSettingsState } from '../atoms/openSettingsState';
 import { typewriterDelayState } from '../atoms/typewriterDelayState';
-import ModalDialogCustom from '../components/ModalDialog';
 import { useEditColorProvider } from '../providers/ThemeProvider';
 import { useMyNavigate } from '../utility/useMyNavigate';
 
@@ -311,7 +311,7 @@ export default function Settings() {
                 </Sheet>
             </Drawer>
 
-            <ModalDialogCustom
+            <ModalDialogExtended
                 open={openYouSure}
                 setOpen={setOpenYouSure}
                 color='danger'
@@ -347,7 +347,7 @@ export default function Settings() {
                 <Typography>
                     {t("you_sure_to_return_main_menu")}
                 </Typography>
-            </ModalDialogCustom>
+            </ModalDialogExtended>
         </>
     );
 }

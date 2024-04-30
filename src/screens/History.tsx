@@ -1,4 +1,5 @@
 import { CharacterBaseModel, getCharacterById, getDialogueHistory } from '@drincs/pixi-vn';
+import { ModalDialogExtended } from '@drincs/react-components';
 import CheckIcon from '@mui/icons-material/Check';
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { Box, Chip, Input, Stack, Typography } from "@mui/joy";
@@ -7,7 +8,6 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
 import { openHistoryState } from '../atoms/openHistoryState';
-import ModalDialogCustom from '../components/ModalDialog';
 
 export default function History() {
     const [open, setOpen] = useRecoilState(openHistoryState);
@@ -28,7 +28,7 @@ export default function History() {
     }
 
     return (
-        <ModalDialogCustom
+        <ModalDialogExtended
             open={open}
             setOpen={setOpen}
             head={<Stack
@@ -128,6 +128,6 @@ export default function History() {
                         })}
                 </Stack>
             </Box>
-        </ModalDialogCustom>
+        </ModalDialogExtended>
     );
 }
