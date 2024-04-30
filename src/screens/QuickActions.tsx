@@ -1,6 +1,6 @@
-import { ModalDialogExtended } from '@drincs/react-components';
+import { ModalConfirmation } from '@drincs/react-components';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
-import { Button, Grid, Typography } from '@mui/joy';
+import { Grid, Typography } from '@mui/joy';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -129,42 +129,23 @@ export default function QuickActions() {
                 </Grid>
             </Grid >
 
-            <ModalDialogExtended
+            <ModalConfirmation
                 open={openYouSure}
                 setOpen={setOpenYouSure}
                 color="primary"
-                head={<Typography level="h4"
-                    startDecorator={<CloudDownloadIcon />}
-                >
-                    {t("load")}
-                </Typography>}
-                actions={<>
-                    <Button
-                        key={'exit'}
-                        color='primary'
-                        variant="outlined"
-                        onClick={() => {
-                            loadQuickSave(navigate, () => notifyLoadEvent((prev) => prev + 1))
-                            setOpenYouSure(false)
-                        }}
-                        startDecorator={<CloudDownloadIcon />}
-                    >
-                        {t("confirm")}
-                    </Button>
-                    <Button
-                        key={'cancel'}
-                        color="neutral"
-                        variant="plain"
-                        onClick={() => setOpenYouSure(false)}
-                    >
-                        {t("cancel")}
-                    </Button>
-                </>}
+                headText={t("load")}
+                onClick={() => {
+                    loadQuickSave(navigate, () => notifyLoadEvent((prev) => prev + 1))
+                    return true
+                }}
+                confirmText={t("confirm")}
+                cancelText={t("cancel")}
+                startDecoratorButton={<CloudDownloadIcon />}
             >
                 <Typography>
                     {t("you_sure_to_quick_load")}
                 </Typography>
-            </ModalDialogExtended>
+            </ModalConfirmation>
         </>
     );
 }
