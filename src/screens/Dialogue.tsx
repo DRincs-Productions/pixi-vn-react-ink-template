@@ -1,5 +1,5 @@
 import { CharacterBaseModel, ChoiceMenuOptionsType, GameStepManager, GameWindowManager, getCharacterById, getChoiceMenuOptions, getDialogue } from '@drincs/pixi-vn';
-import { Button, Sheet } from '@drincs/react-components';
+import { Button, DragHandleDivider, resizeWindowsHandler, Sheet } from '@drincs/react-components';
 import AspectRatio from '@mui/joy/AspectRatio';
 import Box from '@mui/joy/Box';
 import Card from '@mui/joy/Card';
@@ -13,9 +13,7 @@ import { canGoBackState } from '../atoms/canGoBackState';
 import { reloadInterfaceDataEventState } from '../atoms/reloadInterfaceDataEventState';
 import { skipEnabledState } from '../atoms/skipEnabledState';
 import { typewriterDelayState } from '../atoms/typewriterDelayState';
-import DragHandleDivider from '../components/DragHandleDivider';
 import Typewriter from '../components/Typewriter';
-import { resizeWindowsHandler } from '../utility/ComponentUtility';
 import DialogueMenu from './DialogueMenu';
 
 export default function Dialogue() {
