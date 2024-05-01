@@ -37,5 +37,16 @@
 		, "next" : "Next"
 		, "text_speed" : "Text Speed"
 		, "text_speed_description" : "Choose the speed of the text."
+		, "morning" : "Morning"
+		, "afternoon" : "Afternoon"
+		, "evening" : "Evening"
+		, "night" : "Night"
+		, "monday" : "Monday"
+		, "tuesday" : "Tuesday"
+		, "wednesday" : "Wednesday"
+		, "thursday" : "Thursday"
+		, "friday" : "Friday"
+		, "saturday" : "Saturday"
+		, "sunday" : "Sunday"
 	}
 }
