@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
 import { openHistoryState } from '../atoms/openHistoryState';
+import { DialogueModel } from '../model/DialogueModel';
 
 export default function History() {
     const [open, setOpen] = useRecoilState(openHistoryState);
@@ -66,16 +67,16 @@ export default function History() {
                 }}
             >
                 <Stack spacing={2} justifyContent="flex-end">
-                    {getDialogueHistory()
+                    {getDialogueHistory<DialogueModel>()
                         .map((step) => {
                             let character = step.dialoge?.characterId ? getCharacterById(step.dialoge?.characterId) ?? new CharacterBaseModel(step.dialoge?.characterId, { name: t(step.dialoge?.characterId) }) : undefined
                             return {
                                 character: character?.name ? character.name + (character.surname ? " " + character.surname : "") : undefined,
-                                text: t(step.dialoge?.text || ""),
+                                text: t(step.dialoge?.text || "", step.dialoge?.i18nArgs),
                                 icon: character?.icon,
                                 choices: step.choices?.map((choice) => {
                                     return {
-                                        text: t(choice.text),
+                                        text: t(choice.text, step.dialoge?.i18nArgs),
                                         isResponse: choice.label === step.choiceMade?.label,
                                     }
                                 }),
