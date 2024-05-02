@@ -68,14 +68,14 @@ export default function History() {
                 <Stack spacing={2} justifyContent="flex-end">
                     {getDialogueHistory()
                         .map((step) => {
-                            let character = step.dialoge?.characterId ? getCharacterById(step.dialoge?.characterId) ?? new CharacterBaseModel(step.dialoge?.characterId, { name: step.dialoge?.characterId }) : undefined
+                            let character = step.dialoge?.characterId ? getCharacterById(step.dialoge?.characterId) ?? new CharacterBaseModel(step.dialoge?.characterId, { name: t(step.dialoge?.characterId) }) : undefined
                             return {
                                 character: character?.name ? character.name + (character.surname ? " " + character.surname : "") : undefined,
-                                text: step.dialoge?.text || "",
+                                text: t(step.dialoge?.text || ""),
                                 icon: character?.icon,
                                 choices: step.choices?.map((choice) => {
                                     return {
-                                        text: choice.text,
+                                        text: t(choice.text),
                                         isResponse: choice.label === step.choiceMade?.label,
                                     }
                                 }),
@@ -97,7 +97,7 @@ export default function History() {
                                     />
                                     <Box sx={{ flex: 1 }}>
                                         {data.character && <Typography level="title-sm">{data.character}</Typography>}
-                                        <Typography level="body-sm">{t(data.text)}</Typography>
+                                        <Typography level="body-sm">{data.text}</Typography>
                                     </Box>
                                 </Stack>
                                 <Stack
@@ -112,14 +112,14 @@ export default function History() {
                                                     color="success"
                                                     endDecorator={<CheckIcon />}
                                                 >
-                                                    {t(choice.text)}
+                                                    {choice.text}
                                                 </Chip>
                                             }
                                             return <Chip
                                                 key={"choices" + index}
                                                 color="primary"
                                             >
-                                                {t(choice.text)}
+                                                {choice.text}
                                             </Chip>
                                         })}
                                     </Box>
