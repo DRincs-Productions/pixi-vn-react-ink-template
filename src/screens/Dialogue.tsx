@@ -41,10 +41,10 @@ export default function Dialogue() {
     useEffect(() => {
         let dial = getDialogue()
         if (dial) {
-            setText(dial.text)
+            setText(t(dial.text))
             let c: CharacterBaseModel | undefined = dial.characterId ? getCharacterById(dial.characterId) : undefined
             if (!c && dial.characterId) {
-                c = new CharacterBaseModel(dial.characterId, { name: dial.characterId })
+                c = new CharacterBaseModel(dial.characterId, { name: t(dial.characterId) })
             }
             setCharacter(c)
         }
@@ -194,10 +194,10 @@ export default function Dialogue() {
                         >
                             {typewriterDelay !== 0
                                 ? <Typewriter
-                                    text={t(text)}
+                                    text={text}
                                     delay={localStorage.getItem('typewriter_delay_millisecond')! as unknown as number}
                                 />
-                                : t(text)}
+                                : text}
                         </Sheet>
                     </CardContent>
                 </Card>}
