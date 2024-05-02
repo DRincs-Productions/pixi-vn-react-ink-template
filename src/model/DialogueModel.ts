@@ -3,12 +3,12 @@ import { CharacterModel } from "./characters/CharacterModel";
 
 export class DialogueModel extends DialogueBaseModel {
     constructor(
-        character: CharacterModel | string,
         text: string,
-        ...i18nArgs: string[]
+        character: CharacterModel | string,
+        i18nArgs: { key: string }
     ) {
-        super(character, text);
+        super(text, character);
         this.i18nArgs = i18nArgs;
     }
-    i18nArgs: string[] = [];
+    i18nArgs: { key: string } = { key: "" }
 }
