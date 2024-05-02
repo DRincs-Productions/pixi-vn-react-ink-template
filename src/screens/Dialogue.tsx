@@ -179,7 +179,7 @@ export default function Dialogue() {
                             }}
 
                         >
-                            {(character.prefix ? t(character.prefix) + " " : "") + character.name + (character.surname ? " " + character.surname : "")}
+                            {(character.prefix ? t(character.prefix) + " " : "") + character.name}
                         </Typography>
                         }
                         <Sheet
