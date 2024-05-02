@@ -14,6 +14,7 @@ import { reloadInterfaceDataEventState } from '../atoms/reloadInterfaceDataEvent
 import { skipEnabledState } from '../atoms/skipEnabledState';
 import { typewriterDelayState } from '../atoms/typewriterDelayState';
 import Typewriter from '../components/Typewriter';
+import { CharacterModel } from '../model/characters/CharacterModel';
 import { DialogueModel } from '../model/DialogueModel';
 import DialogueMenu from './DialogueMenu';
 
@@ -29,7 +30,7 @@ export default function Dialogue() {
 
     const [loading, setLoading] = useState(false)
     const [text, setText] = useState<string | undefined>(undefined)
-    const [character, setCharacter] = useState<CharacterBaseModel | undefined>(undefined)
+    const [character, setCharacter] = useState<CharacterModel | undefined>(undefined)
     const [menu, setMenu] = useState<ChoiceMenuOptionsType | undefined>(undefined)
     const setCanGoBack = useSetRecoilState(canGoBackState);
     const [reloadInterfaceDataEvent, notifyReloadInterfaceDataEvent] = useRecoilState(reloadInterfaceDataEventState);
@@ -178,7 +179,7 @@ export default function Dialogue() {
                             }}
 
                         >
-                            {character.name + (character.surname ? " " + character.surname : "")}
+                            {(character.prefix ? t(character.prefix) + " " : "") + character.name + (character.surname ? " " + character.surname : "")}
                         </Typography>
                         }
                         <Sheet
