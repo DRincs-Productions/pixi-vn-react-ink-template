@@ -14,6 +14,7 @@ import { reloadInterfaceDataEventState } from '../atoms/reloadInterfaceDataEvent
 import { skipEnabledState } from '../atoms/skipEnabledState';
 import { typewriterDelayState } from '../atoms/typewriterDelayState';
 import Typewriter from '../components/Typewriter';
+import { DialogueModel } from '../model/DialogueModel';
 import DialogueMenu from './DialogueMenu';
 
 export default function Dialogue() {
@@ -39,12 +40,12 @@ export default function Dialogue() {
     const typewriterDelay = useRecoilValue(typewriterDelayState)
 
     useEffect(() => {
-        let dial = getDialogue()
+        let dial = getDialogue<DialogueModel>()
         if (dial) {
-            setText(t(dial.text))
+            setText(t(dial.text, dial.i18nArgs))
             let c: CharacterBaseModel | undefined = dial.characterId ? getCharacterById(dial.characterId) : undefined
             if (!c && dial.characterId) {
-                c = new CharacterBaseModel(dial.characterId, { name: t(dial.characterId) })
+                c = new CharacterBaseModel(dial.characterId, { name: t(dial.characterId, dial.i18nArgs) })
             }
             setCharacter(c)
         }
