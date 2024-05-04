@@ -11,7 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@drincs/nqtr": "^0.0.5",
+    "@drincs/nqtr": "^0.0.6",
     "@drincs/pixi-vn": "^0.3.5",
     "@drincs/react-components": "^0.2.0",
     "@mui/joy": "^5.0.0-beta.36",
