@@ -58,6 +58,43 @@ export default function MyThemeProvider({ children }: Iprops) {
                     },
                 },
             },
+            components: {
+                JoyButton: {
+                    styleOverrides: {
+                        root: {
+                            pointerEvents: "auto",
+                        },
+                    },
+                },
+                JoyLink: {
+                    styleOverrides: {
+                        root: {
+                            pointerEvents: "auto",
+                        },
+                    },
+                },
+                JoySvgIcon: {
+                    styleOverrides: {
+                        root: {
+                            pointerEvents: "auto",
+                        },
+                    },
+                },
+                MuiSvgIcon: {
+                    styleOverrides: {
+                        root: {
+                            pointerEvents: "auto",
+                        },
+                    },
+                },
+                JoyCard: {
+                    styleOverrides: {
+                        root: {
+                            pointerEvents: "auto",
+                        },
+                    },
+                },
+            }
         })
     }, [primaryColor, solidColor])
 

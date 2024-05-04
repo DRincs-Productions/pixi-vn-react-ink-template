@@ -10,7 +10,6 @@ export default function TextMenuButton(props: LinkProps) {
         <Link
             sx={{
                 fontSize: { xs: "0.6rem", sm: "0.7rem", md: "0.8rem", lg: "1rem", xl: "1.1rem" },
-                pointerEvents: "auto",
                 ...sx
             }}
             {...rest}

@@ -45,7 +45,6 @@ export default function DialogueMenu(props: IProps) {
                     overflow: 'auto',
                     height: fullscreen ? "100%" : height,
                     gap: 1,
-                    pointerEvents: "auto",
                     width: '100%',
                 }}
             >

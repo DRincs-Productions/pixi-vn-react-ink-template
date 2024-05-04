@@ -139,7 +139,6 @@ export default function Dialogue() {
                         position: "absolute",
                         top: -5,
                         width: "100%",
-                        pointerEvents: "auto",
                     }}
                     onMouseDown={(e) => resizeWindowsHandler(e, windowSize, setWindowSize)}
                 />}
@@ -149,7 +148,6 @@ export default function Dialogue() {
                         overflow: 'auto',
                         height: windowSize.y,
                         gap: 1,
-                        pointerEvents: "auto",
                     }}
                 >
                     {character?.icon && <AspectRatio
@@ -220,7 +218,6 @@ export default function Dialogue() {
                         width: { xs: 70, sm: 100, md: 150 },
                         border: 3,
                         zIndex: 100,
-                        pointerEvents: "auto",
                     }}
                     onClick={nextOnClick}
                 >
