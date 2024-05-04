@@ -3,6 +3,7 @@ import { Box, Grid } from '@mui/joy';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DialogueMenuButton from '../components/DialogueMenuButton';
+import { useMyNavigate } from '../utility/useMyNavigate';
 
 type IProps = {
     menu: ChoiceMenuOptionsType,
@@ -21,6 +22,7 @@ export default function DialogueMenu(props: IProps) {
     const [loading, setLoading] = useState(false)
     const height = GameWindowManager.screenHeight - dialogueWindowHeight
     const { t } = useTranslation(["translation"]);
+    const navigate = useMyNavigate();
 
     return (
         <Box
@@ -61,9 +63,12 @@ export default function DialogueMenu(props: IProps) {
                                     clearChoiceMenuOptions()
                                     if (item.type == LabelRunModeEnum.OpenByCall) {
                                         GameStepManager.callLabel(item.label)
-                                            .then(() => {
+                                            .then((result) => {
                                                 afterClick && afterClick()
                                                 setLoading(false)
+                                                if (result && result.newRoute) {
+                                                    navigate(result.newRoute)
+                                                }
                                             })
                                             .catch((e) => {
                                                 setLoading(false)
