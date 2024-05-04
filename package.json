@@ -11,9 +11,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@drincs/nqtr": "^0.0.4",
+    "@drincs/nqtr": "^0.0.5",
     "@drincs/pixi-vn": "^0.3.4",
     "@drincs/react-components": "^0.2.0",
+    "@mui/joy": "^5.0.0-beta.36",
     "i18next": "^23.11.2",
     "i18next-browser-languagedetector": "^7.2.1",
     "react": "^18.2.0",

@@ -4,6 +4,7 @@ import { hideInterfaceState } from './atoms/hideInterfaceState';
 import Dialogue from './screens/Dialogue';
 import History from './screens/History';
 import MainMenu from './screens/MainMenu';
+import Navigation from './screens/Navigation';
 import QuickActions from './screens/QuickActions';
 
 export default function AppRoutes() {
@@ -22,6 +23,7 @@ export default function AppRoutes() {
                         </>}
                 </>}
             />
+            <Route key={"navigation"} path={"/navigation"} element={<Navigation />} />
         </Routes>
     )
 }

@@ -1,7 +1,7 @@
-import { RoomBaseModel } from "@drincs/nqtr";
+import { LocationBaseModel, MapBaseModel, RoomBaseModel } from "@drincs/nqtr";
 import { atom } from "recoil";
 
 export const currentRoomState = atom<RoomBaseModel>({
     key: 'currentRoomState',
-    default: undefined,
+    default: new RoomBaseModel("", new LocationBaseModel("", new MapBaseModel(""))),
 });
