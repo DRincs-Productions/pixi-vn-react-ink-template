@@ -1,5 +1,4 @@
 import { getCurrenrLocation, getCurrentCommitments, getCurrentRoom } from '@drincs/nqtr';
-import { GameStorageManager } from '@drincs/pixi-vn';
 import { Grid } from '@mui/joy';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
@@ -15,7 +14,6 @@ export default function Navigation() {
 
     useEffect(() => {
         let location = getCurrenrLocation()
-        console.log(GameStorageManager)
         if (location) {
             setCurrentLocation(location)
         }
@@ -30,8 +28,6 @@ export default function Navigation() {
         })
         setCurrentLocationCommitments(locationCommitments)
     }, [currentLocation])
-    console.log(currentRoom)
-    console.log(currentLocationCommitments)
 
     return (
         <>
@@ -50,6 +46,10 @@ export default function Navigation() {
                     bottom: 0,
                 }}
             >
+                <RoundButton
+                    circumference={{ xs: "3rem", sm: "3.5rem", md: "4rem", lg: "5rem", xl: "7rem" }}
+                >
+                </RoundButton>
                 {currentLocation.getRooms().map((room) => {
                     return (
                         <Grid
