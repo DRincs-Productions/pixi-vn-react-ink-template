@@ -94,6 +94,13 @@ export default function MyThemeProvider({ children }: Iprops) {
                         },
                     },
                 },
+                JoyIconButton: {
+                    styleOverrides: {
+                        root: {
+                            pointerEvents: "auto",
+                        }
+                    }
+                }
             }
         })
     }, [primaryColor, solidColor])
