@@ -1,10 +1,8 @@
 import { CharacterBaseModel, ChoiceMenuOptionsType, GameStepManager, GameWindowManager, getCharacterById, getChoiceMenuOptions, getDialogue } from '@drincs/pixi-vn';
-import { Button, DragHandleDivider, resizeWindowsHandler, Sheet, Typewriter } from '@drincs/react-components';
+import { Box, Button, DragHandleDivider, resizeWindowsHandler, Sheet, Typewriter, Typography } from '@drincs/react-components';
 import AspectRatio from '@mui/joy/AspectRatio';
-import Box from '@mui/joy/Box';
 import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
-import Typography from '@mui/joy/Typography';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';

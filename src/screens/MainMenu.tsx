@@ -1,5 +1,5 @@
 import { addImage, clearAllGameDatas, GameStepManager, GameWindowManager } from '@drincs/pixi-vn';
-import { Grid } from '@mui/joy';
+import { Grid } from '@drincs/react-components';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSetRecoilState } from 'recoil';

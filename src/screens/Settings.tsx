@@ -1,4 +1,4 @@
-import { ModalConfirmation } from '@drincs/react-components';
+import { Box, Button, IconButton, ModalConfirmation, Sheet, Typography } from '@drincs/react-components';
 import AutoModeIcon from '@mui/icons-material/AutoMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
@@ -7,7 +7,7 @@ import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
 import WbIncandescentIcon from '@mui/icons-material/WbIncandescent';
-import { Box, Button, DialogContent, DialogTitle, Divider, Drawer, FormHelperText, FormLabel, IconButton, ModalClose, Sheet, Slider, Stack, ToggleButtonGroup, Tooltip, Typography, useColorScheme } from "@mui/joy";
+import { DialogContent, DialogTitle, Divider, Drawer, FormHelperText, FormLabel, ModalClose, Slider, Stack, ToggleButtonGroup, Tooltip, useColorScheme } from '@mui/joy';
 import { useEffect, useState } from 'react';
 import { HuePicker } from 'react-color';
 import { useTranslation } from 'react-i18next';

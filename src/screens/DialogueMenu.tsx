@@ -1,5 +1,5 @@
 import { ChoiceMenuOptionsType, clearChoiceMenuOptions, GameStepManager, GameWindowManager, LabelRunModeEnum } from '@drincs/pixi-vn';
-import { Box, Grid } from '@mui/joy';
+import { Box, Grid } from '@drincs/react-components';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DialogueMenuButton from '../components/DialogueMenuButton';

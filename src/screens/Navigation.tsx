@@ -1,5 +1,5 @@
 import { getCurrenrLocation, getCurrentCommitments, getCurrentRoom } from '@drincs/nqtr';
-import { Grid } from '@mui/joy';
+import { Grid, RoundIconButton } from '@drincs/react-components';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { currentLocationCommitmentsState } from '../atoms/currentLocationCommitmentsState';
@@ -46,10 +46,10 @@ export default function Navigation() {
                     bottom: 0,
                 }}
             >
-                <RoundButton
+                <RoundIconButton
                     circumference={{ xs: "3rem", sm: "3.5rem", md: "4rem", lg: "5rem", xl: "7rem" }}
                 >
-                </RoundButton>
+                </RoundIconButton>
                 {currentLocation.getRooms().map((room) => {
                     return (
                         <Grid

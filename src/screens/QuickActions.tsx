@@ -1,6 +1,5 @@
-import { ModalConfirmation } from '@drincs/react-components';
+import { Grid, ModalConfirmation, Typography } from '@drincs/react-components';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
-import { Grid, Typography } from '@mui/joy';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
