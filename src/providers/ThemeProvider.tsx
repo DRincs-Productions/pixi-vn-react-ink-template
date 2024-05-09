@@ -108,6 +108,7 @@ export default function MyThemeProvider({ children }: Iprops) {
     return (
         <CssVarsProvider
             themeJoy={theme}
+            defaultMode="system"
         >
             <ColorContext.Provider value={{
                 primaryColor: primaryColor,
