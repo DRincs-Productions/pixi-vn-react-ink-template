@@ -1,4 +1,4 @@
-import { getCurrenrLocation, getCurrentCommitments, getCurrentRoom } from '@drincs/nqtr';
+import { getCurrenrLocation, getCurrentCommitments, getCurrentRoom, setCurrentRoom } from '@drincs/nqtr';
 import { CanvasBase, CanvasContainer, CanvasImage, GameWindowManager } from '@drincs/pixi-vn';
 import { Grid, ImageBackdrop, ImageSrc, RoundIconButton } from '@drincs/react-components';
 import { useEffect } from 'react';
@@ -11,22 +11,22 @@ import { ImageTimeSlots } from '../model/TimeSlots';
 import { BACKGROUND_ID } from '../values/constants';
 
 export default function Navigation() {
-    const [currentLocation, setCurrentLocation] = useRecoilState(currentLocationState)
-    const [currentRoom, setCurrentRoom] = useRecoilState(currentRoomState)
+    const [currentLocation, setAtomCurrentLocation] = useRecoilState(currentLocationState)
+    const [currentRoom, setAtomCurrentRoom] = useRecoilState(currentRoomState)
     const [currentLocationCommitments, setCurrentLocationCommitments] = useRecoilState(currentLocationCommitmentsState)
     const [reloadInterfaceDataEvent, notifyReloadInterfaceDataEvent] = useRecoilState(reloadInterfaceDataEventState);
 
     useEffect(() => {
         let location = getCurrenrLocation()
         if (location) {
-            setCurrentLocation(location)
+            setAtomCurrentLocation(location)
         }
     }, [reloadInterfaceDataEvent])
 
     useEffect(() => {
         let room = getCurrentRoom()
         if (room) {
-            setCurrentRoom(room)
+            setAtomCurrentRoom(room)
         }
         let locationCommitments = getCurrentCommitments().filter((commitment) => {
             return commitment.room.location.id === currentLocation?.id
@@ -96,6 +96,15 @@ export default function Navigation() {
                                     disabled={disabled}
                                     sx={{
                                         border: 3,
+                                    }}
+                                    onClick={() => {
+                                        if (!disabled) {
+                                            setCurrentRoom(room)
+                                            let r = getCurrentRoom()
+                                            if (r && r.id !== currentRoom.id) {
+                                                setAtomCurrentRoom(r)
+                                            }
+                                        }
                                     }}
                                 >
                                     {image && <ImageSrc image={image ?? ""} />}
