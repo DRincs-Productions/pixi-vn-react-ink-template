@@ -167,7 +167,10 @@ export default function Navigation() {
                         <ImageSrc
                             image={"https://cdn-icons-png.freepik.com/512/1045/1045584.png?ga=GA1.1.2068448463.1715274700"}
                             style={{
-                                marginLeft: "0.2rem",
+                                marginLeft: "0.3rem",
+                                marginRight: "0.3rem",
+                                marginTop: "0.3rem",
+                                marginBottom: "0.3rem",
                             }}
                         />
                         <ImageBackdrop />
