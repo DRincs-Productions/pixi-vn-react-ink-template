@@ -1,27 +1,32 @@
-import { ChoiceMenuOptionLabel, GameStepManager, GameWindowManager, Label, labelDecorator, setChoiceMenuOptions, setDialogue, StepLabelType } from "@drincs/pixi-vn";
-import { liam } from "../values/characters";
-import { BaseCanvasElementTestLabel } from "./BaseCanvasElementTestLabel";
-import { EventsTestLabel } from "./EventsTestLabel";
-import { ShowImageTest } from "./ShowImageTest";
-import { TickerTestLabel } from "./TickerTestLabel";
-import { TintingTestLabel } from "./TintingTestLabel";
+import { setCurrentRoom, TimeManager } from "@drincs/nqtr";
+import { Label, labelDecorator, StepLabelType } from "@drincs/pixi-vn";
+import { timeSlots } from "../values/constants";
+import { mcRoom } from "../values/rooms";
 
 @labelDecorator()
 export class StartLabel extends Label {
     override get steps(): StepLabelType[] {
         return [
             () => {
-                GameWindowManager.clear()
-                setDialogue({ character: liam, text: "Which test do you want to perform?" })
-                setChoiceMenuOptions([
-                    new ChoiceMenuOptionLabel("Events Test", EventsTestLabel),
-                    new ChoiceMenuOptionLabel("Show Image Test", ShowImageTest),
-                    new ChoiceMenuOptionLabel("Ticker Test", TickerTestLabel),
-                    new ChoiceMenuOptionLabel("Tinting Test", TintingTestLabel),
-                    new ChoiceMenuOptionLabel("Base Canvas Element Test Label", BaseCanvasElementTestLabel)
-                ])
+                TimeManager.settings = {
+                    defaultTimeSpent: 1,
+                    maxDayHours: 24,
+                    minDayHours: 0,
+                    timeSlots: [
+                        { name: timeSlots.morning.description, startHour: timeSlots.morning.value },
+                        { name: timeSlots.afternoon.description, startHour: timeSlots.afternoon.value },
+                        { name: timeSlots.evening.description, startHour: timeSlots.evening.value },
+                        { name: timeSlots.night.description, startHour: timeSlots.night.value },
+                    ],
+                    weekDaysNames: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
+                    weekendStartDay: 6,
+                    weekLength: 7,
+                }
+                setCurrentRoom(mcRoom)
+                return {
+                    newRoute: "/navigation",
+                }
             },
-            () => GameStepManager.jumpLabel(StartLabel),
         ]
     }
 }
