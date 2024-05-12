@@ -1,13 +1,14 @@
 import { getCurrenrLocation, getCurrentCommitments, getCurrentRoom, setCurrentRoom } from '@drincs/nqtr';
 import { CanvasBase, CanvasContainer, CanvasImage, GameWindowManager } from '@drincs/pixi-vn';
 import { Grid, ImageBackdrop, ImageSrc, RoundIconButton } from '@drincs/react-components';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { currentLocationCommitmentsState } from '../atoms/currentLocationCommitmentsState';
 import { currentLocationState } from '../atoms/currentLocationState';
 import { currentRoomState } from '../atoms/currentRoomState';
 import { reloadInterfaceDataEventState } from '../atoms/reloadInterfaceDataEventState';
 import { ImageTimeSlots } from '../model/TimeSlots';
+import { wait } from '../utility/TimeUtility';
 import { BACKGROUND_ID } from '../values/constants';
 
 export default function Navigation() {
@@ -15,6 +16,7 @@ export default function Navigation() {
     const [currentRoom, setAtomCurrentRoom] = useRecoilState(currentRoomState)
     const [currentLocationCommitments, setCurrentLocationCommitments] = useRecoilState(currentLocationCommitmentsState)
     const [reloadInterfaceDataEvent, notifyReloadInterfaceDataEvent] = useRecoilState(reloadInterfaceDataEventState);
+    const [updateCommitments, setUpdateCommitments] = useState(0)
 
     useEffect(() => {
         let location = getCurrenrLocation()
@@ -28,11 +30,15 @@ export default function Navigation() {
         if (room) {
             setAtomCurrentRoom(room)
         }
+        setUpdateCommitments((prev) => prev + 1)
+    }, [currentLocation])
+
+    useEffect(() => {
         let locationCommitments = getCurrentCommitments().filter((commitment) => {
             return commitment.room.location.id === currentLocation?.id
         })
         setCurrentLocationCommitments(locationCommitments)
-    }, [currentLocation])
+    }, [updateCommitments])
 
     useEffect(() => {
         let backgroundImage = currentRoom.image
@@ -60,7 +66,7 @@ export default function Navigation() {
 
             GameWindowManager.addCanvasElement(BACKGROUND_ID, container)
         }
-    }, [currentRoom])
+    }, [currentRoom, currentLocationCommitments])
 
     return (
         <>
@@ -122,6 +128,38 @@ export default function Navigation() {
                     return image
                 }
             })}
+            <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="flex-end"
+                spacing={2}
+                sx={{
+                    maxWidth: "100%",
+                    position: "absolute",
+                    marginBottom: "0.2rem",
+                    marginRight: "0.2rem",
+                    bottom: 0,
+                    right: 0,
+                }}
+            >
+                <Grid
+                    paddingY={0}
+                >
+                    <RoundIconButton
+                        circumference={{ xs: "3rem", sm: "3.5rem", md: "4rem", lg: "5rem", xl: "7rem" }}
+                        sx={{
+                            border: 3,
+                        }}
+                        onClick={() => {
+                            wait(1)
+                            setUpdateCommitments((prev) => prev + 1)
+                        }}
+                    >
+                        <ImageSrc image={"https://cdn-icons-png.freepik.com/512/1045/1045584.png?ga=GA1.1.2068448463.1715274700"} />
+                    </RoundIconButton>
+                </Grid>
+            </Grid >
         </>
     );
 }
