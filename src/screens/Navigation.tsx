@@ -2,7 +2,7 @@ import { getCurrenrLocation, getCurrentCommitments, getCurrentRoom, setCurrentRo
 import { CanvasBase, CanvasContainer, CanvasImage, GameWindowManager } from '@drincs/pixi-vn';
 import { Grid, ImageBackdrop, ImageSrc, RoundIconButton } from '@drincs/react-components';
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentLocationCommitmentsState } from '../atoms/currentLocationCommitmentsState';
 import { currentLocationState } from '../atoms/currentLocationState';
 import { currentRoomState } from '../atoms/currentRoomState';
@@ -15,7 +15,7 @@ export default function Navigation() {
     const [currentLocation, setAtomCurrentLocation] = useRecoilState(currentLocationState)
     const [currentRoom, setAtomCurrentRoom] = useRecoilState(currentRoomState)
     const [currentLocationCommitments, setCurrentLocationCommitments] = useRecoilState(currentLocationCommitmentsState)
-    const [reloadInterfaceDataEvent, notifyReloadInterfaceDataEvent] = useRecoilState(reloadInterfaceDataEventState);
+    const reloadInterfaceDataEvent = useRecoilValue(reloadInterfaceDataEventState);
     const [updateCommitments, setUpdateCommitments] = useState(0)
 
     useEffect(() => {
@@ -59,6 +59,13 @@ export default function Navigation() {
 
             currentRoom.location.getRooms().forEach((room) => {
                 let icon = room.icon
+                if (icon instanceof CanvasBase) {
+                    container.addChild(icon)
+                }
+            })
+
+            currentRoom.activities.forEach((activity) => {
+                let icon = activity.icon
                 if (icon instanceof CanvasBase) {
                     container.addChild(icon)
                 }
@@ -147,6 +154,7 @@ export default function Navigation() {
                     paddingY={0}
                 >
                     <RoundIconButton
+                        variant="outlined"
                         circumference={{ xs: "3rem", sm: "3.5rem", md: "4rem", lg: "5rem", xl: "7rem" }}
                         sx={{
                             border: 3,
@@ -156,8 +164,36 @@ export default function Navigation() {
                             setUpdateCommitments((prev) => prev + 1)
                         }}
                     >
-                        <ImageSrc image={"https://cdn-icons-png.freepik.com/512/1045/1045584.png?ga=GA1.1.2068448463.1715274700"} />
+                        <ImageSrc
+                            image={"https://cdn-icons-png.freepik.com/512/1045/1045584.png?ga=GA1.1.2068448463.1715274700"}
+                            style={{
+                                marginLeft: "0.2rem",
+                            }}
+                        />
+                        <ImageBackdrop />
                     </RoundIconButton>
+                    {currentRoom.activities.map((activity) => {
+                        let image = activity.icon
+                        let disabled = activity.disabled
+                        if (image instanceof ImageTimeSlots) {
+                            image = image.currentImage
+                        }
+                        if (typeof image === "string") {
+                            return (
+                                <RoundIconButton
+                                    circumference={{ xs: "3rem", sm: "3.5rem", md: "4rem", lg: "5rem", xl: "7rem" }}
+                                    disabled={disabled}
+                                    sx={{
+                                        border: 3,
+                                    }}
+                                    onClick={activity.onRun}
+                                >
+                                    {image && <ImageSrc image={image ?? ""} />}
+                                    {image && <ImageBackdrop />}
+                                </RoundIconButton>
+                            )
+                        }
+                    })}
                 </Grid>
             </Grid >
         </>
