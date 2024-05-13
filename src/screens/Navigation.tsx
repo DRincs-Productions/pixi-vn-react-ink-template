@@ -119,6 +119,7 @@ export default function Navigation() {
                                             }
                                         }
                                     }}
+                                    ariaLabel={room.name}
                                 >
                                     {image && <ImageSrc image={image ?? ""} />}
                                     {image && <ImageBackdrop />}
@@ -175,14 +176,19 @@ export default function Navigation() {
                         />
                         <ImageBackdrop />
                     </RoundIconButton>
-                    {currentRoom.activities.map((activity) => {
-                        let image = activity.icon
-                        let disabled = activity.disabled
-                        if (image instanceof ImageTimeSlots) {
-                            image = image.currentImage
-                        }
-                        if (typeof image === "string") {
-                            return (
+                </Grid>
+                {currentRoom.activities.map((activity, index) => {
+                    let image = activity.icon
+                    let disabled = activity.disabled
+                    if (image instanceof ImageTimeSlots) {
+                        image = image.currentImage
+                    }
+                    if (typeof image === "string") {
+                        return (
+                            <Grid
+                                paddingY={0}
+                                key={index}
+                            >
                                 <RoundIconButton
                                     circumference={{ xs: "3rem", sm: "3.5rem", md: "4rem", lg: "5rem", xl: "7rem" }}
                                     disabled={disabled}
@@ -190,14 +196,15 @@ export default function Navigation() {
                                         border: 3,
                                     }}
                                     onClick={activity.onRun}
+                                    ariaLabel={activity.name}
                                 >
                                     {image && <ImageSrc image={image ?? ""} />}
                                     {image && <ImageBackdrop />}
                                 </RoundIconButton>
-                            )
-                        }
-                    })}
-                </Grid>
+                            </Grid>
+                        )
+                    }
+                })}
             </Grid >
         </>
     );
