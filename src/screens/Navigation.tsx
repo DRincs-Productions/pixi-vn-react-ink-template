@@ -1,7 +1,9 @@
-import { getCurrenrLocation, getCurrentCommitments, getCurrentRoom, setCurrentRoom } from '@drincs/nqtr';
+import { getCurrenrLocation, getCurrentCommitments, getCurrentRoom, setCurrentRoom, TimeManager } from '@drincs/nqtr';
 import { CanvasBase, CanvasContainer, CanvasImage, GameWindowManager } from '@drincs/pixi-vn';
-import { Grid, ImageBackdrop, ImageSrc, RoundIconButton } from '@drincs/react-components';
+import { Grid, ImageBackdrop, ImageSrc, RoundIconButton, Stack, Typography } from '@drincs/react-components';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentLocationCommitmentsState } from '../atoms/currentLocationCommitmentsState';
 import { currentLocationState } from '../atoms/currentLocationState';
@@ -17,6 +19,7 @@ export default function Navigation() {
     const [currentLocationCommitments, setCurrentLocationCommitments] = useRecoilState(currentLocationCommitmentsState)
     const reloadInterfaceDataEvent = useRecoilValue(reloadInterfaceDataEventState);
     const [updateCommitments, setUpdateCommitments] = useState(0)
+    const { t } = useTranslation(["translation"]);
 
     useEffect(() => {
         let location = getCurrenrLocation()
@@ -77,12 +80,44 @@ export default function Navigation() {
 
     return (
         <>
+            <Stack
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                spacing={0}
+                sx={{
+                    pointerEvents: "auto",
+                }}
+            >
+                <Typography
+                    fontSize={{ xs: "1.5rem", sm: "2rem", md: "2.5rem", lg: "3rem", xl: "4rem" }}
+                    endDecorator={<RoundIconButton
+                        size="sm"
+                        variant='outlined'
+                        sx={{
+                            padding: 0,
+                            border: 0,
+                        }}
+                        onClick={() => {
+                            wait(1)
+                            setUpdateCommitments((prev) => prev + 1)
+                        }}
+                    ><AccessTimeIcon /></RoundIconButton>}
+                >
+                    {TimeManager.currentHour > 9 ? `${TimeManager.currentHour}:00` : `0${TimeManager.currentHour}:00`}
+                </Typography>
+                <Typography
+                    fontSize={{ xs: "0.8rem", sm: "1rem", md: "1.2rem", lg: "1.5rem", xl: "2rem" }}
+                >
+                    {TimeManager.currentDayName ? t(TimeManager.currentDayName) : ""}
+                </Typography>
+            </Stack>
             <Grid
                 container
                 direction="row"
                 justifyContent="center"
                 alignItems="flex-end"
-                spacing={2}
+                spacing={0.5}
                 sx={{
                     maxWidth: "100%",
                     position: "absolute",
@@ -141,7 +176,7 @@ export default function Navigation() {
                 direction="column"
                 justifyContent="center"
                 alignItems="flex-end"
-                spacing={2}
+                spacing={0.5}
                 sx={{
                     maxWidth: "100%",
                     position: "absolute",
@@ -151,32 +186,6 @@ export default function Navigation() {
                     right: 0,
                 }}
             >
-                <Grid
-                    paddingY={0}
-                >
-                    <RoundIconButton
-                        variant="outlined"
-                        circumference={{ xs: "3rem", sm: "3.5rem", md: "4rem", lg: "5rem", xl: "7rem" }}
-                        sx={{
-                            border: 3,
-                        }}
-                        onClick={() => {
-                            wait(1)
-                            setUpdateCommitments((prev) => prev + 1)
-                        }}
-                    >
-                        <ImageSrc
-                            image={"https://cdn-icons-png.freepik.com/512/1045/1045584.png?ga=GA1.1.2068448463.1715274700"}
-                            style={{
-                                marginLeft: "0.3rem",
-                                marginRight: "0.3rem",
-                                marginTop: "0.3rem",
-                                marginBottom: "0.3rem",
-                            }}
-                        />
-                        <ImageBackdrop />
-                    </RoundIconButton>
-                </Grid>
                 {currentRoom.activities.map((activity, index) => {
                     let image = activity.icon
                     let disabled = activity.disabled
