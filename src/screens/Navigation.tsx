@@ -1,25 +1,22 @@
 import { getCurrenrLocation, getCurrentCommitments, getCurrentRoom, setCurrentRoom, TimeManager } from '@drincs/nqtr';
 import { CanvasBase, CanvasContainer, CanvasImage, GameWindowManager } from '@drincs/pixi-vn';
-import { Grid, ImageBackdrop, ImageSrc, RoundIconButton, Stack, Typography } from '@drincs/react-components';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { Box, Grid, ImageBackdrop, ImageSrc, RoundIconButton, Stack } from '@drincs/react-components';
 import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentLocationCommitmentsState } from '../atoms/currentLocationCommitmentsState';
 import { currentLocationState } from '../atoms/currentLocationState';
 import { currentRoomState } from '../atoms/currentRoomState';
 import { reloadInterfaceDataEventState } from '../atoms/reloadInterfaceDataEventState';
 import { ImageTimeSlots } from '../model/TimeSlots';
-import { wait } from '../utility/TimeUtility';
 import { BACKGROUND_ID } from '../values/constants';
+import Time from './Time';
 
 export default function Navigation() {
     const [currentLocation, setAtomCurrentLocation] = useRecoilState(currentLocationState)
     const [currentRoom, setAtomCurrentRoom] = useRecoilState(currentRoomState)
     const [currentLocationCommitments, setCurrentLocationCommitments] = useRecoilState(currentLocationCommitmentsState)
     const reloadInterfaceDataEvent = useRecoilValue(reloadInterfaceDataEventState);
-    const [updateCommitments, setUpdateCommitments] = useState(0)
-    const { t } = useTranslation(["translation"]);
+    const [hour, setHour] = useState(TimeManager.currentHour)
 
     useEffect(() => {
         let location = getCurrenrLocation()
@@ -33,7 +30,6 @@ export default function Navigation() {
         if (room) {
             setAtomCurrentRoom(room)
         }
-        setUpdateCommitments((prev) => prev + 1)
     }, [currentLocation])
 
     useEffect(() => {
@@ -41,7 +37,7 @@ export default function Navigation() {
             return commitment.room.location.id === currentLocation?.id
         })
         setCurrentLocationCommitments(locationCommitments)
-    }, [updateCommitments])
+    }, [currentRoom, hour])
 
     useEffect(() => {
         let backgroundImage = currentRoom.image
@@ -80,65 +76,33 @@ export default function Navigation() {
 
     return (
         <>
-            <Stack
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-                spacing={0}
+            <Time hour={hour} setHour={setHour} />
+            <Box
                 sx={{
+                    display: 'flex',
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    overflowX: 'auto',
+                    flexDirection: "row",
+                    maxWidth: "80%",
                     pointerEvents: "auto",
                 }}
             >
-                <Typography
-                    fontSize={{ xs: "1.5rem", sm: "2rem", md: "2.5rem", lg: "3rem", xl: "4rem" }}
-                    endDecorator={<RoundIconButton
-                        size="sm"
-                        variant='outlined'
-                        sx={{
-                            padding: 0,
-                            border: 0,
-                        }}
-                        onClick={() => {
-                            wait(1)
-                            setUpdateCommitments((prev) => prev + 1)
-                        }}
-                    ><AccessTimeIcon /></RoundIconButton>}
+                <Stack
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="flex-end"
+                    spacing={0.5}
                 >
-                    {TimeManager.currentHour > 9 ? `${TimeManager.currentHour}:00` : `0${TimeManager.currentHour}:00`}
-                </Typography>
-                <Typography
-                    fontSize={{ xs: "0.8rem", sm: "1rem", md: "1.2rem", lg: "1.5rem", xl: "2rem" }}
-                >
-                    {TimeManager.currentDayName ? t(TimeManager.currentDayName) : ""}
-                </Typography>
-            </Stack>
-            <Grid
-                container
-                direction="row"
-                justifyContent="center"
-                alignItems="flex-end"
-                spacing={0.5}
-                sx={{
-                    maxWidth: "100%",
-                    position: "absolute",
-                    marginBottom: "0.2rem",
-                    marginLeft: "0.2rem",
-                    bottom: 0,
-                    left: 0,
-                }}
-            >
-                {currentLocation.getRooms().map((room) => {
-                    let image = room.icon || room.image
-                    let disabled = room.id === currentRoom?.id || room.disabled
-                    if (image instanceof ImageTimeSlots) {
-                        image = image.currentImage
-                    }
-                    if (typeof image === "string") {
-                        return (
-                            <Grid
-                                paddingY={0}
-                                key={room.id}
-                            >
+                    {currentLocation.getRooms().map((room) => {
+                        let image = room.icon || room.image
+                        let disabled = room.id === currentRoom?.id || room.disabled
+                        if (image instanceof ImageTimeSlots) {
+                            image = image.currentImage
+                        }
+                        if (typeof image === "string") {
+                            return (
                                 <RoundIconButton
                                     circumference={{ xs: "3rem", sm: "3.5rem", md: "4rem", lg: "5rem", xl: "7rem" }}
                                     disabled={disabled}
@@ -159,11 +123,11 @@ export default function Navigation() {
                                     {image && <ImageSrc image={image ?? ""} />}
                                     {image && <ImageBackdrop />}
                                 </RoundIconButton>
-                            </Grid>
-                        )
-                    }
-                })}
-            </Grid >
+                            )
+                        }
+                    })}
+                </Stack >
+            </Box>
             {currentLocation.getRooms().map((room) => {
                 let image = room.icon || room.image
                 // if image is a JSX.Element
