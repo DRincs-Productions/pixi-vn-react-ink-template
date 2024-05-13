@@ -7,7 +7,7 @@ import { hideInterfaceState } from '../atoms/hideInterfaceState';
 import { openSettingsState } from '../atoms/openSettingsState';
 import { reloadInterfaceDataEventState } from '../atoms/reloadInterfaceDataEventState';
 import MenuButton from '../components/MenuButton';
-import { StartLabel } from '../label/StartLabel';
+import { StartLabel } from '../labels/StartLabel';
 import { loadGameSave } from '../utility/ActionsUtility';
 import { useMyNavigate } from '../utility/useMyNavigate';
 
