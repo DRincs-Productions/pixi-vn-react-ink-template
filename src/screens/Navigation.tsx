@@ -1,6 +1,6 @@
 import { getCurrenrLocation, getCurrentCommitments, getCurrentRoom, setCurrentRoom, TimeManager } from '@drincs/nqtr';
 import { CanvasBase, CanvasContainer, CanvasImage, GameWindowManager } from '@drincs/pixi-vn';
-import { Box, Grid, ImageBackdrop, ImageSrc, RoundIconButton, Stack } from '@drincs/react-components';
+import { Grid, ImageBackdrop, ImageSrc, RoundIconButton, StackOverflow } from '@drincs/react-components';
 import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentLocationCommitmentsState } from '../atoms/currentLocationCommitmentsState';
@@ -77,57 +77,52 @@ export default function Navigation() {
     return (
         <>
             <Time hour={hour} setHour={setHour} />
-            <Box
+            <StackOverflow
+                direction="row"
+                justifyContent="center"
+                alignItems="flex-end"
+                spacing={0.5}
+                maxLeght={"80%"}
                 sx={{
                     display: 'flex',
                     position: "absolute",
                     bottom: 0,
                     left: 0,
-                    overflowX: 'auto',
-                    flexDirection: "row",
-                    maxWidth: "80%",
                     pointerEvents: "auto",
                 }}
             >
-                <Stack
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="flex-end"
-                    spacing={0.5}
-                >
-                    {currentLocation.getRooms().map((room) => {
-                        let image = room.icon || room.image
-                        let disabled = room.id === currentRoom?.id || room.disabled
-                        if (image instanceof ImageTimeSlots) {
-                            image = image.currentImage
-                        }
-                        if (typeof image === "string") {
-                            return (
-                                <RoundIconButton
-                                    circumference={{ xs: "3rem", sm: "3.5rem", md: "4rem", lg: "5rem", xl: "7rem" }}
-                                    disabled={disabled}
-                                    sx={{
-                                        border: 3,
-                                    }}
-                                    onClick={() => {
-                                        if (!disabled) {
-                                            setCurrentRoom(room)
-                                            let r = getCurrentRoom()
-                                            if (r && r.id !== currentRoom.id) {
-                                                setAtomCurrentRoom(r)
-                                            }
+                {currentLocation.getRooms().map((room) => {
+                    let image = room.icon || room.image
+                    let disabled = room.id === currentRoom?.id || room.disabled
+                    if (image instanceof ImageTimeSlots) {
+                        image = image.currentImage
+                    }
+                    if (typeof image === "string") {
+                        return (
+                            <RoundIconButton
+                                circumference={{ xs: "3rem", sm: "3.5rem", md: "4rem", lg: "5rem", xl: "7rem" }}
+                                disabled={disabled}
+                                sx={{
+                                    border: 3,
+                                }}
+                                onClick={() => {
+                                    if (!disabled) {
+                                        setCurrentRoom(room)
+                                        let r = getCurrentRoom()
+                                        if (r && r.id !== currentRoom.id) {
+                                            setAtomCurrentRoom(r)
                                         }
-                                    }}
-                                    ariaLabel={room.name}
-                                >
-                                    {image && <ImageSrc image={image ?? ""} />}
-                                    {image && <ImageBackdrop />}
-                                </RoundIconButton>
-                            )
-                        }
-                    })}
-                </Stack >
-            </Box>
+                                    }
+                                }}
+                                ariaLabel={room.name}
+                            >
+                                {image && <ImageSrc image={image ?? ""} />}
+                                {image && <ImageBackdrop />}
+                            </RoundIconButton>
+                        )
+                    }
+                })}
+            </StackOverflow>
             {currentLocation.getRooms().map((room) => {
                 let image = room.icon || room.image
                 // if image is a JSX.Element
@@ -135,19 +130,17 @@ export default function Navigation() {
                     return image
                 }
             })}
-            <Grid
-                container
+            <StackOverflow
                 direction="column"
                 justifyContent="center"
                 alignItems="flex-end"
-                spacing={0.5}
+                maxLeght={"100%"}
                 sx={{
-                    maxWidth: "100%",
+                    display: 'flex',
                     position: "absolute",
-                    marginBottom: "0.2rem",
-                    marginRight: "0.2rem",
                     bottom: 0,
                     right: 0,
+                    pointerEvents: "auto",
                 }}
             >
                 {currentRoom.activities.map((activity, index) => {
@@ -178,7 +171,7 @@ export default function Navigation() {
                         )
                     }
                 })}
-            </Grid >
+            </StackOverflow>
         </>
     );
 }
