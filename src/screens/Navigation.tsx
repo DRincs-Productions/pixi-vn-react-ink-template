@@ -1,6 +1,6 @@
 import { getCurrenrLocation, getCurrentCommitments, getCurrentRoom, setCurrentRoom, TimeManager } from '@drincs/nqtr';
 import { CanvasBase, CanvasContainer, CanvasImage, GameWindowManager } from '@drincs/pixi-vn';
-import { Grid, ImageBackdrop, ImageSrc, RoundIconButton, StackOverflow } from '@drincs/react-components';
+import { Grid, ImageBackdrop, ImageSrc, RoundIconButton, StackOverflow, useTheme } from '@drincs/react-components';
 import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentLocationCommitmentsState } from '../atoms/currentLocationCommitmentsState';
@@ -104,6 +104,7 @@ export default function Navigation() {
                                 disabled={disabled}
                                 sx={{
                                     border: 3,
+                                    borderColor: useTheme().palette.background.body,
                                 }}
                                 onClick={() => {
                                     if (!disabled) {
@@ -115,6 +116,7 @@ export default function Navigation() {
                                     }
                                 }}
                                 ariaLabel={room.name}
+                                elevation="lg"
                             >
                                 {image && <ImageSrc image={image ?? ""} />}
                                 {image && <ImageBackdrop />}
@@ -163,6 +165,7 @@ export default function Navigation() {
                                     }}
                                     onClick={activity.onRun}
                                     ariaLabel={activity.name}
+                                    elevation="lg"
                                 >
                                     {image && <ImageSrc image={image ?? ""} />}
                                     {image && <ImageBackdrop />}
