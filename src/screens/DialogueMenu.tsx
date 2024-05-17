@@ -61,7 +61,9 @@ export default function DialogueMenu(props: IProps) {
                                     setLoading(true)
                                     clearChoiceMenuOptions()
                                     if (item.type == LabelRunModeEnum.OpenByCall) {
-                                        GameStepManager.callLabel(item.label)
+                                        GameStepManager.callLabel(item.label, {
+                                            navigate: navigate
+                                        })
                                             .then((result) => {
                                                 afterClick && afterClick()
                                                 setLoading(false)
@@ -75,7 +77,9 @@ export default function DialogueMenu(props: IProps) {
                                             })
                                     }
                                     else if (item.type == LabelRunModeEnum.OpenByJump) {
-                                        GameStepManager.jumpLabel(item.label)
+                                        GameStepManager.jumpLabel(item.label, {
+                                            navigate: navigate
+                                        })
                                             .then(() => {
                                                 afterClick && afterClick()
                                                 setLoading(false)

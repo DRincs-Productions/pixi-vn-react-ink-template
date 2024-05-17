@@ -84,7 +84,9 @@ export default function Dialogue() {
             return
         }
         setLoading(true)
-        GameStepManager.runNextStep()
+        GameStepManager.runNextStep({
+            navigate: navigate
+        })
             .then((result) => {
                 notifyReloadInterfaceDataEvent((p) => p + 1)
                 setLoading(false)
