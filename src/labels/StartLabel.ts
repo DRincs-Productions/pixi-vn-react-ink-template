@@ -7,7 +7,7 @@ const START_LABEL_ID = "StartLabel"
 
 export const startLabel = newLabel(START_LABEL_ID,
     [
-        () => {
+        (props) => {
             TimeManager.settings = {
                 defaultTimeSpent: 1,
                 maxDayHours: 24,
@@ -23,8 +23,11 @@ export const startLabel = newLabel(START_LABEL_ID,
                 weekLength: 7,
             }
             setCurrentRoom(mcRoom)
-            return {
-                newRoute: "/navigation",
+            if (props) {
+                props.navigate("/navigation")
+            }
+            else {
+                console.error("Props not passed to startLabel")
             }
         }
     ]
