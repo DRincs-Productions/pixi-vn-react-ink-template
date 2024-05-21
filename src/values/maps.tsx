@@ -8,6 +8,6 @@ export const mainMap = new MapBaseModel('main_map', {
 
 export const nightcityMap = new MapBaseModel('nightcity_map', {
     neighboringMaps: {
-        "south": mainMap,
+        // "south": mainMap,
     },
 });
