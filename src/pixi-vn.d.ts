@@ -1,9 +1,5 @@
 declare module '@drincs/pixi-vn/dist/override' {
     interface StepLabelResult {
-        /**
-         * The new route to navigate to.
-         */
-        newRoute?: string
         [key: string]: any
     }
     interface StepLabelProps {

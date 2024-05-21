@@ -1,4 +1,4 @@
-import { canvasElementDecorator, CanvasSprite, GameWindowManager, ICanvasSpriteBaseMemory, ICanvasSpriteMemory, Label, labelDecorator, StepLabelType, TickerBase, tickerDecorator } from "@drincs/pixi-vn";
+import { canvasElementDecorator, CanvasSprite, GameWindowManager, ICanvasSpriteBaseMemory, ICanvasSpriteMemory, newLabel, TickerBase, tickerDecorator } from "@drincs/pixi-vn";
 import { Assets, Rectangle, Sprite, Texture, TextureSourceLike, Ticker } from "pixi.js";
 
 interface IAlienTintingMemory extends ICanvasSpriteBaseMemory {
@@ -78,44 +78,41 @@ export class TintingTestTicker extends TickerBase<{}> {
 /**
  * https://pixijs.com/examples/basic/tinting
  */
-@labelDecorator()
-export class TintingTestLabel extends Label {
-    override get steps(): StepLabelType[] {
-        return [
-            async () => {
-                const totalDudes = 100;
+export const tintingTestLabel = newLabel("TintingTestLabel",
+    [
+        async () => {
+            const totalDudes = 100;
 
-                for (let i = 0; i < totalDudes; i++) {
-                    // create a new Sprite that uses the image name that we just generated as its source
-                    const texture = await Assets.load('https://pixijs.com/assets/eggHead.png');
-                    const dude = AlienTintingTest.from(texture);
+            for (let i = 0; i < totalDudes; i++) {
+                // create a new Sprite that uses the image name that we just generated as its source
+                const texture = await Assets.load('https://pixijs.com/assets/eggHead.png');
+                const dude = AlienTintingTest.from(texture);
 
-                    // set the anchor point so the texture is centered on the sprite
-                    dude.anchor.set(0.5);
+                // set the anchor point so the texture is centered on the sprite
+                dude.anchor.set(0.5);
 
-                    // set a random scale for the dude - no point them all being the same size!
-                    dude.scale.set(0.8 + Math.random() * 0.3);
+                // set a random scale for the dude - no point them all being the same size!
+                dude.scale.set(0.8 + Math.random() * 0.3);
 
-                    // finally lets set the dude to be at a random position..
-                    dude.x = Math.random() * GameWindowManager.screen.width;
-                    dude.y = Math.random() * GameWindowManager.screen.height;
+                // finally lets set the dude to be at a random position..
+                dude.x = Math.random() * GameWindowManager.screen.width;
+                dude.y = Math.random() * GameWindowManager.screen.height;
 
-                    dude.tint = Math.random() * 0xFFFFFF;
+                dude.tint = Math.random() * 0xFFFFFF;
 
-                    // create some extra properties that will control movement :
-                    // create a random direction in radians. This is a number between 0 and PI*2 which is the equivalent of 0 - 360 degrees
-                    dude.direction = Math.random() * Math.PI * 2;
+                // create some extra properties that will control movement :
+                // create a random direction in radians. This is a number between 0 and PI*2 which is the equivalent of 0 - 360 degrees
+                dude.direction = Math.random() * Math.PI * 2;
 
-                    // this number will be used to modify the direction of the dude over time
-                    dude.turningSpeed = Math.random() - 0.8;
+                // this number will be used to modify the direction of the dude over time
+                dude.turningSpeed = Math.random() - 0.8;
 
-                    // create a random speed for the dude between 2 - 4
-                    dude.speed = 2 + Math.random() * 2;
+                // create a random speed for the dude between 2 - 4
+                dude.speed = 2 + Math.random() * 2;
 
-                    GameWindowManager.addCanvasElement("alien" + i, dude);
-                    GameWindowManager.addTicker("alien" + i, new TintingTestTicker());
-                }
-            },
-        ]
-    }
-}
+                GameWindowManager.addCanvasElement("alien" + i, dude);
+                GameWindowManager.addTicker("alien" + i, new TintingTestTicker());
+            }
+        },
+    ]
+)

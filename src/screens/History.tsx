@@ -77,9 +77,9 @@ export default function History() {
                                 choices: step.choices?.map((choice) => {
                                     return {
                                         text: t(choice.text, step.dialoge?.i18nArgs),
-                                        isResponse: choice.label === step.choiceMade?.label,
+                                        isResponse: choice.isResponse,
                                     }
-                                }),
+                                })
                             }
                         })
                         .filter((data) => {

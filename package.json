@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@drincs/nqtr": "^0.1.1",
-    "@drincs/pixi-vn": "^0.4.9",
+    "@drincs/pixi-vn": "^0.5.4",
     "@drincs/react-components": "^0.2.6",
     "i18next": "^23.11.2",
     "i18next-browser-languagedetector": "^7.2.1",
