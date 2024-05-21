@@ -12,9 +12,6 @@ const napHourLabel = newLabel<{ hour: number }>("Nap1HourLabel",
 export const napLabel = newLabel("NapLabel",
     [
         (props) => {
-            if (!props) {
-                throw new Error("Props not found")
-            }
             setDialogue("You are tired and decide to take a nap.")
             setChoiceMenuOptions([
                 new ChoiceMenuOption(
@@ -36,6 +33,12 @@ export const napLabel = newLabel("NapLabel",
                     { hour: 3 }
                 ),
             ])
+            if (props) {
+                props.navigate("/game")
+            }
+            else {
+                console.error("Props not passed to napLabel")
+            }
         },
     ]
 )
