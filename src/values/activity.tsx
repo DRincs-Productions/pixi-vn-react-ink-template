@@ -1,10 +1,13 @@
 import { ActivityModel } from "@drincs/nqtr"
+import { GameStepManager } from "@drincs/pixi-vn"
+import { napLabel } from "../labels/NapLabel"
 
 
 export const nap = new ActivityModel("nap",
     (_, event) => {
-        if (event instanceof ActivityOnRunProps) {
+        if (event) {
             event.navigate("/game")
+            GameStepManager.callLabel(napLabel, event)
         }
         else {
             console.error("ActivityOnRunProps not found")
