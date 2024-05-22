@@ -1,6 +1,10 @@
+import { StepLabelProps } from "@drincs/pixi-vn/dist/override";
+import { ImageTimeSlots } from "./model/TimeSlots";
+
 declare module '@drincs/nqtr/dist/override' {
-    interface OnRunActivityProps {
-        navigate: (route: string) => void,
-        [key: string]: any
+    interface OnRunActivityProps extends StepLabelProps {
     }
+    interface OnRenderGraphicItemProps extends StepLabelProps {
+    }
+    type GraphicItemType = string | ImageTimeSlots
 }

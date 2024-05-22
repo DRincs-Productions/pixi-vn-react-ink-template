@@ -29,15 +29,13 @@ export class ImageTimeSlots {
         if (TimeManager.currentTimeSlot === TimeSlotsEnumNumber.MORNING) {
             return this.morning
         }
-        else if (TimeManager.currentTimeSlot === TimeSlotsEnumNumber.AFTERNOON) {
-            return this.afternoon
-        }
         else if (TimeManager.currentTimeSlot === TimeSlotsEnumNumber.EVENING) {
             return this.evening
         }
         else if (TimeManager.currentTimeSlot === TimeSlotsEnumNumber.NIGHT) {
             return this.night
         }
+        return this.afternoon
     }
     get toObject(): IImageTimeSlots {
         return {

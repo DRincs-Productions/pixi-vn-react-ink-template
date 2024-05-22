@@ -1,13 +1,15 @@
 import { getCurrenrLocation, getCurrentCommitments, getCurrentRoom, setCurrentRoom, TimeManager } from '@drincs/nqtr';
 import { CanvasBase, CanvasContainer, CanvasImage, GameWindowManager } from '@drincs/pixi-vn';
-import { Grid, ImageBackdrop, ImageSrc, RoundIconButton, StackOverflow, useTheme } from '@drincs/react-components';
+import { Grid, ImageBackdrop, ImageSrc, StackOverflow } from '@drincs/react-components';
 import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentLocationCommitmentsState } from '../atoms/currentLocationCommitmentsState';
 import { currentLocationState } from '../atoms/currentLocationState';
 import { currentRoomState } from '../atoms/currentRoomState';
 import { reloadInterfaceDataEventState } from '../atoms/reloadInterfaceDataEventState';
+import NavigationRoundIconButton from '../components/NavigationRoundIconButton';
 import { ImageTimeSlots } from '../model/TimeSlots';
+import { useMyNavigate } from '../utility/useMyNavigate';
 import { BACKGROUND_ID } from '../values/constants';
 import Time from './Time';
 
@@ -17,6 +19,7 @@ export default function Navigation() {
     const [currentLocationCommitments, setCurrentLocationCommitments] = useRecoilState(currentLocationCommitmentsState)
     const reloadInterfaceDataEvent = useRecoilValue(reloadInterfaceDataEventState);
     const [hour, setHour] = useState(TimeManager.currentHour)
+    const navigate = useMyNavigate();
 
     useEffect(() => {
         let location = getCurrenrLocation()
@@ -40,8 +43,8 @@ export default function Navigation() {
     }, [currentRoom, hour])
 
     useEffect(() => {
-        let backgroundImage = currentRoom.image
-        if (backgroundImage) {
+        if (currentRoom.renderImage) {
+            let backgroundImage = currentRoom.renderImage()
             let container = new CanvasContainer()
             if (backgroundImage instanceof CanvasBase) {
                 container.addChild(backgroundImage)
@@ -57,14 +60,20 @@ export default function Navigation() {
             }
 
             currentRoom.location.getRooms().forEach((room) => {
-                let icon = room.icon
+                if (!room.renderIcon) {
+                    return
+                }
+                let icon = room.renderIcon()
                 if (icon instanceof CanvasBase) {
                     container.addChild(icon)
                 }
             })
 
             currentRoom.activities.forEach((activity) => {
-                let icon = activity.icon
+                if (!activity.renderIcon) {
+                    return
+                }
+                let icon = activity.renderIcon()
                 if (icon instanceof CanvasBase) {
                     container.addChild(icon)
                 }
@@ -92,20 +101,21 @@ export default function Navigation() {
                 }}
             >
                 {currentLocation.getRooms().map((room) => {
-                    let image = room.icon || room.image
-                    let disabled = room.id === currentRoom?.id || room.disabled
+                    let renderImage = room.renderIcon || room.renderImage
+                    let disabled = room.disabled
+                    let selected = room.id === currentRoom?.id
+                    if (!renderImage) {
+                        return
+                    }
+                    let image = renderImage()
                     if (image instanceof ImageTimeSlots) {
                         image = image.currentImage
                     }
                     if (typeof image === "string") {
                         return (
-                            <RoundIconButton
-                                circumference={{ xs: "3rem", sm: "3.5rem", md: "4rem", lg: "5rem", xl: "7rem" }}
-                                disabled={disabled}
-                                sx={{
-                                    border: 3,
-                                    borderColor: useTheme().palette.background.body,
-                                }}
+                            <NavigationRoundIconButton
+                                disabled={disabled || selected}
+                                selected={selected}
                                 onClick={() => {
                                     if (!disabled) {
                                         setCurrentRoom(room)
@@ -116,17 +126,20 @@ export default function Navigation() {
                                     }
                                 }}
                                 ariaLabel={room.name}
-                                elevation="lg"
                             >
                                 {image && <ImageSrc image={image ?? ""} />}
                                 {image && <ImageBackdrop />}
-                            </RoundIconButton>
+                            </NavigationRoundIconButton>
                         )
                     }
                 })}
             </StackOverflow>
             {currentLocation.getRooms().map((room) => {
-                let image = room.icon || room.image
+                let renderImage = room.renderIcon || room.renderImage
+                if (!renderImage) {
+                    return
+                }
+                let image = renderImage()
                 // if image is a JSX.Element
                 if (image instanceof Element) {
                     return image
@@ -146,7 +159,11 @@ export default function Navigation() {
                 }}
             >
                 {currentRoom.activities.map((activity, index) => {
-                    let image = activity.icon
+                    let renderImage = activity.renderIcon
+                    if (!renderImage) {
+                        return
+                    }
+                    let image = renderImage()
                     let disabled = activity.disabled
                     if (image instanceof ImageTimeSlots) {
                         image = image.currentImage
@@ -157,19 +174,18 @@ export default function Navigation() {
                                 paddingY={0}
                                 key={index}
                             >
-                                <RoundIconButton
-                                    circumference={{ xs: "3rem", sm: "3.5rem", md: "4rem", lg: "5rem", xl: "7rem" }}
+                                <NavigationRoundIconButton
                                     disabled={disabled}
-                                    sx={{
-                                        border: 3,
+                                    onClick={() => {
+                                        activity.onRun({
+                                            navigate: navigate
+                                        })
                                     }}
-                                    onClick={activity.onRun}
                                     ariaLabel={activity.name}
-                                    elevation="lg"
                                 >
                                     {image && <ImageSrc image={image ?? ""} />}
                                     {image && <ImageBackdrop />}
-                                </RoundIconButton>
+                                </NavigationRoundIconButton>
                             </Grid>
                         )
                     }
