@@ -2,7 +2,7 @@ import { ActivityModel, saveActivity } from "@drincs/nqtr";
 import { GameStepManager } from "@drincs/pixi-vn";
 import BedIcon from '@mui/icons-material/Bed';
 import NavigationRoundIconButton from "../components/NavigationRoundIconButton";
-import { napLabel } from "../labels/NapLabel";
+import { napLabel } from "../labels/SleepNapLabel";
 
 export const nap = new ActivityModel("nap",
     (_, event) => {

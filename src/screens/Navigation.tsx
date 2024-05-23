@@ -163,7 +163,9 @@ export default function Navigation() {
                     if (!renderImage) {
                         return
                     }
-                    let image = renderImage()
+                    let image = renderImage({
+                        navigate: navigate,
+                    })
                     let disabled = activity.disabled
                     if (image instanceof ImageTimeSlots) {
                         image = image.currentImage
@@ -188,6 +190,12 @@ export default function Navigation() {
                                 </NavigationRoundIconButton>
                             </Grid>
                         )
+                    }
+                    else if (image instanceof CanvasBase) {
+                        return null
+                    }
+                    else {
+                        return image
                     }
                 })}
             </StackOverflow>

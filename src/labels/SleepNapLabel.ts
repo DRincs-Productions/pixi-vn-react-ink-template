@@ -16,6 +16,33 @@ const napHourLabel = newLabel<{
     ]
 )
 
+export const sleepLabel = newLabel<{
+    /**
+     * After going to navigation
+     * @default true
+     */
+    afterGoingToNavigation?: boolean
+}>("SleepLabel",
+    [
+        (props) => {
+            let afterGoingToNavigation = props?.afterGoingToNavigation || true
+            setDialogue("You are tired and decide to take a nap.")
+            setChoiceMenuOptions([
+                new ChoiceMenuOption(
+                    "3 hours",
+                    napHourLabel,
+                    "call",
+                    {
+                        hour: 3,
+                        afterGoingToNavigation: afterGoingToNavigation
+                    }
+                ),
+                // TODO: new ChoiceMenuOptionClose("Cancel"),
+            ])
+        },
+    ]
+)
+
 export const napLabel = newLabel<{
     /**
      * After going to navigation

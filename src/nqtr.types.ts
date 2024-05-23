@@ -1,4 +1,5 @@
 import { StepLabelProps } from "@drincs/pixi-vn/dist/override";
+import { ReactElement } from "react";
 import { ImageTimeSlots } from "./model/TimeSlots";
 
 declare module '@drincs/nqtr/dist/override' {
@@ -6,5 +7,6 @@ declare module '@drincs/nqtr/dist/override' {
     }
     interface OnRenderGraphicItemProps extends StepLabelProps {
     }
-    type GraphicItemType = string | ImageTimeSlots
+    interface GraphicItemInterface extends ImageTimeSlots { }
+    interface GraphicHTMLElement extends ReactElement<any, any> { }
 }
