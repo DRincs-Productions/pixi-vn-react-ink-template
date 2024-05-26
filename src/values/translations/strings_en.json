@@ -48,5 +48,8 @@
 		, "friday" : "Friday"
 		, "saturday" : "Saturday"
 		, "sunday" : "Sunday"
+		, "allarm_menu_item" : "{{hour}}:00"
+		, "nap_menu_item" : "{{hour}} hours"
+		, "nap" : "Nap"
 	}
 }

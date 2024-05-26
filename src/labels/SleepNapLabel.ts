@@ -1,5 +1,20 @@
 import { ChoiceMenuOption, newLabel, setChoiceMenuOptions, setDialogue } from "@drincs/pixi-vn";
-import { wait } from "../utility/TimeUtility";
+import { sleep, wait } from "../utility/TimeUtility";
+
+const sleepHourLabel = newLabel<{
+    wakeupHour: number,
+    afterGoingToNavigation: boolean
+}>("Sleep1HourLabel",
+    [
+        (props) => {
+            let hour = props?.wakeupHour || 8
+            sleep(hour)
+            if (props?.afterGoingToNavigation) {
+                props.navigate("/navigation")
+            }
+        }
+    ]
+)
 
 const napHourLabel = newLabel<{
     hour: number,
@@ -26,14 +41,35 @@ export const sleepLabel = newLabel<{
     [
         (props) => {
             let afterGoingToNavigation = props?.afterGoingToNavigation || true
-            setDialogue("You are tired and decide to take a nap.")
+            if (!props?.translate) {
+                return
+            }
+            setDialogue("What time do you want to set the alarm?")
             setChoiceMenuOptions([
                 new ChoiceMenuOption(
-                    "3 hours",
-                    napHourLabel,
+                    props.translate("allarm_menu_item", { hour: 8 }),
+                    sleepHourLabel,
                     "call",
                     {
-                        hour: 3,
+                        wakeupHour: 8,
+                        afterGoingToNavigation: afterGoingToNavigation
+                    }
+                ),
+                new ChoiceMenuOption(
+                    props.translate("allarm_menu_item", { hour: 9 }),
+                    sleepHourLabel,
+                    "call",
+                    {
+                        wakeupHour: 9,
+                        afterGoingToNavigation: afterGoingToNavigation
+                    }
+                ),
+                new ChoiceMenuOption(
+                    props.translate("allarm_menu_item", { hour: 10 }),
+                    sleepHourLabel,
+                    "call",
+                    {
+                        wakeupHour: 10,
                         afterGoingToNavigation: afterGoingToNavigation
                     }
                 ),
@@ -53,28 +89,13 @@ export const napLabel = newLabel<{
     [
         (props) => {
             let afterGoingToNavigation = props?.afterGoingToNavigation || true
+            if (!props?.translate) {
+                return
+            }
             setDialogue("You are tired and decide to take a nap.")
             setChoiceMenuOptions([
                 new ChoiceMenuOption(
-                    "1 hour",
-                    napHourLabel,
-                    "call",
-                    {
-                        hour: 1,
-                        afterGoingToNavigation: afterGoingToNavigation
-                    }
-                ),
-                new ChoiceMenuOption(
-                    "2 hours",
-                    napHourLabel,
-                    "call",
-                    {
-                        hour: 2,
-                        afterGoingToNavigation: afterGoingToNavigation
-                    }
-                ),
-                new ChoiceMenuOption(
-                    "3 hours",
+                    props.translate("nap_menu_item", { hour: 3 }),
                     napHourLabel,
                     "call",
                     {
@@ -82,6 +103,16 @@ export const napLabel = newLabel<{
                         afterGoingToNavigation: afterGoingToNavigation
                     }
                 ),
+                new ChoiceMenuOption(
+                    props.translate("sleep"),
+                    sleepLabel,
+                    "call",
+                    {
+                        hour: 3,
+                        afterGoingToNavigation: afterGoingToNavigation
+                    }
+                ),
+                // TODO: new ChoiceMenuOptionClose("Cancel"),
             ])
         },
     ]
