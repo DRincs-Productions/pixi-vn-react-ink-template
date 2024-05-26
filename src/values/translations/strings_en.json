@@ -51,5 +51,6 @@
 		, "allarm_menu_item" : "{{hour}}:00"
 		, "nap_menu_item" : "{{hour}} hours"
 		, "nap" : "Nap"
+		, "sleep" : "Sleep"
 	}
 }
