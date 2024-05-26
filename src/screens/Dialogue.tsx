@@ -42,10 +42,10 @@ export default function Dialogue() {
     useEffect(() => {
         let dial = getDialogue<DialogueModel>()
         if (dial) {
-            setText(t(dial.text, dial.i18nArgs))
+            setText(dial.text)
             let c: CharacterBaseModel | undefined = dial.characterId ? getCharacterById(dial.characterId) : undefined
             if (!c && dial.characterId) {
-                c = new CharacterBaseModel(dial.characterId, { name: t(dial.characterId, dial.i18nArgs) })
+                c = new CharacterBaseModel(dial.characterId, { name: t(dial.characterId) })
             }
             setCharacter(c)
         }
@@ -85,7 +85,8 @@ export default function Dialogue() {
         }
         setLoading(true)
         GameStepManager.runNextStep({
-            navigate: navigate
+            navigate: navigate,
+            translate: t,
         })
             .then(() => {
                 notifyReloadInterfaceDataEvent((p) => p + 1)

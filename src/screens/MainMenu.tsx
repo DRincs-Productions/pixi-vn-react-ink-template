@@ -43,7 +43,8 @@ export default function MainMenu() {
                     onClick={() => {
                         GameWindowManager.removeCanvasElements()
                         GameStepManager.callLabel(startLabel, {
-                            navigate: navigate
+                            navigate: navigate,
+                            translate: t
                         })
                     }}
                 >

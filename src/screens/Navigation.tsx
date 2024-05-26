@@ -2,6 +2,7 @@ import { getCurrenrLocation, getCurrentCommitments, getCurrentRoom, setCurrentRo
 import { CanvasBase, CanvasContainer, CanvasImage, GameWindowManager } from '@drincs/pixi-vn';
 import { Grid, ImageBackdrop, ImageSrc, StackOverflow } from '@drincs/react-components';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentLocationCommitmentsState } from '../atoms/currentLocationCommitmentsState';
 import { currentLocationState } from '../atoms/currentLocationState';
@@ -20,6 +21,7 @@ export default function Navigation() {
     const reloadInterfaceDataEvent = useRecoilValue(reloadInterfaceDataEventState);
     const [hour, setHour] = useState(TimeManager.currentHour)
     const navigate = useMyNavigate();
+    const { t } = useTranslation(["translation"]);
 
     useEffect(() => {
         let location = getCurrenrLocation()
@@ -165,6 +167,7 @@ export default function Navigation() {
                     }
                     let image = renderImage({
                         navigate: navigate,
+                        translate: t,
                     })
                     let disabled = activity.disabled
                     if (image instanceof ImageTimeSlots) {
@@ -180,7 +183,8 @@ export default function Navigation() {
                                     disabled={disabled}
                                     onClick={() => {
                                         activity.onRun({
-                                            navigate: navigate
+                                            navigate: navigate,
+                                            translate: t,
                                         })
                                     }}
                                     ariaLabel={activity.name}

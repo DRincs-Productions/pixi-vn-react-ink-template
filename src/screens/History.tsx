@@ -72,11 +72,11 @@ export default function History() {
                             let character = step.dialoge?.characterId ? getCharacterById(step.dialoge?.characterId) ?? new CharacterBaseModel(step.dialoge?.characterId, { name: t(step.dialoge?.characterId) }) : undefined
                             return {
                                 character: character?.name ? character.name + (character.surname ? " " + character.surname : "") : undefined,
-                                text: t(step.dialoge?.text || "", step.dialoge?.i18nArgs),
+                                text: step.dialoge?.text || "",
                                 icon: character?.icon,
                                 choices: step.choices?.map((choice) => {
                                     return {
-                                        text: t(choice.text, step.dialoge?.i18nArgs),
+                                        text: choice.text,
                                         isResponse: choice.isResponse,
                                     }
                                 })
