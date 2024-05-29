@@ -44,7 +44,7 @@ export default function MainMenu() {
                         GameWindowManager.removeCanvasElements()
                         GameStepManager.callLabel(startLabel, {
                             navigate: navigate,
-                            translate: t
+                            t: t
                         })
                     }}
                 >

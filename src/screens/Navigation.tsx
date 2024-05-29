@@ -167,7 +167,7 @@ export default function Navigation() {
                     }
                     let image = renderImage({
                         navigate: navigate,
-                        translate: t,
+                        t: t,
                     })
                     let disabled = activity.disabled
                     if (image instanceof ImageTimeSlots) {
@@ -184,7 +184,7 @@ export default function Navigation() {
                                     onClick={() => {
                                         activity.onRun({
                                             navigate: navigate,
-                                            translate: t,
+                                            t: t,
                                         })
                                     }}
                                     ariaLabel={activity.name}

@@ -41,13 +41,13 @@ export const sleepLabel = newLabel<{
     [
         (props) => {
             let afterGoingToNavigation = props?.afterGoingToNavigation || true
-            if (!props?.translate) {
+            if (!props?.t) {
                 return
             }
             setDialogue("What time do you want to set the alarm?")
             setChoiceMenuOptions([
                 new ChoiceMenuOption(
-                    props.translate("allarm_menu_item", { hour: 8 }),
+                    props.t("allarm_menu_item", { hour: 8 }),
                     sleepHourLabel,
                     "call",
                     {
@@ -56,7 +56,7 @@ export const sleepLabel = newLabel<{
                     }
                 ),
                 new ChoiceMenuOption(
-                    props.translate("allarm_menu_item", { hour: 9 }),
+                    props.t("allarm_menu_item", { hour: 9 }),
                     sleepHourLabel,
                     "call",
                     {
@@ -65,7 +65,7 @@ export const sleepLabel = newLabel<{
                     }
                 ),
                 new ChoiceMenuOption(
-                    props.translate("allarm_menu_item", { hour: 10 }),
+                    props.t("allarm_menu_item", { hour: 10 }),
                     sleepHourLabel,
                     "call",
                     {
@@ -73,7 +73,7 @@ export const sleepLabel = newLabel<{
                         afterGoingToNavigation: afterGoingToNavigation
                     }
                 ),
-                // TODO: new ChoiceMenuOptionClose("Cancel"),
+                // new ChoiceMenuOptionClose("Cancel"),
             ])
         },
     ]
@@ -89,13 +89,13 @@ export const napLabel = newLabel<{
     [
         (props) => {
             let afterGoingToNavigation = props?.afterGoingToNavigation || true
-            if (!props?.translate) {
+            if (!props?.t) {
                 return
             }
             setDialogue("You are tired and decide to take a nap.")
             setChoiceMenuOptions([
                 new ChoiceMenuOption(
-                    props.translate("nap_menu_item", { hour: 3 }),
+                    props.t("nap_menu_item", { hour: 3 }),
                     napHourLabel,
                     "call",
                     {
@@ -104,7 +104,7 @@ export const napLabel = newLabel<{
                     }
                 ),
                 new ChoiceMenuOption(
-                    props.translate("sleep"),
+                    props.t("sleep"),
                     sleepLabel,
                     "call",
                     {
@@ -112,7 +112,7 @@ export const napLabel = newLabel<{
                         afterGoingToNavigation: afterGoingToNavigation
                     }
                 ),
-                // TODO: new ChoiceMenuOptionClose("Cancel"),
+                // new ChoiceMenuOptionClose("Cancel"),
             ])
         },
     ]
