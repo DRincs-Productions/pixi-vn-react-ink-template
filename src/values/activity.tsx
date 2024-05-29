@@ -1,14 +1,14 @@
 import { ActivityModel, saveActivity } from "@drincs/nqtr";
-import { GameStepManager } from "@drincs/pixi-vn";
 import BedIcon from '@mui/icons-material/Bed';
 import NavigationRoundIconButton from "../components/NavigationRoundIconButton";
-import { napLabel } from "../labels/SleepNapLabel";
+import { callLabelWithGoNavigationCallBack } from "../labels/navigationCallBackLabel";
+import { napLabel } from "../labels/sleepNapLabels";
 
 export const nap = new ActivityModel("nap",
     (_, event) => {
         if (event) {
             event.navigate("/game")
-            GameStepManager.callLabel(napLabel, event)
+            callLabelWithGoNavigationCallBack(napLabel, event)
         }
         else {
             console.error("Event is undefined")

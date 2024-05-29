@@ -1,43 +1,31 @@
-import { ChoiceMenuOption, ChoiceMenuOptionClose, newLabel, setChoiceMenuOptions, setDialogue } from "@drincs/pixi-vn";
+import { ChoiceMenuOption, ChoiceMenuOptionClose, GameStepManager, newLabel, setChoiceMenuOptions, setDialogue } from "@drincs/pixi-vn";
 import { sleep, wait } from "../utility/TimeUtility";
 
 const sleepHourLabel = newLabel<{
     wakeupHour: number,
-    afterGoingToNavigation: boolean
 }>("Sleep1HourLabel",
     [
-        ({ afterGoingToNavigation, navigate, wakeupHour }) => {
+        ({ wakeupHour, ...rest }) => {
             sleep(wakeupHour)
-            if (afterGoingToNavigation) {
-                navigate("/navigation")
-            }
+            GameStepManager.runNextStep(rest)
         }
     ]
 )
 
 const napHourLabel = newLabel<{
     hour: number,
-    afterGoingToNavigation: boolean
 }>("Nap1HourLabel",
     [
-        ({ hour, afterGoingToNavigation, navigate }) => {
+        ({ hour, ...rest }) => {
             wait(hour)
-            if (afterGoingToNavigation) {
-                navigate("/navigation")
-            }
+            GameStepManager.runNextStep(rest)
         }
     ]
 )
 
-export const sleepLabel = newLabel<{
-    /**
-     * After going to navigation
-     * @default true
-     */
-    afterGoingToNavigation?: boolean
-}>("SleepLabel",
+export const sleepLabel = newLabel("SleepLabel",
     [
-        ({ afterGoingToNavigation = true, t }) => {
+        ({ t }) => {
             setDialogue("What time do you want to set the alarm?")
             setChoiceMenuOptions([
                 new ChoiceMenuOption(
@@ -46,7 +34,6 @@ export const sleepLabel = newLabel<{
                     "call",
                     {
                         wakeupHour: 8,
-                        afterGoingToNavigation: afterGoingToNavigation
                     }
                 ),
                 new ChoiceMenuOption(
@@ -55,7 +42,6 @@ export const sleepLabel = newLabel<{
                     "call",
                     {
                         wakeupHour: 9,
-                        afterGoingToNavigation: afterGoingToNavigation
                     }
                 ),
                 new ChoiceMenuOption(
@@ -64,7 +50,6 @@ export const sleepLabel = newLabel<{
                     "call",
                     {
                         wakeupHour: 10,
-                        afterGoingToNavigation: afterGoingToNavigation
                     }
                 ),
                 new ChoiceMenuOptionClose("Cancel"),
@@ -73,15 +58,9 @@ export const sleepLabel = newLabel<{
     ]
 )
 
-export const napLabel = newLabel<{
-    /**
-     * After going to navigation
-     * @default true
-     */
-    afterGoingToNavigation?: boolean
-}>("NapLabel",
+export const napLabel = newLabel("NapLabel",
     [
-        ({ afterGoingToNavigation = true, t }) => {
+        ({ t }) => {
             setDialogue("You are tired and decide to take a nap.")
             setChoiceMenuOptions([
                 new ChoiceMenuOption(
@@ -90,7 +69,6 @@ export const napLabel = newLabel<{
                     "call",
                     {
                         hour: 3,
-                        afterGoingToNavigation: afterGoingToNavigation
                     }
                 ),
                 new ChoiceMenuOption(
@@ -99,7 +77,6 @@ export const napLabel = newLabel<{
                     "call",
                     {
                         hour: 3,
-                        afterGoingToNavigation: afterGoingToNavigation
                     }
                 ),
                 new ChoiceMenuOptionClose("Cancel"),
