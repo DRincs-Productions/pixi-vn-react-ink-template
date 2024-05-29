@@ -1,17 +1,18 @@
+import { ErrorBoundary } from "react-error-boundary";
 import AppImports from './AppImports';
 import AppRoutes from './AppRoutes';
 import EventInterceptor from './EventInterceptor';
-import { useI18n } from './i18n';
 import Settings from './screens/Settings';
 
 function App() {
-    useI18n()
     return (
-        <AppImports>
-            <AppRoutes />
-            <Settings />
-            <EventInterceptor />
-        </AppImports>
+        <ErrorBoundary fallback={<div>Something went wrong</div>}>
+            <AppImports>
+                <AppRoutes />
+                <Settings />
+                <EventInterceptor />
+            </AppImports>
+        </ErrorBoundary >
     )
 }
 
