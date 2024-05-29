@@ -91,7 +91,7 @@ export default function DialogueMenu(props: IProps) {
                                             })
                                     }
                                     else if (item.type == "close") {
-                                        GameStepManager.closeChoiceMenu({
+                                        GameStepManager.closeChoiceMenu(item.label, {
                                             navigate: navigate,
                                             t: t,
                                             ...item.props

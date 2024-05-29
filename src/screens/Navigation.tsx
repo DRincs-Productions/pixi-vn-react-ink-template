@@ -198,7 +198,7 @@ export default function Navigation() {
                     else if (image instanceof CanvasBase) {
                         return null
                     }
-                    else {
+                    else if (image instanceof Element) {
                         return image
                     }
                 })}
