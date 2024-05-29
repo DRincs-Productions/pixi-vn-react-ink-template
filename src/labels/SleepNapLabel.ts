@@ -1,4 +1,4 @@
-import { ChoiceMenuOption, newLabel, setChoiceMenuOptions, setDialogue } from "@drincs/pixi-vn";
+import { ChoiceMenuOption, ChoiceMenuOptionClose, newLabel, setChoiceMenuOptions, setDialogue } from "@drincs/pixi-vn";
 import { sleep, wait } from "../utility/TimeUtility";
 
 const sleepHourLabel = newLabel<{
@@ -6,11 +6,10 @@ const sleepHourLabel = newLabel<{
     afterGoingToNavigation: boolean
 }>("Sleep1HourLabel",
     [
-        (props) => {
-            let hour = props?.wakeupHour || 8
-            sleep(hour)
-            if (props?.afterGoingToNavigation) {
-                props.navigate("/navigation")
+        ({ afterGoingToNavigation, navigate, wakeupHour }) => {
+            sleep(wakeupHour)
+            if (afterGoingToNavigation) {
+                navigate("/navigation")
             }
         }
     ]
@@ -21,11 +20,10 @@ const napHourLabel = newLabel<{
     afterGoingToNavigation: boolean
 }>("Nap1HourLabel",
     [
-        (props) => {
-            let hour = props?.hour || 1
+        ({ hour, afterGoingToNavigation, navigate }) => {
             wait(hour)
-            if (props?.afterGoingToNavigation) {
-                props.navigate("/navigation")
+            if (afterGoingToNavigation) {
+                navigate("/navigation")
             }
         }
     ]
@@ -39,15 +37,11 @@ export const sleepLabel = newLabel<{
     afterGoingToNavigation?: boolean
 }>("SleepLabel",
     [
-        (props) => {
-            let afterGoingToNavigation = props?.afterGoingToNavigation || true
-            if (!props?.t) {
-                return
-            }
+        ({ afterGoingToNavigation = true, t }) => {
             setDialogue("What time do you want to set the alarm?")
             setChoiceMenuOptions([
                 new ChoiceMenuOption(
-                    props.t("allarm_menu_item", { hour: 8 }),
+                    t("allarm_menu_item", { hour: 8 }),
                     sleepHourLabel,
                     "call",
                     {
@@ -56,7 +50,7 @@ export const sleepLabel = newLabel<{
                     }
                 ),
                 new ChoiceMenuOption(
-                    props.t("allarm_menu_item", { hour: 9 }),
+                    t("allarm_menu_item", { hour: 9 }),
                     sleepHourLabel,
                     "call",
                     {
@@ -65,7 +59,7 @@ export const sleepLabel = newLabel<{
                     }
                 ),
                 new ChoiceMenuOption(
-                    props.t("allarm_menu_item", { hour: 10 }),
+                    t("allarm_menu_item", { hour: 10 }),
                     sleepHourLabel,
                     "call",
                     {
@@ -73,7 +67,7 @@ export const sleepLabel = newLabel<{
                         afterGoingToNavigation: afterGoingToNavigation
                     }
                 ),
-                // new ChoiceMenuOptionClose("Cancel"),
+                new ChoiceMenuOptionClose("Cancel"),
             ])
         },
     ]
@@ -87,15 +81,11 @@ export const napLabel = newLabel<{
     afterGoingToNavigation?: boolean
 }>("NapLabel",
     [
-        (props) => {
-            let afterGoingToNavigation = props?.afterGoingToNavigation || true
-            if (!props?.t) {
-                return
-            }
+        ({ afterGoingToNavigation = true, t }) => {
             setDialogue("You are tired and decide to take a nap.")
             setChoiceMenuOptions([
                 new ChoiceMenuOption(
-                    props.t("nap_menu_item", { hour: 3 }),
+                    t("nap_menu_item", { hour: 3 }),
                     napHourLabel,
                     "call",
                     {
@@ -104,7 +94,7 @@ export const napLabel = newLabel<{
                     }
                 ),
                 new ChoiceMenuOption(
-                    props.t("sleep"),
+                    t("sleep"),
                     sleepLabel,
                     "call",
                     {
@@ -112,7 +102,7 @@ export const napLabel = newLabel<{
                         afterGoingToNavigation: afterGoingToNavigation
                     }
                 ),
-                // new ChoiceMenuOptionClose("Cancel"),
+                new ChoiceMenuOptionClose("Cancel"),
             ])
         },
     ]
