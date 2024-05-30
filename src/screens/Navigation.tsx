@@ -1,7 +1,7 @@
 import { getCurrenrLocation, getCurrentCommitments, getCurrentRoom, setCurrentRoom, TimeManager } from '@drincs/nqtr';
 import { CanvasBase, CanvasContainer, CanvasImage, GameWindowManager } from '@drincs/pixi-vn';
 import { Grid, ImageBackdrop, ImageSrc, StackOverflow } from '@drincs/react-components';
-import { useEffect, useState } from 'react';
+import { isValidElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentLocationCommitmentsState } from '../atoms/currentLocationCommitmentsState';
@@ -195,10 +195,7 @@ export default function Navigation() {
                             </Grid>
                         )
                     }
-                    else if (image instanceof CanvasBase) {
-                        return null
-                    }
-                    else if (image instanceof Element) {
+                    else if (isValidElement(image)) {
                         return image
                     }
                 })}
