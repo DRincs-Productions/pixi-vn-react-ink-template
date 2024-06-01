@@ -6,13 +6,8 @@ import { napLabel } from "../labels/sleepNapLabels";
 
 export const nap = new ActivityModel("nap",
     (_, event) => {
-        if (event) {
-            event.navigate("/game")
-            callLabelWithGoNavigationCallBack(napLabel, event)
-        }
-        else {
-            console.error("Event is undefined")
-        }
+        event.navigate("/game")
+        callLabelWithGoNavigationCallBack(napLabel, event)
     },
     {
         name: "Nap",
@@ -22,10 +17,6 @@ export const nap = new ActivityModel("nap",
             return <NavigationRoundIconButton
                 disabled={activity.disabled}
                 onClick={() => {
-                    if (!props) {
-                        console.error("Props is undefined")
-                        return
-                    }
                     activity.onRun(props)
                 }}
                 ariaLabel={activity.name}

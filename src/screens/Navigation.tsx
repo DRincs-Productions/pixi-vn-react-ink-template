@@ -46,7 +46,10 @@ export default function Navigation() {
 
     useEffect(() => {
         if (currentRoom.renderImage) {
-            let backgroundImage = currentRoom.renderImage()
+            let backgroundImage = currentRoom.renderImage({
+                navigate: navigate,
+                t: t,
+            })
             let container = new CanvasContainer()
             if (backgroundImage instanceof CanvasBase) {
                 container.addChild(backgroundImage)
@@ -65,7 +68,10 @@ export default function Navigation() {
                 if (!room.renderIcon) {
                     return
                 }
-                let icon = room.renderIcon()
+                let icon = room.renderIcon({
+                    navigate: navigate,
+                    t: t,
+                })
                 if (icon instanceof CanvasBase) {
                     container.addChild(icon)
                 }
@@ -75,7 +81,10 @@ export default function Navigation() {
                 if (!activity.renderIcon) {
                     return
                 }
-                let icon = activity.renderIcon()
+                let icon = activity.renderIcon({
+                    navigate: navigate,
+                    t: t,
+                })
                 if (icon instanceof CanvasBase) {
                     container.addChild(icon)
                 }
@@ -109,7 +118,10 @@ export default function Navigation() {
                     if (!renderImage) {
                         return
                     }
-                    let image = renderImage()
+                    let image = renderImage({
+                        navigate: navigate,
+                        t: t,
+                    })
                     if (image instanceof ImageTimeSlots) {
                         image = image.currentImage
                     }
@@ -141,7 +153,10 @@ export default function Navigation() {
                 if (!renderImage) {
                     return
                 }
-                let image = renderImage()
+                let image = renderImage({
+                    navigate: navigate,
+                    t: t,
+                })
                 // if image is a JSX.Element
                 if (image instanceof Element) {
                     return image
@@ -151,6 +166,7 @@ export default function Navigation() {
                 direction="column"
                 justifyContent="center"
                 alignItems="flex-end"
+                spacing={0.5}
                 maxLeght={"100%"}
                 sx={{
                     display: 'flex',
