@@ -1,18 +1,21 @@
-import { ActivityModel, saveActivity } from "@drincs/nqtr";
+import { ActivityModel, saveActivity, TimeManager } from "@drincs/nqtr";
 import BedIcon from '@mui/icons-material/Bed';
 import NavigationRoundIconButton from "../components/NavigationRoundIconButton";
 import { callLabelWithGoNavigationCallBack } from "../labels/navigationCallBackLabel";
-import { napLabel } from "../labels/sleepNapLabels";
+import { napLabel, sleepLabel } from "../labels/sleepNapLabels";
 
 export const nap = new ActivityModel("nap",
     (_, event) => {
         event.navigate("/game")
-        callLabelWithGoNavigationCallBack(napLabel, event)
+        if (TimeManager.nowIsBetween(5, 23)) {
+            callLabelWithGoNavigationCallBack(napLabel, event)
+        }
+        else {
+            callLabelWithGoNavigationCallBack(sleepLabel, event)
+        }
     },
     {
         name: "Nap",
-        fromHour: 5,
-        toHour: 23,
         renderIcon: (activity, props) => {
             return <NavigationRoundIconButton
                 disabled={activity.disabled}
