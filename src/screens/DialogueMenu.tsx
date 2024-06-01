@@ -1,12 +1,15 @@
 import { ChoiceMenuOptionsType, clearChoiceMenuOptions, GameStepManager, GameWindowManager } from '@drincs/pixi-vn';
 import { Box, Grid } from '@drincs/react-components';
-import { useState } from 'react';
+import { motion, Variants } from "framer-motion";
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useRecoilValue } from 'recoil';
+import { hideInterfaceState } from '../atoms/hideInterfaceState';
 import DialogueMenuButton from '../components/DialogueMenuButton';
 import { useMyNavigate } from '../utility/useMyNavigate';
 
 type IProps = {
-    menu: ChoiceMenuOptionsType,
+    menu?: ChoiceMenuOptionsType,
     dialogueWindowHeight: number,
     fullscreen?: boolean,
     afterClick?: () => void,
@@ -23,6 +26,29 @@ export default function DialogueMenu(props: IProps) {
     const height = GameWindowManager.screenHeight - dialogueWindowHeight
     const { t } = useTranslation(["translation"]);
     const navigate = useMyNavigate();
+    const hideInterface = useRecoilValue(hideInterfaceState)
+    const [showList, setShowList] = useState(false)
+    useEffect(() => {
+        if (!menu || !(menu.length > 0)) {
+            setShowList(false)
+            return
+        }
+        let timer = setTimeout(() => {
+            setShowList(true)
+        }, 1)
+        return () => {
+            clearTimeout(timer)
+        }
+    }, [menu])
+    const showMenu = showList && !hideInterface
+    const itemVariants: Variants = {
+        open: {
+            opacity: 1,
+            y: 0,
+            transition: { type: "spring", stiffness: 300, damping: 24 }
+        },
+        closed: { opacity: 0, y: 20, transition: { duration: 0.2 } }
+    };
 
     return (
         <Box
@@ -34,6 +60,10 @@ export default function DialogueMenu(props: IProps) {
                 right: 0,
                 height: fullscreen ? "100%" : height,
             }}
+            component={motion.div}
+            initial={false}
+            animate={showMenu ? "open" : "closed"}
+            className="menu"
         >
             <Grid
                 container
@@ -47,13 +77,36 @@ export default function DialogueMenu(props: IProps) {
                     gap: 1,
                     width: '100%',
                 }}
+                component={motion.div}
+                variants={{
+                    open: {
+                        clipPath: "inset(0% 0% 0% 0% round 10px)",
+                        transition: {
+                            type: "spring",
+                            bounce: 0,
+                            duration: 0.7,
+                            delayChildren: 0.3,
+                            staggerChildren: 0.05
+                        }
+                    },
+                    closed: {
+                        clipPath: "inset(10% 50% 90% 50% round 10px)",
+                        transition: {
+                            type: "spring",
+                            bounce: 0,
+                            duration: 0.3
+                        }
+                    }
+                }}
             >
-                {menu.map((item, index) => {
+                {menu?.map((item, index) => {
                     return (
                         <Grid
                             key={index}
                             justifyContent="center"
                             alignItems="center"
+                            component={motion.div}
+                            variants={itemVariants}
                         >
                             <DialogueMenuButton
                                 loading={loading}

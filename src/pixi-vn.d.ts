@@ -14,7 +14,7 @@ declare module '@drincs/pixi-vn/dist/override' {
          * @param key The key to translate.
          * @returns The translated string.
          */
-        t: TFunction<[string], undefined>,
+        t: TFunction<[string], undefined>
         [key: string]: any
     }
 }

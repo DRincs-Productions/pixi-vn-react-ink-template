@@ -3,11 +3,13 @@ import { Box, Button, DragHandleDivider, resizeWindowsHandler, Sheet, Typewriter
 import AspectRatio from '@mui/joy/AspectRatio';
 import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
-import { useEffect, useState } from 'react';
+import { motion } from "framer-motion";
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { autoEnabledState } from '../atoms/autoEnabledState';
 import { canGoBackState } from '../atoms/canGoBackState';
+import { hideInterfaceState } from '../atoms/hideInterfaceState';
 import { reloadInterfaceDataEventState } from '../atoms/reloadInterfaceDataEventState';
 import { skipEnabledState } from '../atoms/skipEnabledState';
 import { typewriterDelayState } from '../atoms/typewriterDelayState';
@@ -38,6 +40,9 @@ export default function Dialogue() {
     const [recheckSkipAuto, setRecheckSkipAuto] = useState<number>(0)
     const { t } = useTranslation(["translation"]);
     const typewriterDelay = useRecoilValue(typewriterDelayState)
+    const hideInterface = useRecoilValue(hideInterfaceState)
+    const showDialogueCard = useMemo(() => !hideInterface && text, [hideInterface, text])
+    const showNextButton = useMemo(() => !hideInterface && !menu, [hideInterface, menu])
 
     useEffect(() => {
         let dial = getDialogue<DialogueModel>()
@@ -115,12 +120,12 @@ export default function Dialogue() {
 
     return (
         <>
-            {menu && <DialogueMenu
+            <DialogueMenu
                 dialogueWindowHeight={windowSize.y + 50}
                 fullscreen={text ? false : true}
                 menu={menu}
                 afterClick={() => notifyReloadInterfaceDataEvent((p) => p + 1)}
-            />}
+            />
             <Box
                 sx={{
                     width: '100%',
@@ -130,22 +135,40 @@ export default function Dialogue() {
                     right: 0,
                 }}
             >
-                {text && <DragHandleDivider
-                    orientation="horizontal"
+                <Box
                     sx={{
                         position: "absolute",
                         top: -5,
                         width: "100%",
+                        zIndex: 100,
                     }}
-                    onMouseDown={(e) => resizeWindowsHandler(e, windowSize, setWindowSize)}
-                />}
-                {text && <Card
+                    component={motion.div}
+                    animate={{
+                        opacity: showDialogueCard ? 1 : 0,
+                        y: showDialogueCard ? 0 : windowSize.y,
+                        pointerEvents: showDialogueCard ? "auto" : "none",
+                    }}
+                    transition={{ type: "tween" }}
+                >
+                    <DragHandleDivider
+                        orientation="horizontal"
+                        onMouseDown={(e) => resizeWindowsHandler(e, windowSize, setWindowSize)}
+                    />
+                </Box>
+                <Card
                     orientation="horizontal"
                     sx={{
                         overflow: 'auto',
                         height: windowSize.y,
                         gap: 1,
                     }}
+                    component={motion.div}
+                    animate={{
+                        opacity: showDialogueCard ? 1 : 0,
+                        y: showDialogueCard ? 0 : windowSize.y,
+                        pointerEvents: showDialogueCard ? "auto" : "none",
+                    }}
+                    transition={{ type: "tween" }}
                 >
                     {character?.icon && <AspectRatio
                         flex
@@ -196,14 +219,14 @@ export default function Dialogue() {
                         >
                             {typewriterDelay !== 0
                                 ? <Typewriter
-                                    text={text}
+                                    text={text || ""}
                                     delay={localStorage.getItem('typewriter_delay_millisecond')! as unknown as number}
                                 />
                                 : text}
                         </Sheet>
                     </CardContent>
-                </Card>}
-                {!menu && <Button
+                </Card>
+                <Button
                     variant="solid"
                     color="primary"
                     size="sm"
@@ -217,9 +240,16 @@ export default function Dialogue() {
                         zIndex: 100,
                     }}
                     onClick={nextOnClick}
+                    component={motion.div}
+                    animate={{
+                        opacity: showNextButton ? 1 : 0,
+                        y: showNextButton ? 0 : 0,
+                        pointerEvents: showNextButton ? "auto" : "none",
+                    }}
+                    transition={{ type: "spring" }}
                 >
                     {t("next")}
-                </Button>}
+                </Button>
             </Box>
         </>
     );

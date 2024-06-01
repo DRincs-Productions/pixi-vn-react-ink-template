@@ -1,10 +1,12 @@
 import { Grid, ModalConfirmation, Typography } from '@drincs/react-components';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import { motion } from "framer-motion";
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { autoEnabledState } from '../atoms/autoEnabledState';
 import { canGoBackState } from '../atoms/canGoBackState';
+import { hideInterfaceState } from '../atoms/hideInterfaceState';
 import { openHistoryState } from '../atoms/openHistoryState';
 import { openSettingsState } from '../atoms/openSettingsState';
 import { reloadInterfaceDataEventState } from '../atoms/reloadInterfaceDataEventState';
@@ -23,6 +25,7 @@ export default function QuickActions() {
     const [skip, setSkip] = useRecoilState(skipEnabledState)
     const [auto, setAuto] = useRecoilState(autoEnabledState)
     const { t } = useTranslation(["translation"]);
+    const hideInterface = useRecoilValue(hideInterfaceState)
 
     return (
         <>
@@ -40,6 +43,12 @@ export default function QuickActions() {
                     marginBottom: 0,
                     bottom: 0,
                 }}
+                component={motion.div}
+                animate={{
+                    opacity: !hideInterface ? 1 : 0,
+                    y: !hideInterface ? 0 : 8,
+                }}
+                transition={{ type: "tween" }}
             >
                 <Grid
                     paddingY={0}
@@ -47,6 +56,7 @@ export default function QuickActions() {
                     <TextMenuButton
                         onClick={() => goBack(navigate, () => { notifyLoadEvent((prev) => prev + 1) })}
                         disabled={!canGoBack}
+                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
                     >
                         {t("back")}
                     </TextMenuButton>
@@ -56,6 +66,7 @@ export default function QuickActions() {
                 >
                     <TextMenuButton
                         onClick={() => setOpenHistory(true)}
+                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
                     >
                         {t("history")}
                     </TextMenuButton>
@@ -66,6 +77,7 @@ export default function QuickActions() {
                     <TextMenuButton
                         selected={skip}
                         onClick={() => setSkip((prev) => !prev)}
+                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
                     >
                         {t("skip")}
                     </TextMenuButton>
@@ -76,6 +88,7 @@ export default function QuickActions() {
                     <TextMenuButton
                         selected={auto}
                         onClick={() => setAuto((prev) => !prev)}
+                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
                     >
                         {t("auto_forward_time_restricted")}
                     </TextMenuButton>
@@ -85,6 +98,7 @@ export default function QuickActions() {
                 >
                     <TextMenuButton
                         onClick={saveGame}
+                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
                     >
                         {t("save")}
                     </TextMenuButton>
@@ -94,6 +108,7 @@ export default function QuickActions() {
                 >
                     <TextMenuButton
                         onClick={() => loadGameSave(navigate, () => notifyLoadEvent((prev) => prev + 1))}
+                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
                     >
                         {t("load")}
                     </TextMenuButton>
@@ -103,6 +118,7 @@ export default function QuickActions() {
                 >
                     <TextMenuButton
                         onClick={addQuickSave}
+                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
                     >
                         {t("quick_save_restricted")}
                     </TextMenuButton>
@@ -113,6 +129,7 @@ export default function QuickActions() {
                     <TextMenuButton
                         onClick={() => setOpenYouSure(true)}
                         disabled={!localStorage.getItem("quickSave")}
+                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
                     >
                         {t("quick_load_restricted")}
                     </TextMenuButton>
@@ -122,6 +139,7 @@ export default function QuickActions() {
                 >
                     <TextMenuButton
                         onClick={() => setOpenSettings(true)}
+                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
                     >
                         {t("settings_restricted")}
                     </TextMenuButton>

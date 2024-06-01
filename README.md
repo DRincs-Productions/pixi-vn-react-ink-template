@@ -26,3 +26,4 @@ The settings modal allows you to change the text speed, go to full screen, edit 
 * [Recoil](https://recoiljs.org/): A state management library for React.
 * [React Router](https://reactrouter.com/): A library that provides routing for React applications.
 * [i18next](https://www.i18next.com/): A library that gives the possibility to manage multiple translations in the application.
+* [Framer Motion](https://www.framer.com/motion/): A simple yet powerful motion library for React.
