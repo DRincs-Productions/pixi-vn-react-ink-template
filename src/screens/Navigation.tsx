@@ -1,4 +1,4 @@
-import { getCurrenrLocation, getCurrentCommitments, getCurrentRoom, setCurrentRoom, TimeManager } from '@drincs/nqtr';
+import { getCurrenrLocation, getCurrentRoom, setCurrentRoom, TimeManager } from '@drincs/nqtr';
 import { CanvasBase, CanvasContainer, CanvasImage, GameWindowManager } from '@drincs/pixi-vn';
 import { Grid, ImageBackdrop, ImageSrc, StackOverflow } from '@drincs/react-components';
 import { isValidElement, useEffect, useState } from 'react';
@@ -38,18 +38,19 @@ export default function Navigation() {
     }, [currentLocation])
 
     useEffect(() => {
-        let locationCommitments = getCurrentCommitments().filter((commitment) => {
-            return commitment.room.location.id === currentLocation?.id
-        })
+        let locationCommitments = currentRoom.getRoutine()
         setCurrentLocationCommitments(locationCommitments)
-    }, [currentRoom, hour])
-
-    useEffect(() => {
         if (currentRoom.renderImage) {
             let backgroundImage = currentRoom.renderImage({
                 navigate: navigate,
                 t: t,
             })
+            if (locationCommitments.length > 0 && locationCommitments[0].renderImage) {
+                backgroundImage = locationCommitments[0].renderImage({
+                    navigate: navigate,
+                    t: t,
+                })
+            }
             let container = new CanvasContainer()
             if (backgroundImage instanceof CanvasBase) {
                 container.addChild(backgroundImage)
@@ -92,7 +93,7 @@ export default function Navigation() {
 
             GameWindowManager.addCanvasElement(BACKGROUND_ID, container)
         }
-    }, [currentRoom, currentLocationCommitments])
+    }, [currentRoom])
 
     return (
         <>

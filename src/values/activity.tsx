@@ -30,5 +30,4 @@ export const nap = new ActivityModel("nap",
     }
 )
 
-// "sleep"     :   Act(name = _("Sleep"),  button_icon = "action alarm", label_name = "sleep", hour_start=23, hour_stop=5), 
 saveActivity(nap)
