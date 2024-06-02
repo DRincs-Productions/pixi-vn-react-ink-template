@@ -4,7 +4,6 @@ import { Grid, ImageBackdrop, ImageSrc, StackOverflow } from '@drincs/react-comp
 import { isValidElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { currentLocationCommitmentsState } from '../atoms/currentLocationCommitmentsState';
 import { currentLocationState } from '../atoms/currentLocationState';
 import { currentRoomState } from '../atoms/currentRoomState';
 import { reloadInterfaceDataEventState } from '../atoms/reloadInterfaceDataEventState';
@@ -17,7 +16,6 @@ import Time from './Time';
 export default function Navigation() {
     const [currentLocation, setAtomCurrentLocation] = useRecoilState(currentLocationState)
     const [currentRoom, setAtomCurrentRoom] = useRecoilState(currentRoomState)
-    const [currentLocationCommitments, setCurrentLocationCommitments] = useRecoilState(currentLocationCommitmentsState)
     const reloadInterfaceDataEvent = useRecoilValue(reloadInterfaceDataEventState);
     const [hour, setHour] = useState(TimeManager.currentHour)
     const navigate = useMyNavigate();
@@ -39,7 +37,6 @@ export default function Navigation() {
 
     useEffect(() => {
         let locationCommitments = currentRoom.getRoutine()
-        setCurrentLocationCommitments(locationCommitments)
         if (currentRoom.renderImage) {
             let backgroundImage = currentRoom.renderImage({
                 navigate: navigate,
@@ -93,7 +90,7 @@ export default function Navigation() {
 
             GameWindowManager.addCanvasElement(BACKGROUND_ID, container)
         }
-    }, [currentRoom])
+    }, [currentRoom, hour])
 
     return (
         <>

@@ -2,6 +2,7 @@ import { GameWindowManager } from '@drincs/pixi-vn'
 import { createRoot } from 'react-dom/client'
 import App from './App'
 import './index.css'
+import './values/routine'
 
 // Canvas setup with PIXI
 const body = document.body
