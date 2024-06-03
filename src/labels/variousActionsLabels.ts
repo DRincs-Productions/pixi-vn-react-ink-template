@@ -1,4 +1,5 @@
-import { ChoiceMenuOption, newLabel, setChoiceMenuOptions, setDialogue } from "@drincs/pixi-vn";
+import { ChoiceMenuOption, ChoiceMenuOptionClose, newLabel, setChoiceMenuOptions, setDialogue } from "@drincs/pixi-vn";
+import { liam } from "../values/characters";
 
 export const orderProductLabel = newLabel("OrderProductLabel",
     [
@@ -19,7 +20,7 @@ export const takeKeyLabel = newLabel("TakeKeyLabel",
 
 const talkSleepResultLabel = newLabel("TalkSleepResultLabel",
     [
-        () => setDialogue("[mc]!!!! What are you doing?!!"),
+        () => setDialogue(liam.name + "!!!! What are you doing?!!"),
         () => setDialogue("Get out of here! Now!"),
     ]
 )
@@ -32,7 +33,7 @@ export const talkSleepLabel = newLabel("TalkSleepLabel",
                     "Try waking up",
                     talkSleepResultLabel
                 ),
-                // TODO: new ChoiceMenuOptionClose("Leave her alone"),
+                new ChoiceMenuOptionClose("Leave her alone"),
             ])
         },
     ]

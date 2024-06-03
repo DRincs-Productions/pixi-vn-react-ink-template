@@ -88,6 +88,19 @@ export default function Navigation() {
                 }
             })
 
+            currentRoom.getRoutine().forEach((commitment) => {
+                if (!commitment.renderIcon) {
+                    return
+                }
+                let icon = commitment.renderIcon({
+                    navigate: navigate,
+                    t: t,
+                })
+                if (icon instanceof CanvasBase) {
+                    container.addChild(icon)
+                }
+            })
+
             GameWindowManager.addCanvasElement(BACKGROUND_ID, container)
         }
     }, [currentRoom, hour])
@@ -191,6 +204,48 @@ export default function Navigation() {
                                         })
                                     }}
                                     ariaLabel={activity.name}
+                                >
+                                    {image && <ImageSrc image={image ?? ""} />}
+                                    {image && <ImageBackdrop />}
+                                </NavigationRoundIconButton>
+                            </Grid>
+                        )
+                    }
+                    else if (isValidElement(image)) {
+                        return image
+                    }
+                })}
+                {currentRoom.getRoutine().map((commitment, index) => {
+                    let renderImage = commitment.renderIcon
+                    if (!renderImage) {
+                        return
+                    }
+                    let image = renderImage({
+                        navigate: navigate,
+                        t: t,
+                    })
+                    let disabled = commitment.disabled
+                    if (image instanceof ImageTimeSlots) {
+                        image = image.currentImage
+                    }
+                    if (typeof image === "string") {
+                        return (
+                            <Grid
+                                paddingY={0}
+                                key={index}
+                            >
+                                <NavigationRoundIconButton
+                                    disabled={disabled}
+                                    onClick={() => {
+                                        if (!commitment.onRun) {
+                                            return
+                                        }
+                                        commitment.onRun({
+                                            navigate: navigate,
+                                            t: t,
+                                        })
+                                    }}
+                                    ariaLabel={commitment.name}
                                 >
                                     {image && <ImageSrc image={image ?? ""} />}
                                     {image && <ImageBackdrop />}
