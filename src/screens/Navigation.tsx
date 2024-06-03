@@ -144,22 +144,11 @@ export default function Navigation() {
                             </NavigationRoundIconButton>
                         )
                     }
+                    else if (isValidElement(image)) {
+                        return image
+                    }
                 })}
             </StackOverflow>
-            {currentLocation.getRooms().map((room) => {
-                let renderImage = room.renderIcon || room.renderImage
-                if (!renderImage) {
-                    return
-                }
-                let image = renderImage({
-                    navigate: navigate,
-                    t: t,
-                })
-                // if image is a JSX.Element
-                if (image instanceof Element) {
-                    return image
-                }
-            })}
             <StackOverflow
                 direction="column"
                 justifyContent="center"
