@@ -1,4 +1,4 @@
-import { CharacterBaseModel, getCharacterById, getChoiceMenuOptions, getDialogue } from '@drincs/pixi-vn';
+import { getCharacterById, getChoiceMenuOptions, getDialogue } from '@drincs/pixi-vn';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -7,6 +7,8 @@ import { dialogDataState } from '../atoms/dialogDataState';
 import { hideInterfaceState } from '../atoms/hideInterfaceState';
 import { nextStepButtonHiddenState } from '../atoms/nextStepButtonHiddenState';
 import { reloadInterfaceDataEventState } from '../atoms/reloadInterfaceDataEventState';
+import { DialogueModel } from '../model/DialogueModel';
+import { CharacterModel } from '../model/characters/CharacterModel';
 
 export default function DialogueDataEventInterceptor() {
     const reloadInterfaceDataEvent = useRecoilValue(reloadInterfaceDataEventState);
@@ -17,13 +19,13 @@ export default function DialogueDataEventInterceptor() {
     const [menu, setMenu] = useRecoilState(choiceMenuState)
 
     useEffect(() => {
-        let dial = getDialogue()
+        let dial = getDialogue<DialogueModel>()
         let newText: string | undefined = dial?.text
-        let newCharacter: CharacterBaseModel | undefined = undefined
+        let newCharacter: CharacterModel | undefined = undefined
         if (dial) {
             newCharacter = dial.characterId ? getCharacterById(dial.characterId) : undefined
             if (!newCharacter && dial.characterId) {
-                newCharacter = new CharacterBaseModel(dial.characterId, { name: t(dial.characterId) })
+                newCharacter = new CharacterModel(dial.characterId, { name: t(dial.characterId) })
             }
         }
         try {
