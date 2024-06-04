@@ -31,7 +31,7 @@ export default function Dialogue({ nextOnClick }: {
     return (
         <>
             <ChoiceMenu
-                marginButton={windowSize.y + 50}
+                marginButton={windowSize.y}
                 fullscreen={text ? false : true}
             />
             <Box
