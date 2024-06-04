@@ -1,33 +1,33 @@
-import { ChoiceMenuOptionsType, clearChoiceMenuOptions, GameStepManager, GameWindowManager } from '@drincs/pixi-vn';
+import { ChoiceMenuOption, ChoiceMenuOptionClose, clearChoiceMenuOptions, GameStepManager, GameWindowManager } from '@drincs/pixi-vn';
 import { Box, Grid } from '@drincs/react-components';
 import { motion, Variants } from "framer-motion";
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { choiceMenuState } from '../atoms/choiceMenuState';
 import { hideInterfaceState } from '../atoms/hideInterfaceState';
+import { reloadInterfaceDataEventState } from '../atoms/reloadInterfaceDataEventState';
 import DialogueMenuButton from '../components/DialogueMenuButton';
 import { useMyNavigate } from '../utility/useMyNavigate';
 
 type IProps = {
-    menu?: ChoiceMenuOptionsType,
-    dialogueWindowHeight: number,
+    marginButton: number,
     fullscreen?: boolean,
-    afterClick?: () => void,
 }
 
-export default function DialogueMenu(props: IProps) {
+export default function ChoiceMenu(props: IProps) {
     const {
-        menu,
-        dialogueWindowHeight,
+        marginButton,
         fullscreen = true,
-        afterClick,
     } = props;
     const [loading, setLoading] = useState(false)
-    const height = GameWindowManager.screenHeight - dialogueWindowHeight
+    const height = GameWindowManager.screenHeight - marginButton
     const { t } = useTranslation(["translation"]);
     const navigate = useMyNavigate();
     const hideInterface = useRecoilValue(hideInterfaceState)
     const [showList, setShowList] = useState(false)
+    const menu = useRecoilValue(choiceMenuState)
+    const notifyReloadInterfaceDataEvent = useSetRecoilState(reloadInterfaceDataEventState);
     useEffect(() => {
         if (!menu || !(menu.length > 0)) {
             setShowList(false)
@@ -49,6 +49,60 @@ export default function DialogueMenu(props: IProps) {
         },
         closed: { opacity: 0, y: 20, transition: { duration: 0.2 } }
     };
+
+    function afterSelectChoice(item: ChoiceMenuOptionClose | ChoiceMenuOption<{}>) {
+        setLoading(true)
+        clearChoiceMenuOptions()
+        if (item.type == "call") {
+            GameStepManager.callLabel(item.label, {
+                navigate: navigate,
+                t: t,
+                ...item.props
+            })
+                .then(() => {
+                    notifyReloadInterfaceDataEvent((prev) => prev + 1)
+                    setLoading(false)
+                })
+                .catch((e) => {
+                    setLoading(false)
+                    console.error(e)
+                })
+        }
+        else if (item.type == "jump") {
+            GameStepManager.jumpLabel(item.label, {
+                navigate: navigate,
+                t: t,
+                ...item.props
+            })
+                .then(() => {
+                    notifyReloadInterfaceDataEvent((prev) => prev + 1)
+                    setLoading(false)
+                })
+                .catch((e) => {
+                    setLoading(false)
+                    console.error(e)
+                })
+        }
+        else if (item.type == "close") {
+            GameStepManager.closeChoiceMenu(item.label, {
+                navigate: navigate,
+                t: t,
+                ...item.props
+            })
+                .then(() => {
+                    notifyReloadInterfaceDataEvent((prev) => prev + 1)
+                    setLoading(false)
+                })
+                .catch((e) => {
+                    setLoading(false)
+                    console.error(e)
+                })
+        }
+        else {
+            setLoading(false)
+            console.error("Unsupported label run mode")
+        }
+    }
 
     return (
         <Box
@@ -110,57 +164,7 @@ export default function DialogueMenu(props: IProps) {
                             <DialogueMenuButton
                                 loading={loading}
                                 onClick={() => {
-                                    setLoading(true)
-                                    clearChoiceMenuOptions()
-                                    if (item.type == "call") {
-                                        GameStepManager.callLabel(item.label, {
-                                            navigate: navigate,
-                                            t: t,
-                                            ...item.props
-                                        })
-                                            .then(() => {
-                                                afterClick && afterClick()
-                                                setLoading(false)
-                                            })
-                                            .catch((e) => {
-                                                setLoading(false)
-                                                console.error(e)
-                                            })
-                                    }
-                                    else if (item.type == "jump") {
-                                        GameStepManager.jumpLabel(item.label, {
-                                            navigate: navigate,
-                                            t: t,
-                                            ...item.props
-                                        })
-                                            .then(() => {
-                                                afterClick && afterClick()
-                                                setLoading(false)
-                                            })
-                                            .catch((e) => {
-                                                setLoading(false)
-                                                console.error(e)
-                                            })
-                                    }
-                                    else if (item.type == "close") {
-                                        GameStepManager.closeChoiceMenu(item.label, {
-                                            navigate: navigate,
-                                            t: t,
-                                            ...item.props
-                                        })
-                                            .then(() => {
-                                                afterClick && afterClick()
-                                                setLoading(false)
-                                            })
-                                            .catch((e) => {
-                                                setLoading(false)
-                                                console.error(e)
-                                            })
-                                    }
-                                    else {
-                                        setLoading(false)
-                                        console.error("Unsupported label run mode")
-                                    }
+                                    afterSelectChoice(item)
                                 }}
                                 sx={{
                                     left: 0,

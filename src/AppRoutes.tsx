@@ -1,4 +1,12 @@
+import { GameStepManager } from '@drincs/pixi-vn';
+import { StepLabelProps } from '@drincs/pixi-vn/dist/override';
 import { Route, Routes } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { canGoBackState } from './atoms/canGoBackState';
+import { nextStepLoadingState } from './atoms/nextStepLoadingState';
+import { reloadInterfaceDataEventState } from './atoms/reloadInterfaceDataEventState';
+import DialogueDataEventInterceptor from './interceptors/DialogueDataEventInterceptor';
+import SkipAutoInterceptor from './interceptors/SkipAutoInterceptor';
 import Dialogue from './screens/Dialogue';
 import History from './screens/History';
 import MainMenu from './screens/MainMenu';
@@ -6,6 +14,24 @@ import Navigation from './screens/Navigation';
 import QuickActions from './screens/QuickActions';
 
 export default function AppRoutes() {
+    const notifyReloadInterfaceDataEvent = useSetRecoilState(reloadInterfaceDataEventState);
+    const setNextStepLoading = useSetRecoilState(nextStepLoadingState);
+    const setCanGoBack = useSetRecoilState(canGoBackState);
+    async function nextOnClick(props: StepLabelProps): Promise<void> {
+        setNextStepLoading(true);
+        try {
+            await GameStepManager.runNextStep(props);
+            notifyReloadInterfaceDataEvent((p) => p + 1);
+            setNextStepLoading(false);
+            setCanGoBack(GameStepManager.canGoBack)
+            return;
+        } catch (e) {
+            setNextStepLoading(false);
+            console.error(e);
+            return;
+        }
+    }
+
     return (
         <Routes>
             <Route key={"main_menu"} path={"/"} element={<MainMenu />} />
@@ -13,7 +39,13 @@ export default function AppRoutes() {
                 element={<>
                     <History />
                     <QuickActions />
-                    <Dialogue />
+                    <DialogueDataEventInterceptor />
+                    <Dialogue
+                        nextOnClick={nextOnClick}
+                    />
+                    <SkipAutoInterceptor
+                        nextOnClick={nextOnClick}
+                    />
                 </>}
             />
             <Route key={"navigation"} path={"/navigation"} element={<Navigation />} />

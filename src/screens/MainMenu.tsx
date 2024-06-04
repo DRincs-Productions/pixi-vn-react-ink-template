@@ -14,7 +14,7 @@ import { useMyNavigate } from '../utility/useMyNavigate';
 export default function MainMenu() {
     const navigate = useMyNavigate();
     const setOpenSettings = useSetRecoilState(openSettingsState);
-    const notifyLoadEvent = useSetRecoilState(reloadInterfaceDataEventState);
+    const notifyReloadInterfaceDataEvent = useSetRecoilState(reloadInterfaceDataEventState);
     const setHideInterface = useSetRecoilState(hideInterfaceState);
     const { t } = useTranslation(["translation"]);
 
@@ -45,6 +45,8 @@ export default function MainMenu() {
                         GameStepManager.callLabel(startLabel, {
                             navigate: navigate,
                             t: t
+                        }).then(() => {
+                            notifyReloadInterfaceDataEvent((prev) => prev + 1)
                         })
                     }}
                 >
@@ -54,7 +56,7 @@ export default function MainMenu() {
             <Grid>
                 <MenuButton
                     onClick={() => {
-                        loadGameSave(navigate, () => notifyLoadEvent((prev) => prev + 1))
+                        loadGameSave(navigate, () => notifyReloadInterfaceDataEvent((prev) => prev + 1))
                     }}
                 >
                     {t("load")}

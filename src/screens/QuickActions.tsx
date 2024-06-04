@@ -19,13 +19,13 @@ export default function QuickActions() {
     const setOpenSettings = useSetRecoilState(openSettingsState);
     const setOpenHistory = useSetRecoilState(openHistoryState);
     const navigate = useMyNavigate();
-    const canGoBack = useRecoilValue(canGoBackState)
     const notifyLoadEvent = useSetRecoilState(reloadInterfaceDataEventState);
     const [openYouSure, setOpenYouSure] = useState(false)
-    const [skip, setSkip] = useRecoilState(skipEnabledState)
-    const [auto, setAuto] = useRecoilState(autoEnabledState)
     const { t } = useTranslation(["translation"]);
     const hideInterface = useRecoilValue(hideInterfaceState)
+    const [skip, setSkip] = useRecoilState(skipEnabledState)
+    const [auto, setAuto] = useRecoilState(autoEnabledState)
+    const canGoBack = useRecoilValue(canGoBackState)
 
     return (
         <>

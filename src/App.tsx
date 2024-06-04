@@ -1,7 +1,7 @@
 import { ErrorBoundary } from "react-error-boundary";
 import AppImports from './AppImports';
 import AppRoutes from './AppRoutes';
-import EventInterceptor from './EventInterceptor';
+import EventInterceptor from './interceptors/EventInterceptor';
 import Settings from './screens/Settings';
 
 function App() {
