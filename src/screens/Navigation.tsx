@@ -1,6 +1,7 @@
 import { getCurrenrLocation, getCurrentRoom, setCurrentRoom, TimeManager } from '@drincs/nqtr';
 import { CanvasBase, CanvasContainer, CanvasImage, GameWindowManager } from '@drincs/pixi-vn';
 import { Grid, ImageBackdrop, ImageSrc, StackOverflow } from '@drincs/react-components';
+import { AnimatePresence } from 'framer-motion';
 import { isValidElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -122,45 +123,47 @@ export default function Navigation() {
                     pointerEvents: "auto",
                 }}
             >
-                {currentLocation.getRooms().map((room) => {
-                    let renderImage = room.renderIcon || room.renderImage
-                    let disabled = room.disabled
-                    let selected = room.id === currentRoom?.id
-                    if (!renderImage) {
-                        return
-                    }
-                    let image = renderImage({
-                        navigate: navigate,
-                        t: t,
-                    })
-                    if (image instanceof ImageTimeSlots) {
-                        image = image.currentImage
-                    }
-                    if (typeof image === "string") {
-                        return (
-                            <NavigationRoundIconButton
-                                disabled={disabled || selected}
-                                selected={selected}
-                                onClick={() => {
-                                    if (!disabled) {
-                                        setCurrentRoom(room)
-                                        let r = getCurrentRoom()
-                                        if (r && r.id !== currentRoom.id) {
-                                            setAtomCurrentRoom(r)
+                <AnimatePresence>
+                    {currentLocation.getRooms().map((room) => {
+                        let renderImage = room.renderIcon || room.renderImage
+                        let disabled = room.disabled
+                        let selected = room.id === currentRoom?.id
+                        if (!renderImage) {
+                            return
+                        }
+                        let image = renderImage({
+                            navigate: navigate,
+                            t: t,
+                        })
+                        if (image instanceof ImageTimeSlots) {
+                            image = image.currentImage
+                        }
+                        if (typeof image === "string") {
+                            return (
+                                <NavigationRoundIconButton
+                                    disabled={disabled || selected}
+                                    selected={selected}
+                                    onClick={() => {
+                                        if (!disabled) {
+                                            setCurrentRoom(room)
+                                            let r = getCurrentRoom()
+                                            if (r && r.id !== currentRoom.id) {
+                                                setAtomCurrentRoom(r)
+                                            }
                                         }
-                                    }
-                                }}
-                                ariaLabel={room.name}
-                            >
-                                {image && <ImageSrc image={image ?? ""} />}
-                                {image && <ImageBackdrop />}
-                            </NavigationRoundIconButton>
-                        )
-                    }
-                    else if (isValidElement(image)) {
-                        return image
-                    }
-                })}
+                                    }}
+                                    ariaLabel={room.name}
+                                >
+                                    {image && <ImageSrc image={image ?? ""} />}
+                                    {image && <ImageBackdrop />}
+                                </NavigationRoundIconButton>
+                            )
+                        }
+                        else if (isValidElement(image)) {
+                            return image
+                        }
+                    })}
+                </AnimatePresence>
             </StackOverflow>
             <StackOverflow
                 direction="column"
@@ -176,87 +179,89 @@ export default function Navigation() {
                     pointerEvents: "auto",
                 }}
             >
-                {currentRoom.activities.map((activity, index) => {
-                    let renderImage = activity.renderIcon
-                    if (!renderImage) {
-                        return
-                    }
-                    let image = renderImage({
-                        navigate: navigate,
-                        t: t,
-                    })
-                    let disabled = activity.disabled
-                    if (image instanceof ImageTimeSlots) {
-                        image = image.currentImage
-                    }
-                    if (typeof image === "string") {
-                        return (
-                            <Grid
-                                paddingY={0}
-                                key={index}
-                            >
-                                <NavigationRoundIconButton
-                                    disabled={disabled}
-                                    onClick={() => {
-                                        activity.onRun({
-                                            navigate: navigate,
-                                            t: t,
-                                        })
-                                    }}
-                                    ariaLabel={activity.name}
+                <AnimatePresence>
+                    {currentRoom.activities.map((activity, index) => {
+                        let renderImage = activity.renderIcon
+                        if (!renderImage) {
+                            return
+                        }
+                        let image = renderImage({
+                            navigate: navigate,
+                            t: t,
+                        })
+                        let disabled = activity.disabled
+                        if (image instanceof ImageTimeSlots) {
+                            image = image.currentImage
+                        }
+                        if (typeof image === "string") {
+                            return (
+                                <Grid
+                                    paddingY={0}
+                                    key={index}
                                 >
-                                    {image && <ImageSrc image={image ?? ""} />}
-                                    {image && <ImageBackdrop />}
-                                </NavigationRoundIconButton>
-                            </Grid>
-                        )
-                    }
-                    else if (isValidElement(image)) {
-                        return image
-                    }
-                })}
-                {currentRoom.getRoutine().map((commitment, index) => {
-                    let renderImage = commitment.renderIcon
-                    if (!renderImage) {
-                        return
-                    }
-                    let image = renderImage({
-                        navigate: navigate,
-                        t: t,
-                    })
-                    let disabled = commitment.disabled
-                    if (image instanceof ImageTimeSlots) {
-                        image = image.currentImage
-                    }
-                    if (typeof image === "string") {
-                        return (
-                            <Grid
-                                paddingY={0}
-                                key={index}
-                            >
-                                <NavigationRoundIconButton
-                                    disabled={disabled}
-                                    onClick={() => {
-                                        if (!commitment.onRun) {
-                                            return
-                                        }
-                                        commitment.onRun({
-                                            navigate: navigate,
-                                            t: t,
-                                        })
-                                    }}
-                                    ariaLabel={commitment.name}
+                                    <NavigationRoundIconButton
+                                        disabled={disabled}
+                                        onClick={() => {
+                                            activity.onRun({
+                                                navigate: navigate,
+                                                t: t,
+                                            })
+                                        }}
+                                        ariaLabel={activity.name}
+                                    >
+                                        {image && <ImageSrc image={image ?? ""} />}
+                                        {image && <ImageBackdrop />}
+                                    </NavigationRoundIconButton>
+                                </Grid>
+                            )
+                        }
+                        else if (isValidElement(image)) {
+                            return image
+                        }
+                    })}
+                    {currentRoom.getRoutine().map((commitment, index) => {
+                        let renderImage = commitment.renderIcon
+                        if (!renderImage) {
+                            return
+                        }
+                        let image = renderImage({
+                            navigate: navigate,
+                            t: t,
+                        })
+                        let disabled = commitment.disabled
+                        if (image instanceof ImageTimeSlots) {
+                            image = image.currentImage
+                        }
+                        if (typeof image === "string") {
+                            return (
+                                <Grid
+                                    paddingY={0}
+                                    key={index}
                                 >
-                                    {image && <ImageSrc image={image ?? ""} />}
-                                    {image && <ImageBackdrop />}
-                                </NavigationRoundIconButton>
-                            </Grid>
-                        )
-                    }
-                    else if (isValidElement(image)) {
-                        return image
-                    }
-                })}
+                                    <NavigationRoundIconButton
+                                        disabled={disabled}
+                                        onClick={() => {
+                                            if (!commitment.onRun) {
+                                                return
+                                            }
+                                            commitment.onRun({
+                                                navigate: navigate,
+                                                t: t,
+                                            })
+                                        }}
+                                        ariaLabel={commitment.name}
+                                    >
+                                        {image && <ImageSrc image={image ?? ""} />}
+                                        {image && <ImageBackdrop />}
+                                    </NavigationRoundIconButton>
+                                </Grid>
+                            )
+                        }
+                        else if (isValidElement(image)) {
+                            return image
+                        }
+                    })}
+                </AnimatePresence>
             </StackOverflow>
         </>
     );
