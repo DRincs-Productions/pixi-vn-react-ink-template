@@ -29,6 +29,9 @@ export default function NavigationRoundIconButton(props: NavigationRoundIconButt
                 animate={{
                     scale: 1,
                 }}
+                exit={{
+                    scale: 0
+                }}
                 transition={{ ease: "easeOut" }}
                 {...rest}
             />
