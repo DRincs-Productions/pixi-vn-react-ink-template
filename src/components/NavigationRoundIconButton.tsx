@@ -1,4 +1,6 @@
 import { RoundIconButton, RoundIconButtonProps, useTheme } from "@drincs/react-components";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 interface NavigationRoundIconButtonProps extends RoundIconButtonProps {
     selected?: boolean;
@@ -10,6 +12,12 @@ export default function NavigationRoundIconButton(props: NavigationRoundIconButt
         sx,
         ...rest
     } = props;
+    const [hidden, setHidden] = useState(true);
+    useEffect(() => {
+        setTimeout(() => {
+            setHidden(false);
+        }, 100);
+    }, []);
 
     return (
         <RoundIconButton
@@ -20,6 +28,11 @@ export default function NavigationRoundIconButton(props: NavigationRoundIconButt
                 ...sx
             }}
             elevation="lg"
+            component={motion.div}
+            animate={{
+                scale: hidden ? 0 : 1,
+            }}
+            transition={{ type: "spring" }}
             {...rest}
         />
     );
