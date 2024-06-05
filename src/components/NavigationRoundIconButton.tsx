@@ -23,11 +23,12 @@ export default function NavigationRoundIconButton(props: NavigationRoundIconButt
                 }}
                 elevation="lg"
                 component={motion.div}
-                initial={{ scale: 0 }}
+                initial={{
+                    scale: 0
+                }}
                 animate={{
                     scale: 1,
                 }}
-                exit={{ scale: 1 }}
                 transition={{ ease: "easeOut" }}
                 {...rest}
             />
