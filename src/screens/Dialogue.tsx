@@ -200,12 +200,10 @@ export default function Dialogue({ nextOnClick }: {
                                     overflow: 'auto',
                                 }}
                             >
-                                {typewriterDelay !== 0
-                                    ? <Typewriter
-                                        text={text || ""}
-                                        delay={localStorage.getItem('typewriter_delay_millisecond')! as unknown as number}
-                                    />
-                                    : text}
+                                <Typewriter
+                                    text={text || ""}
+                                    delay={typewriterDelay}
+                                />
                             </Sheet>
                         </CardContent>
                     </Card>
