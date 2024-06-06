@@ -1,5 +1,6 @@
 import { GameStepManager } from '@drincs/pixi-vn';
 import { StepLabelProps } from '@drincs/pixi-vn/dist/override';
+import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { canGoBackState } from './atoms/canGoBackState';
@@ -17,6 +18,11 @@ export default function AppRoutes() {
     const notifyReloadInterfaceDataEvent = useSetRecoilState(reloadInterfaceDataEventState);
     const setNextStepLoading = useSetRecoilState(nextStepLoadingState);
     const setCanGoBack = useSetRecoilState(canGoBackState);
+    useEffect(() => {
+        setTimeout(() => {
+            setCanGoBack(GameStepManager.canGoBack)
+        }, 10);
+    }, []);
     async function nextOnClick(props: StepLabelProps): Promise<void> {
         setNextStepLoading(true);
         try {

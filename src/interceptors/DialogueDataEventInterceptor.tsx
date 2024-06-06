@@ -16,7 +16,7 @@ export default function DialogueDataEventInterceptor() {
     const hideInterface = useRecoilValue(hideInterfaceState)
     const setNextStepButtonHidden = useSetRecoilState(nextStepButtonHiddenState)
     const [{ text, character }, setDialogData] = useRecoilState(dialogDataState)
-    const [menu, setMenu] = useRecoilState(choiceMenuState)
+    const [{ menu }, setMenu] = useRecoilState(choiceMenuState)
 
     useEffect(() => {
         let dial = getDialogue<DialogueModel>()
@@ -33,23 +33,32 @@ export default function DialogueDataEventInterceptor() {
                 setDialogData({
                     text: newText,
                     character: newCharacter,
-                    hidden: !hideInterface || newText ? false : true,
+                    hidden: hideInterface || newText ? false : true,
                 })
             }
         } catch (e) { }
         let m = getChoiceMenuOptions()
-        setMenu(m)
+        setMenu({
+            menu: m || [],
+            hidden: hideInterface || !m || m.length == 0,
+        })
     }, [reloadInterfaceDataEvent])
 
     useEffect(() => {
-        setNextStepButtonHidden(hideInterface || menu ? true : false)
+        setNextStepButtonHidden(hideInterface || !(menu.length == 0))
     }, [menu, hideInterface])
 
     useEffect(() => {
         setDialogData((prev) => {
             return {
                 ...prev,
-                visible: !hideInterface && prev.text ? true : false,
+                hidden: hideInterface || (prev.text ? false : true),
+            }
+        })
+        setMenu((prev) => {
+            return {
+                ...prev,
+                hidden: hideInterface || prev.menu.length == 0,
             }
         })
     }, [hideInterface])

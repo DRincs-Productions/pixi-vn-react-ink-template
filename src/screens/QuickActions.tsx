@@ -1,6 +1,6 @@
 import { Grid, ModalConfirmation, Typography } from '@drincs/react-components';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -29,122 +29,133 @@ export default function QuickActions() {
 
     return (
         <>
-            <Grid
-                container
-                direction="row"
-                justifyContent="center"
-                alignItems="flex-end"
-                spacing={2}
-                sx={{
-                    height: "100%",
-                    width: "100%",
-                    paddingLeft: { xs: 1, sm: 2, md: 4, lg: 6, xl: 8 },
-                    position: "absolute",
-                    marginBottom: 0,
-                    bottom: 0,
-                }}
-                component={motion.div}
-                animate={{
-                    opacity: !hideInterface ? 1 : 0,
-                    y: !hideInterface ? 0 : 8,
-                }}
-                transition={{ type: "tween" }}
-            >
+            <AnimatePresence>
                 <Grid
-                    paddingY={0}
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="flex-end"
+                    spacing={2}
+                    sx={{
+                        height: "100%",
+                        width: "100%",
+                        paddingLeft: { xs: 1, sm: 2, md: 4, lg: 6, xl: 8 },
+                        position: "absolute",
+                        marginBottom: 0,
+                        bottom: 0,
+                    }}
+                    component={motion.div}
+                    variants={{
+                        open: {
+                            opacity: 1,
+                            y: 0,
+                        },
+                        closed: {
+                            opacity: 0,
+                            y: 8,
+                        }
+                    }}
+                    initial={"closed"}
+                    animate={hideInterface ? "closed" : "open"}
+                    exit={"closed"}
+                    transition={{ type: "tween" }}
                 >
-                    <TextMenuButton
-                        onClick={() => goBack(navigate, () => { notifyLoadEvent((prev) => prev + 1) })}
-                        disabled={!canGoBack}
-                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
+                    <Grid
+                        paddingY={0}
                     >
-                        {t("back")}
-                    </TextMenuButton>
-                </Grid>
-                <Grid
-                    paddingY={0}
-                >
-                    <TextMenuButton
-                        onClick={() => setOpenHistory(true)}
-                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
+                        <TextMenuButton
+                            onClick={() => goBack(navigate, () => { notifyLoadEvent((prev) => prev + 1) })}
+                            disabled={!canGoBack}
+                            sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
+                        >
+                            {t("back")}
+                        </TextMenuButton>
+                    </Grid>
+                    <Grid
+                        paddingY={0}
                     >
-                        {t("history")}
-                    </TextMenuButton>
-                </Grid>
-                <Grid
-                    paddingY={0}
-                >
-                    <TextMenuButton
-                        selected={skip}
-                        onClick={() => setSkip((prev) => !prev)}
-                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
+                        <TextMenuButton
+                            onClick={() => setOpenHistory(true)}
+                            sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
+                        >
+                            {t("history")}
+                        </TextMenuButton>
+                    </Grid>
+                    <Grid
+                        paddingY={0}
                     >
-                        {t("skip")}
-                    </TextMenuButton>
-                </Grid>
-                <Grid
-                    paddingY={0}
-                >
-                    <TextMenuButton
-                        selected={auto}
-                        onClick={() => setAuto((prev) => !prev)}
-                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
+                        <TextMenuButton
+                            selected={skip}
+                            onClick={() => setSkip((prev) => !prev)}
+                            sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
+                        >
+                            {t("skip")}
+                        </TextMenuButton>
+                    </Grid>
+                    <Grid
+                        paddingY={0}
                     >
-                        {t("auto_forward_time_restricted")}
-                    </TextMenuButton>
-                </Grid>
-                <Grid
-                    paddingY={0}
-                >
-                    <TextMenuButton
-                        onClick={saveGame}
-                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
+                        <TextMenuButton
+                            selected={auto}
+                            onClick={() => setAuto((prev) => !prev)}
+                            sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
+                        >
+                            {t("auto_forward_time_restricted")}
+                        </TextMenuButton>
+                    </Grid>
+                    <Grid
+                        paddingY={0}
                     >
-                        {t("save")}
-                    </TextMenuButton>
-                </Grid>
-                <Grid
-                    paddingY={0}
-                >
-                    <TextMenuButton
-                        onClick={() => loadGameSave(navigate, () => notifyLoadEvent((prev) => prev + 1))}
-                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
+                        <TextMenuButton
+                            onClick={saveGame}
+                            sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
+                        >
+                            {t("save")}
+                        </TextMenuButton>
+                    </Grid>
+                    <Grid
+                        paddingY={0}
                     >
-                        {t("load")}
-                    </TextMenuButton>
-                </Grid>
-                <Grid
-                    paddingY={0}
-                >
-                    <TextMenuButton
-                        onClick={addQuickSave}
-                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
+                        <TextMenuButton
+                            onClick={() => loadGameSave(navigate, () => notifyLoadEvent((prev) => prev + 1))}
+                            sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
+                        >
+                            {t("load")}
+                        </TextMenuButton>
+                    </Grid>
+                    <Grid
+                        paddingY={0}
                     >
-                        {t("quick_save_restricted")}
-                    </TextMenuButton>
-                </Grid>
-                <Grid
-                    paddingY={0}
-                >
-                    <TextMenuButton
-                        onClick={() => setOpenYouSure(true)}
-                        disabled={!localStorage.getItem("quickSave")}
-                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
+                        <TextMenuButton
+                            onClick={addQuickSave}
+                            sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
+                        >
+                            {t("quick_save_restricted")}
+                        </TextMenuButton>
+                    </Grid>
+                    <Grid
+                        paddingY={0}
                     >
-                        {t("quick_load_restricted")}
-                    </TextMenuButton>
-                </Grid>
-                <Grid
-                    paddingY={0}
-                >
-                    <TextMenuButton
-                        onClick={() => setOpenSettings(true)}
-                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
+                        <TextMenuButton
+                            onClick={() => setOpenYouSure(true)}
+                            disabled={!localStorage.getItem("quickSave")}
+                            sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
+                        >
+                            {t("quick_load_restricted")}
+                        </TextMenuButton>
+                    </Grid>
+                    <Grid
+                        paddingY={0}
                     >
-                        {t("settings_restricted")}
-                    </TextMenuButton>
-                </Grid>
-            </Grid >
+                        <TextMenuButton
+                            onClick={() => setOpenSettings(true)}
+                            sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
+                        >
+                            {t("settings_restricted")}
+                        </TextMenuButton>
+                    </Grid>
+                </Grid >
+            </AnimatePresence>
 
             <ModalConfirmation
                 open={openYouSure}

@@ -1,7 +1,13 @@
 import { ChoiceMenuOptionsType } from "@drincs/pixi-vn";
 import { atom } from "recoil";
 
-export const choiceMenuState = atom<ChoiceMenuOptionsType | undefined>({
+export const choiceMenuState = atom<{
+    menu: ChoiceMenuOptionsType,
+    hidden: boolean,
+}>({
     key: 'choiceMenuState',
-    default: undefined,
+    default: {
+        menu: [],
+        hidden: true,
+    },
 });

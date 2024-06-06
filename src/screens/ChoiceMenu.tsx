@@ -1,11 +1,10 @@
 import { ChoiceMenuOption, ChoiceMenuOptionClose, clearChoiceMenuOptions, GameStepManager, GameWindowManager } from '@drincs/pixi-vn';
 import { Box, Grid } from '@drincs/react-components';
 import { motion, Variants } from "framer-motion";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { choiceMenuState } from '../atoms/choiceMenuState';
-import { hideInterfaceState } from '../atoms/hideInterfaceState';
 import { reloadInterfaceDataEventState } from '../atoms/reloadInterfaceDataEventState';
 import DialogueMenuButton from '../components/DialogueMenuButton';
 import { useMyNavigate } from '../utility/useMyNavigate';
@@ -24,23 +23,8 @@ export default function ChoiceMenu(props: IProps) {
     const height = GameWindowManager.screenHeight - marginButton
     const { t } = useTranslation(["translation"]);
     const navigate = useMyNavigate();
-    const hideInterface = useRecoilValue(hideInterfaceState)
-    const [showList, setShowList] = useState(false)
-    const menu = useRecoilValue(choiceMenuState)
+    const { menu, hidden } = useRecoilValue(choiceMenuState)
     const notifyReloadInterfaceDataEvent = useSetRecoilState(reloadInterfaceDataEventState);
-    useEffect(() => {
-        if (!menu || !(menu.length > 0)) {
-            setShowList(false)
-            return
-        }
-        let timer = setTimeout(() => {
-            setShowList(true)
-        }, 1)
-        return () => {
-            clearTimeout(timer)
-        }
-    }, [menu])
-    const showMenu = showList && !hideInterface
     const itemVariants: Variants = {
         open: {
             opacity: 1,
@@ -115,8 +99,9 @@ export default function ChoiceMenu(props: IProps) {
                 height: fullscreen ? "100%" : height,
             }}
             component={motion.div}
-            initial={false}
-            animate={showMenu ? "open" : "closed"}
+            initial="closed"
+            animate={hidden ? "openclosed" : "open"}
+            exit="closed"
             className="menu"
         >
             <Grid
