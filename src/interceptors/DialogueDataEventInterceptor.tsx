@@ -2,10 +2,10 @@ import { getCharacterById, getChoiceMenuOptions, getDialogue } from '@drincs/pix
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { canGoNextState } from '../atoms/canGoNextState';
 import { choiceMenuState } from '../atoms/choiceMenuState';
 import { dialogDataState } from '../atoms/dialogDataState';
 import { hideInterfaceState } from '../atoms/hideInterfaceState';
-import { nextStepButtonHiddenState } from '../atoms/nextStepButtonHiddenState';
 import { reloadInterfaceDataEventState } from '../atoms/reloadInterfaceDataEventState';
 import { DialogueModel } from '../model/DialogueModel';
 import { CharacterModel } from '../model/characters/CharacterModel';
@@ -14,7 +14,7 @@ export default function DialogueDataEventInterceptor() {
     const reloadInterfaceDataEvent = useRecoilValue(reloadInterfaceDataEventState);
     const { t } = useTranslation(["translation"]);
     const hideInterface = useRecoilValue(hideInterfaceState)
-    const setNextStepButtonHidden = useSetRecoilState(nextStepButtonHiddenState)
+    const setNextStepButtonHidden = useSetRecoilState(canGoNextState)
     const [{ text, character }, setDialogData] = useRecoilState(dialogDataState)
     const [{ menu }, setMenu] = useRecoilState(choiceMenuState)
 

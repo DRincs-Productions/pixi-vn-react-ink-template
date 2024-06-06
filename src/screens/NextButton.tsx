@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { nextStepButtonHiddenState } from '../atoms/nextStepButtonHiddenState';
+import { canGoNextState } from '../atoms/canGoNextState';
 import { nextStepLoadingState } from '../atoms/nextStepLoadingState';
 import { skipEnabledState } from '../atoms/skipEnabledState';
 import { useMyNavigate } from '../utility/useMyNavigate';
@@ -14,7 +14,7 @@ export default function NextButton({ nextOnClick }: {
 }) {
     const [skip, setSkip] = useRecoilState(skipEnabledState)
     const nextStepLoading = useRecoilValue(nextStepLoadingState)
-    const nextStepButtonHidden = useRecoilValue(nextStepButtonHiddenState)
+    const canGoNext = useRecoilValue(canGoNextState)
     const navigate = useMyNavigate();
     const { t } = useTranslation(["translation"]);
     useEffect(() => {
@@ -27,6 +27,9 @@ export default function NextButton({ nextOnClick }: {
 
     function onkeydown(event: KeyboardEvent) {
         if (event.code == 'Enter' || event.code == 'Space') {
+            if (!canGoNext) {
+                return;
+            }
             nextOnClick({
                 t,
                 navigate,
@@ -72,7 +75,7 @@ export default function NextButton({ nextOnClick }: {
                 }
             }}
             initial={"closed"}
-            animate={nextStepButtonHidden ? "closed" : "open"}
+            animate={canGoNext ? "closed" : "open"}
             exit={"closed"}
         >
             {t("next")}

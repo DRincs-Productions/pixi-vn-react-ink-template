@@ -1,5 +1,5 @@
 import { addImage, clearAllGameDatas, GameStepManager, GameWindowManager } from '@drincs/pixi-vn';
-import { Grid } from '@drincs/react-components';
+import Stack from '@mui/joy/Stack';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSetRecoilState } from 'recoil';
@@ -26,8 +26,7 @@ export default function MainMenu() {
     })
 
     return (
-        <Grid
-            container
+        <Stack
             direction="column"
             justifyContent="center"
             alignItems="flex-start"
@@ -38,37 +37,31 @@ export default function MainMenu() {
                 paddingLeft: { xs: 1, sm: 2, md: 4, lg: 6, xl: 8 }
             }}
         >
-            <Grid>
-                <MenuButton
-                    onClick={() => {
-                        GameWindowManager.removeCanvasElements()
-                        GameStepManager.callLabel(startLabel, {
-                            navigate: navigate,
-                            t: t
-                        }).then(() => {
-                            notifyReloadInterfaceDataEvent((prev) => prev + 1)
-                        })
-                    }}
-                >
-                    {t("start")}
-                </MenuButton>
-            </Grid>
-            <Grid>
-                <MenuButton
-                    onClick={() => {
-                        loadGameSave(navigate, () => notifyReloadInterfaceDataEvent((prev) => prev + 1))
-                    }}
-                >
-                    {t("load")}
-                </MenuButton>
-            </Grid>
-            <Grid>
-                <MenuButton
-                    onClick={() => { setOpenSettings(true) }}
-                >
-                    {t("settings")}
-                </MenuButton>
-            </Grid>
-        </Grid>
+            <MenuButton
+                onClick={() => {
+                    GameWindowManager.removeCanvasElements()
+                    GameStepManager.callLabel(startLabel, {
+                        navigate: navigate,
+                        t: t
+                    }).then(() => {
+                        notifyReloadInterfaceDataEvent((prev) => prev + 1)
+                    })
+                }}
+            >
+                {t("start")}
+            </MenuButton>
+            <MenuButton
+                onClick={() => {
+                    loadGameSave(navigate, () => notifyReloadInterfaceDataEvent((prev) => prev + 1))
+                }}
+            >
+                {t("load")}
+            </MenuButton>
+            <MenuButton
+                onClick={() => { setOpenSettings(true) }}
+            >
+                {t("settings")}
+            </MenuButton>
+        </Stack>
     );
 }
