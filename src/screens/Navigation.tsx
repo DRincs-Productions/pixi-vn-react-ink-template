@@ -1,6 +1,6 @@
 import { getCurrenrLocation, getCurrentRoom, setCurrentRoom, TimeManager } from '@drincs/nqtr';
 import { CanvasBase, CanvasContainer, CanvasImage, GameWindowManager } from '@drincs/pixi-vn';
-import { Grid, ImageBackdrop, ImageSrc, StackOverflow } from '@drincs/react-components';
+import { ImageBackdrop, ImageSrc, StackOverflow } from '@drincs/react-components';
 import { AnimatePresence } from 'framer-motion';
 import { isValidElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -124,7 +124,7 @@ export default function Navigation() {
                 }}
             >
                 <AnimatePresence>
-                    {currentLocation.getRooms().map((room) => {
+                    {currentLocation.getRooms().map((room, index) => {
                         let renderImage = room.renderIcon || room.renderImage
                         let disabled = room.disabled
                         let selected = room.id === currentRoom?.id
@@ -141,6 +141,7 @@ export default function Navigation() {
                         if (typeof image === "string") {
                             return (
                                 <NavigationRoundIconButton
+                                    key={"room" + index}
                                     disabled={disabled || selected}
                                     selected={selected}
                                     onClick={() => {
@@ -195,24 +196,20 @@ export default function Navigation() {
                         }
                         if (typeof image === "string") {
                             return (
-                                <Grid
-                                    paddingY={0}
-                                    key={index}
+                                <NavigationRoundIconButton
+                                    key={"activity" + index}
+                                    disabled={disabled}
+                                    onClick={() => {
+                                        activity.onRun({
+                                            navigate: navigate,
+                                            t: t,
+                                        })
+                                    }}
+                                    ariaLabel={activity.name}
                                 >
-                                    <NavigationRoundIconButton
-                                        disabled={disabled}
-                                        onClick={() => {
-                                            activity.onRun({
-                                                navigate: navigate,
-                                                t: t,
-                                            })
-                                        }}
-                                        ariaLabel={activity.name}
-                                    >
-                                        {image && <ImageSrc image={image ?? ""} />}
-                                        {image && <ImageBackdrop />}
-                                    </NavigationRoundIconButton>
-                                </Grid>
+                                    {image && <ImageSrc image={image ?? ""} />}
+                                    {image && <ImageBackdrop />}
+                                </NavigationRoundIconButton>
                             )
                         }
                         else if (isValidElement(image)) {
@@ -234,27 +231,23 @@ export default function Navigation() {
                         }
                         if (typeof image === "string") {
                             return (
-                                <Grid
-                                    paddingY={0}
-                                    key={index}
+                                <NavigationRoundIconButton
+                                    key={"commitment" + index}
+                                    disabled={disabled}
+                                    onClick={() => {
+                                        if (!commitment.onRun) {
+                                            return
+                                        }
+                                        commitment.onRun({
+                                            navigate: navigate,
+                                            t: t,
+                                        })
+                                    }}
+                                    ariaLabel={commitment.name}
                                 >
-                                    <NavigationRoundIconButton
-                                        disabled={disabled}
-                                        onClick={() => {
-                                            if (!commitment.onRun) {
-                                                return
-                                            }
-                                            commitment.onRun({
-                                                navigate: navigate,
-                                                t: t,
-                                            })
-                                        }}
-                                        ariaLabel={commitment.name}
-                                    >
-                                        {image && <ImageSrc image={image ?? ""} />}
-                                        {image && <ImageBackdrop />}
-                                    </NavigationRoundIconButton>
-                                </Grid>
+                                    {image && <ImageSrc image={image ?? ""} />}
+                                    {image && <ImageBackdrop />}
+                                </NavigationRoundIconButton>
                             )
                         }
                         else if (isValidElement(image)) {
