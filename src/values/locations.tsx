@@ -13,3 +13,7 @@ export const mcHome = new LocationBaseModel('mc_home', mainMap, {
 export const gym = new LocationBaseModel('gym', mainMap, {
     name: 'MC Home',
 });
+
+export const school = new LocationBaseModel('school', mainMap, {
+    name: 'School',
+});

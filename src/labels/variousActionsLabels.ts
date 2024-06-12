@@ -26,7 +26,7 @@ const talkSleepResultLabel = newLabel("TalkSleepResultLabel",
 )
 export const talkSleepLabel = newLabel("TalkSleepLabel",
     [
-        async () => {
+        () => {
             setDialogue("zZz zZz ...")
             setChoiceMenuOptions([
                 new ChoiceMenuOption(
@@ -41,7 +41,8 @@ export const talkSleepLabel = newLabel("TalkSleepLabel",
 
 export const aliceTalkMenuLabel = newLabel("AliceTalkMenuLabel",
     [
-        async () => {
+        () => {
+            setDialogue("Hi")
         },
     ]
 )

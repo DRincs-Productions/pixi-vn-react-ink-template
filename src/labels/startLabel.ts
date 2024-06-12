@@ -1,5 +1,5 @@
 import { setCurrentRoom, TimeManager } from "@drincs/nqtr";
-import { newLabel } from "@drincs/pixi-vn";
+import { newLabel, setFlag } from "@drincs/pixi-vn";
 import { timeSlots } from "../values/constants";
 import { mcRoom } from "../values/rooms";
 
@@ -24,6 +24,8 @@ export const startLabel = newLabel(START_LABEL_ID,
             }
             setCurrentRoom(mcRoom)
             navigate("/navigation")
+            setFlag("weekend", TimeManager.isWeekend)
+            setFlag("not_weekend", !TimeManager.isWeekend)
         }
     ]
 )

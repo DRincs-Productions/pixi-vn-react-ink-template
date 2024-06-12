@@ -1,7 +1,7 @@
 import { RoomBaseModel, saveRoom } from "@drincs/nqtr";
 import { ImageTimeSlots } from "../model/TimeSlots";
 import { nap } from "./activity";
-import { gym, mcHome } from "./locations";
+import { gym, mcHome, school } from "./locations";
 
 export const mcRoom = new RoomBaseModel('mc_room', mcHome, {
     name: "MC room",
@@ -65,4 +65,8 @@ export const gymRoom = new RoomBaseModel('gym_room', gym, {
     renderImage: 'https://raw.githubusercontent.com/DRincs-Productions/NQTR-System/main/game/images/location/gym.webp',
 })
 
-saveRoom([mcRoom, aliceRoom, annRoom, bathroom, lounge, terrace, gymRoom]);
+export const classRoom = new RoomBaseModel('class_room', school, {
+    name: "School",
+})
+
+saveRoom([mcRoom, aliceRoom, annRoom, bathroom, lounge, terrace, gymRoom, classRoom]);
