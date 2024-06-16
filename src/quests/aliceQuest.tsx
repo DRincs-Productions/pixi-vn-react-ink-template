@@ -1,8 +1,14 @@
 import { addCommitment, CommitmentBaseModel, newQuest, removeCommitment, saveCommitment, Stage } from "@drincs/nqtr";
+import { newLabel, setDialogue } from "@drincs/pixi-vn";
 import { callLabelWithGoNavigationCallBack } from "../labels/navigationCallBackLabel";
-import { aliceTalkMenuLabel } from "../labels/variousActionsLabels";
 import { alice } from "../values/characters";
 import { terrace } from "../values/rooms";
+
+const talkAlice1Label = newLabel("AliceTalkMenuLabel",
+    [
+        () => setDialogue("Hi"),
+    ]
+)
 
 const talkAlice1Commit = new CommitmentBaseModel("talk_alice1", alice, terrace, {
     fromHour: 10,
@@ -12,7 +18,7 @@ const talkAlice1Commit = new CommitmentBaseModel("talk_alice1", alice, terrace, 
     priority: 1,
     onRun: (_, event) => {
         event.navigate("/game")
-        callLabelWithGoNavigationCallBack(aliceTalkMenuLabel, event)
+        callLabelWithGoNavigationCallBack(talkAlice1Label, event)
         removeCommitment(talkAlice1Commit)
     },
 })
