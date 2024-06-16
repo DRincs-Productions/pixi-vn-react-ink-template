@@ -6,7 +6,14 @@ import { terrace } from "../values/rooms";
 
 const talkAlice1Label = newLabel("AliceTalkMenuLabel",
     [
-        () => setDialogue("Hi"),
+        () => setDialogue("Hi can you order me a new book from pc?"),
+        () => setDialogue("Ok"),
+        () => {
+            setDialogue("Thanks")
+            // $ add_conversation_choice(choice_character = a, choice_text = _("About the book"), label_name = "stage_talkalice")
+            // $ actions["order_product"] = Act(name = _("Order product"),  button_icon = "action pc", label_name = "order_product", room_ids=["my_room"])
+            // $ quest_next_stage(id = "alice")
+        },
     ]
 )
 
