@@ -33,7 +33,7 @@ const aliceGoSchool = new CommitmentBaseModel("alice_go_school", alice, classRoo
     fromHour: 8,
     toHour: 14,
     hidden: "weekend",
-    priority: 1,
+    priority: 2,
 })
 
 const aliceSmokes = new CommitmentBaseModel("alice_smokes", alice, terrace, {

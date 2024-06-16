@@ -9,7 +9,7 @@ const talkAlice1Commit = new CommitmentBaseModel("talk_alice1", alice, terrace, 
     toHour: 20,
     renderImage: 'https://raw.githubusercontent.com/DRincs-Productions/NQTR-System/main/game/images/Alice/terrace0A.webp',
     executionType: "automatic",
-    priority: 10,
+    priority: 1,
     onRun: (_, event) => {
         event.navigate("/game")
         callLabelWithGoNavigationCallBack(aliceTalkMenuLabel, event)
