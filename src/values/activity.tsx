@@ -20,7 +20,7 @@ export const nap = new ActivityModel("nap",
             return <NavigationRoundIconButton
                 disabled={activity.disabled}
                 onClick={() => {
-                    activity.onRun(props)
+                    activity.run(props)
                 }}
                 ariaLabel={activity.name}
             >

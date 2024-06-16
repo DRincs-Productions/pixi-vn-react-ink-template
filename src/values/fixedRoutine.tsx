@@ -14,8 +14,8 @@ const aliceSleep = new CommitmentBaseModel("alice_sleep", alice, aliceRoom, {
         return <NavigationRoundIconButton
             disabled={commitment.disabled}
             onClick={() => {
-                if (commitment.onRun) {
-                    commitment.onRun(props)
+                if (commitment.run) {
+                    commitment.run(props)
                 }
             }}
             ariaLabel={commitment.name}
@@ -44,8 +44,8 @@ const aliceSmokes = new CommitmentBaseModel("alice_smokes", alice, terrace, {
         return <NavigationRoundIconButton
             disabled={commitment.disabled}
             onClick={() => {
-                if (commitment.onRun) {
-                    commitment.onRun(props)
+                if (commitment.run) {
+                    commitment.run(props)
                 }
             }}
             ariaLabel={commitment.name}

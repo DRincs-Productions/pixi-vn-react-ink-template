@@ -1,5 +1,6 @@
 import { setCurrentRoom, TimeManager } from "@drincs/nqtr";
 import { newLabel, setFlag } from "@drincs/pixi-vn";
+import { aliceQuest } from "../quests/aliceQuest";
 import { timeSlots } from "../values/constants";
 import { mcRoom } from "../values/rooms";
 
@@ -26,6 +27,7 @@ export const startLabel = newLabel(START_LABEL_ID,
             navigate("/navigation")
             setFlag("weekend", TimeManager.isWeekend)
             setFlag("not_weekend", !TimeManager.isWeekend)
+            aliceQuest.start({})
         }
     ]
 )

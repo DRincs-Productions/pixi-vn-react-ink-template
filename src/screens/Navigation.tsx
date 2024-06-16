@@ -37,14 +37,14 @@ export default function Navigation() {
     }, [currentLocation])
 
     useEffect(() => {
-        let locationCommitments = currentRoom.getRoutine()
+        let currentCommitments = currentRoom.getRoutine()
         if (currentRoom.renderImage) {
             let backgroundImage = currentRoom.renderImage({
                 navigate: navigate,
                 t: t,
             })
-            if (locationCommitments.length > 0 && locationCommitments[0].renderImage) {
-                backgroundImage = locationCommitments[0].renderImage({
+            if (currentCommitments.length > 0 && currentCommitments[0].renderImage) {
+                backgroundImage = currentCommitments[0].renderImage({
                     navigate: navigate,
                     t: t,
                 })
@@ -89,7 +89,7 @@ export default function Navigation() {
                 }
             })
 
-            currentRoom.getRoutine().forEach((commitment) => {
+            currentCommitments.forEach((commitment) => {
                 if (!commitment.renderIcon) {
                     return
                 }
@@ -103,6 +103,14 @@ export default function Navigation() {
             })
 
             GameWindowManager.addCanvasElement(BACKGROUND_ID, container)
+
+            let automaticCommitment = currentCommitments.find((commitment) => commitment.executionType === "automatic")
+            if (automaticCommitment && automaticCommitment.run) {
+                automaticCommitment.run({
+                    navigate: navigate,
+                    t: t,
+                })
+            }
         }
     }, [currentRoom, hour])
 
@@ -200,7 +208,7 @@ export default function Navigation() {
                                     key={"activity" + index}
                                     disabled={disabled}
                                     onClick={() => {
-                                        activity.onRun({
+                                        activity.run({
                                             navigate: navigate,
                                             t: t,
                                         })
@@ -235,10 +243,10 @@ export default function Navigation() {
                                     key={"commitment" + index}
                                     disabled={disabled}
                                     onClick={() => {
-                                        if (!commitment.onRun) {
+                                        if (!commitment.run) {
                                             return
                                         }
-                                        commitment.onRun({
+                                        commitment.run({
                                             navigate: navigate,
                                             t: t,
                                         })
