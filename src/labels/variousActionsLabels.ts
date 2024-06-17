@@ -44,11 +44,11 @@ export const talkAliceQuest = newLabel("talkAliceQuest",
     () => {
         if (aliceQuest.currentStageIndex == 0) {
             return [
-                () => setDialogue("Hi can you order me a new book from pc?"),
+                () => setDialogue("Hi, can you order me a new book from pc?"),
                 () => setDialogue("Ok"),
                 () => {
                     setDialogue("Thanks")
-                    aliceQuest.tryToGoNextStage({}, {})
+                    aliceQuest.completeCurrentStageAndGoNext({}, {})
                 },
             ]
         }
