@@ -1,4 +1,5 @@
-import { ChoiceMenuOption, ChoiceMenuOptionClose, newLabel, setChoiceMenuOptions, setDialogue } from "@drincs/pixi-vn";
+import { ChoiceMenuOption, ChoiceMenuOptionClose, ChoiceMenuOptionsType, newLabel, setChoiceMenuOptions, setDialogue } from "@drincs/pixi-vn";
+import { aliceQuest } from "../quests/aliceQuest";
 import { liam } from "../values/characters";
 
 export const orderProductLabel = newLabel("OrderProductLabel",
@@ -39,10 +40,59 @@ export const talkSleepLabel = newLabel("TalkSleepLabel",
     ]
 )
 
+export const talkAliceQuest = newLabel("talkAliceQuest",
+    () => {
+        if (aliceQuest.currentStageIndex == 0) {
+            return [
+                () => setDialogue("Hi can you order me a new book from pc?"),
+                () => setDialogue("Ok"),
+                () => {
+                    setDialogue("Thanks")
+                    aliceQuest.tryToGoNextStage({}, {})
+                },
+            ]
+        }
+        else if (aliceQuest.currentStageIndex == 1) {
+            return [
+                () => setDialogue("What book do you want me to order?"),
+                () => setDialogue("For me it is the same."),
+            ]
+        }
+        else if (aliceQuest.currentStageIndex == 2) {
+            return [
+                () => setDialogue("I ordered the Book, hope you enjoy it."),
+                () => setDialogue("Great, when it arrives remember to bring it to me."),
+            ]
+        }
+        else if (aliceQuest.currentStageIndex == 3) {
+            return [
+                () => setDialogue("Here's your book."),
+                () => {
+                    setDialogue("Thank you, I can finally read something new.")
+                    // $ quest_next_stage(id = "alice")
+                },
+            ]
+        }
+        return [
+            () => setDialogue("Thanks for the book."),
+        ]
+    }
+)
 export const aliceTalkMenuLabel = newLabel("AliceTalkMenuLabel",
     [
         () => {
-            setDialogue("Hi")
+            setDialogue("Hi, what do you want to talk about?")
+            let optionsMenu: ChoiceMenuOptionsType = []
+            if (aliceQuest.started) {
+                optionsMenu.push(new ChoiceMenuOption(
+                    "About the book",
+                    talkAliceQuest
+                ))
+            }
+            setChoiceMenuOptions([
+                ...optionsMenu,
+                new ChoiceMenuOptionClose("Cancel"),
+            ])
         },
     ]
 )
