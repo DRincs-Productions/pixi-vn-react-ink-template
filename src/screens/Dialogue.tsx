@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useRecoilValue } from 'recoil';
 import { dialogDataState } from '../atoms/dialogDataState';
 import { typewriterDelayState } from '../atoms/typewriterDelayState';
-import ChoiceMenu from './ChoiceMenu';
+import ChoicesMenu from './ChoicesMenu';
 import NextButton from './NextButton';
 
 export default function Dialogue({ nextOnClick }: {
@@ -30,7 +30,7 @@ export default function Dialogue({ nextOnClick }: {
 
     return (
         <>
-            <ChoiceMenu
+            <ChoicesMenu
                 marginButton={windowSize.y}
                 fullscreen={text ? false : true}
             />
@@ -45,6 +45,7 @@ export default function Dialogue({ nextOnClick }: {
             >
                 <AnimatePresence>
                     <Box
+                        key={"divider"}
                         sx={{
                             position: "absolute",
                             top: -5,
@@ -75,6 +76,7 @@ export default function Dialogue({ nextOnClick }: {
                         />
                     </Box>
                     <Card
+                        key={"dialogue-card"}
                         orientation="horizontal"
                         sx={{
                             overflow: 'auto',
@@ -163,7 +165,6 @@ export default function Dialogue({ nextOnClick }: {
                         <CardContent>
                             <AnimatePresence>
                                 {character && character.name && <Typography
-                                    key={character.name}
                                     fontSize="xl"
                                     fontWeight="lg"
                                     sx={{

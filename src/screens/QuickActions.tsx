@@ -1,4 +1,4 @@
-import { Grid, ModalConfirmation, Typography } from '@drincs/react-components';
+import { ModalConfirmation, Stack, Typography } from '@drincs/react-components';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from 'react';
@@ -30,12 +30,11 @@ export default function QuickActions() {
     return (
         <>
             <AnimatePresence>
-                <Grid
-                    container
+                <Stack
                     direction="row"
                     justifyContent="center"
                     alignItems="flex-end"
-                    spacing={2}
+                    spacing={{ xs: 0.5, sm: 1, md: 2 }}
                     sx={{
                         height: "100%",
                         width: "100%",
@@ -60,101 +59,65 @@ export default function QuickActions() {
                     exit={"closed"}
                     transition={{ type: "tween" }}
                 >
-                    <Grid
-                        paddingY={0}
+                    <TextMenuButton
+                        onClick={() => goBack(navigate, () => { notifyLoadEvent((prev) => prev + 1) })}
+                        disabled={!canGoBack}
+                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
                     >
-                        <TextMenuButton
-                            onClick={() => goBack(navigate, () => { notifyLoadEvent((prev) => prev + 1) })}
-                            disabled={!canGoBack}
-                            sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
-                        >
-                            {t("back")}
-                        </TextMenuButton>
-                    </Grid>
-                    <Grid
-                        paddingY={0}
+                        {t("back")}
+                    </TextMenuButton>
+                    <TextMenuButton
+                        onClick={() => setOpenHistory(true)}
+                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
                     >
-                        <TextMenuButton
-                            onClick={() => setOpenHistory(true)}
-                            sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
-                        >
-                            {t("history")}
-                        </TextMenuButton>
-                    </Grid>
-                    <Grid
-                        paddingY={0}
+                        {t("history")}
+                    </TextMenuButton>
+                    <TextMenuButton
+                        selected={skip}
+                        onClick={() => setSkip((prev) => !prev)}
+                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
                     >
-                        <TextMenuButton
-                            selected={skip}
-                            onClick={() => setSkip((prev) => !prev)}
-                            sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
-                        >
-                            {t("skip")}
-                        </TextMenuButton>
-                    </Grid>
-                    <Grid
-                        paddingY={0}
+                        {t("skip")}
+                    </TextMenuButton>
+                    <TextMenuButton
+                        selected={auto}
+                        onClick={() => setAuto((prev) => !prev)}
+                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
                     >
-                        <TextMenuButton
-                            selected={auto}
-                            onClick={() => setAuto((prev) => !prev)}
-                            sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
-                        >
-                            {t("auto_forward_time_restricted")}
-                        </TextMenuButton>
-                    </Grid>
-                    <Grid
-                        paddingY={0}
+                        {t("auto_forward_time_restricted")}
+                    </TextMenuButton>
+                    <TextMenuButton
+                        onClick={saveGame}
+                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
                     >
-                        <TextMenuButton
-                            onClick={saveGame}
-                            sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
-                        >
-                            {t("save")}
-                        </TextMenuButton>
-                    </Grid>
-                    <Grid
-                        paddingY={0}
+                        {t("save")}
+                    </TextMenuButton>
+                    <TextMenuButton
+                        onClick={() => loadGameSave(navigate, () => notifyLoadEvent((prev) => prev + 1))}
+                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
                     >
-                        <TextMenuButton
-                            onClick={() => loadGameSave(navigate, () => notifyLoadEvent((prev) => prev + 1))}
-                            sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
-                        >
-                            {t("load")}
-                        </TextMenuButton>
-                    </Grid>
-                    <Grid
-                        paddingY={0}
+                        {t("load")}
+                    </TextMenuButton>
+                    <TextMenuButton
+                        onClick={addQuickSave}
+                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
                     >
-                        <TextMenuButton
-                            onClick={addQuickSave}
-                            sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
-                        >
-                            {t("quick_save_restricted")}
-                        </TextMenuButton>
-                    </Grid>
-                    <Grid
-                        paddingY={0}
+                        {t("quick_save_restricted")}
+                    </TextMenuButton>
+                    <TextMenuButton
+                        onClick={() => setOpenYouSure(true)}
+                        disabled={!localStorage.getItem("quickSave")}
+                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
                     >
-                        <TextMenuButton
-                            onClick={() => setOpenYouSure(true)}
-                            disabled={!localStorage.getItem("quickSave")}
-                            sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
-                        >
-                            {t("quick_load_restricted")}
-                        </TextMenuButton>
-                    </Grid>
-                    <Grid
-                        paddingY={0}
+                        {t("quick_load_restricted")}
+                    </TextMenuButton>
+                    <TextMenuButton
+                        onClick={() => setOpenSettings(true)}
+                        sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
                     >
-                        <TextMenuButton
-                            onClick={() => setOpenSettings(true)}
-                            sx={{ pointerEvents: !hideInterface ? "auto" : "none" }}
-                        >
-                            {t("settings_restricted")}
-                        </TextMenuButton>
-                    </Grid>
-                </Grid >
+                        {t("settings_restricted")}
+                    </TextMenuButton>
+                </Stack >
             </AnimatePresence>
 
             <ModalConfirmation

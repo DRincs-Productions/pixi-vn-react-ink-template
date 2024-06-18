@@ -1,5 +1,6 @@
 import { addImage, clearAllGameDatas, GameStepManager, GameWindowManager } from '@drincs/pixi-vn';
 import Stack from '@mui/joy/Stack';
+import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSetRecoilState } from 'recoil';
@@ -36,6 +37,10 @@ export default function MainMenu() {
                 width: "100%",
                 paddingLeft: { xs: 1, sm: 2, md: 4, lg: 6, xl: 8 }
             }}
+            component={motion.div}
+            initial="closed"
+            animate={"open"}
+            exit="closed"
         >
             <MenuButton
                 onClick={() => {
@@ -47,6 +52,7 @@ export default function MainMenu() {
                         notifyReloadInterfaceDataEvent((prev) => prev + 1)
                     })
                 }}
+                transitionDelay={0.1}
             >
                 {t("start")}
             </MenuButton>
@@ -54,11 +60,13 @@ export default function MainMenu() {
                 onClick={() => {
                     loadGameSave(navigate, () => notifyReloadInterfaceDataEvent((prev) => prev + 1))
                 }}
+                transitionDelay={0.2}
             >
                 {t("load")}
             </MenuButton>
             <MenuButton
                 onClick={() => { setOpenSettings(true) }}
+                transitionDelay={0.3}
             >
                 {t("settings")}
             </MenuButton>

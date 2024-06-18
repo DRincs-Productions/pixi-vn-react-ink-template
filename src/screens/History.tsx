@@ -87,7 +87,7 @@ export default function History() {
                             return data.character?.toLowerCase().includes(searchString.toLowerCase()) || data.text?.toLowerCase().includes(searchString.toLowerCase())
                         })
                         .map((data, index) => {
-                            return <React.Fragment key={index}>
+                            return <React.Fragment key={"history" + index}>
                                 <Stack
                                     direction="row"
                                     spacing={1.5}

@@ -1,6 +1,6 @@
 import { Button, ButtonProps } from "@drincs/react-components";
 
-export default function DialogueMenuButton(props: ButtonProps) {
+export default function ChoiceButton(props: ButtonProps) {
     const {
         sx,
         ...rest

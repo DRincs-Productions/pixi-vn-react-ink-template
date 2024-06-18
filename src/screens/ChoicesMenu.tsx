@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { choiceMenuState } from '../atoms/choiceMenuState';
 import { reloadInterfaceDataEventState } from '../atoms/reloadInterfaceDataEventState';
-import DialogueMenuButton from '../components/DialogueMenuButton';
+import ChoiceButton from '../components/ChoiceButton';
 import { useMyNavigate } from '../utility/useMyNavigate';
 
 type IProps = {
@@ -14,7 +14,7 @@ type IProps = {
     fullscreen?: boolean,
 }
 
-export default function ChoiceMenu(props: IProps) {
+export default function ChoicesMenu(props: IProps) {
     const {
         marginButton,
         fullscreen = true,
@@ -140,13 +140,13 @@ export default function ChoiceMenu(props: IProps) {
                 {menu?.map((item, index) => {
                     return (
                         <Grid
-                            key={index}
+                            key={"choice-" + index}
                             justifyContent="center"
                             alignItems="center"
                             component={motion.div}
                             variants={itemVariants}
                         >
-                            <DialogueMenuButton
+                            <ChoiceButton
                                 loading={loading}
                                 onClick={() => {
                                     afterSelectChoice(item)
@@ -157,7 +157,7 @@ export default function ChoiceMenu(props: IProps) {
                                 }}
                             >
                                 {item.text}
-                            </DialogueMenuButton>
+                            </ChoiceButton>
                         </Grid>
                     )
                 })}
