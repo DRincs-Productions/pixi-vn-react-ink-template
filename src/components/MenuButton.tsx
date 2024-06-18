@@ -25,6 +25,7 @@ export default function MenuButton(props: ButtonProps & { transitionDelay?: numb
             }}
             component={motion.div}
             variants={itemVariants}
+            fullWidth={false}
             {...rest}
         />
     );
