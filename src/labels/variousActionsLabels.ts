@@ -1,12 +1,16 @@
 import { ChoiceMenuOption, ChoiceMenuOptionClose, ChoiceMenuOptionsType, newLabel, setChoiceMenuOptions, setDialogue } from "@drincs/pixi-vn";
 import { aliceQuest } from "../quests/aliceQuest";
+import { orderProduct } from "../values/activity";
 import { liam } from "../values/characters";
+import { mcRoom } from "../values/rooms";
 
 export const orderProductLabel = newLabel("OrderProductLabel",
     [
         () => setDialogue(`OK! Let's see, let's look for a book....`),
         () => {
             setDialogue(`Here's R****, for $1. Just the thing for me.`)
+            mcRoom.removeActivity(orderProduct)
+            aliceQuest.completeCurrentStageAndGoNext({}, {})
         },
     ]
 )

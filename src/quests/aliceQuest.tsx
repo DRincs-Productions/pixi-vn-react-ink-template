@@ -1,8 +1,9 @@
 import { addCommitment, CommitmentBaseModel, newQuest, removeCommitment, saveCommitment, Stage } from "@drincs/nqtr";
 import { callLabelWithGoNavigationCallBack } from "../labels/navigationCallBackLabel";
 import { talkAliceQuest } from "../labels/variousActionsLabels";
+import { orderProduct } from "../values/activity";
 import { alice } from "../values/characters";
-import { terrace } from "../values/rooms";
+import { mcRoom, terrace } from "../values/rooms";
 
 const talkAlice1Commit = new CommitmentBaseModel("talk_alice1", alice, terrace, {
     fromHour: 10,
@@ -22,7 +23,7 @@ const talkAlice1Stage = new Stage("talk_alice1", {
         addCommitment(talkAlice1Commit)
     },
     onEnd: () => {
-        // $ actions["order_product"] = Act(name = _("Order product"), button_icon = "action pc", label_name = "order_product", room_ids = ["my_room"])
+        mcRoom.addActivity(orderProduct)
     },
     name: "Talk to Alice",
     description: "Talk to Alice on the terrace",
