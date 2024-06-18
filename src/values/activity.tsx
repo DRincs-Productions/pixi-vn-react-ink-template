@@ -1,5 +1,6 @@
 import { ActivityModel, saveActivity, TimeManager } from "@drincs/nqtr";
 import BedIcon from '@mui/icons-material/Bed';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import NavigationRoundIconButton from "../components/NavigationRoundIconButton";
 import { callLabelWithGoNavigationCallBack } from "../labels/navigationCallBackLabel";
 import { napLabel, sleepLabel } from "../labels/sleepNapLabels";
@@ -46,7 +47,7 @@ export const orderProduct = new ActivityModel("order_product",
                 }}
                 ariaLabel={activity.name}
             >
-                <BedIcon />
+                <ShoppingCartIcon />
             </NavigationRoundIconButton>
         },
     }
