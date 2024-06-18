@@ -1,5 +1,5 @@
 import { addCommitment, CommitmentBaseModel, newQuest, removeCommitment, saveCommitment, Stage } from "@drincs/nqtr";
-import { callLabelWithGoNavigationCallBack } from "../labels/navigationCallBackLabel";
+import { GameStepManager } from "@drincs/pixi-vn";
 import { talkAliceQuest } from "../labels/variousActionsLabels";
 import { orderProduct } from "../values/activity";
 import { alice } from "../values/characters";
@@ -13,7 +13,7 @@ const talkAlice1Commit = new CommitmentBaseModel("talk_alice1", alice, terrace, 
     priority: 1,
     onRun: (_, event) => {
         event.navigate("/game")
-        callLabelWithGoNavigationCallBack(talkAliceQuest, event)
+        GameStepManager.jumpLabel(talkAliceQuest, event)
         removeCommitment(talkAlice1Commit)
     },
 })

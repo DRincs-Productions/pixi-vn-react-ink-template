@@ -1,8 +1,8 @@
 import { newActivity, TimeManager } from "@drincs/nqtr";
+import { GameStepManager } from "@drincs/pixi-vn";
 import BedIcon from '@mui/icons-material/Bed';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import NavigationRoundIconButton from "../components/NavigationRoundIconButton";
-import { callLabelWithGoNavigationCallBack } from "../labels/navigationCallBackLabel";
 import { napLabel, sleepLabel } from "../labels/sleepNapLabels";
 import { orderProductLabel } from "../labels/variousActionsLabels";
 
@@ -10,10 +10,10 @@ export const nap = newActivity("nap",
     (_, event) => {
         event.navigate("/game")
         if (TimeManager.nowIsBetween(5, 23)) {
-            callLabelWithGoNavigationCallBack(napLabel, event)
+            GameStepManager.jumpLabel(napLabel, event)
         }
         else {
-            callLabelWithGoNavigationCallBack(sleepLabel, event)
+            GameStepManager.jumpLabel(sleepLabel, event)
         }
     },
     {
@@ -35,7 +35,7 @@ export const nap = newActivity("nap",
 export const orderProduct = newActivity("order_product",
     (_, event) => {
         event.navigate("/game")
-        callLabelWithGoNavigationCallBack(orderProductLabel, event)
+        GameStepManager.jumpLabel(orderProductLabel, event)
     },
     {
         name: "Order product",
