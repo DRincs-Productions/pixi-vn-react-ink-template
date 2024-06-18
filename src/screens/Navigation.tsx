@@ -132,7 +132,7 @@ export default function Navigation() {
                 }}
             >
                 <AnimatePresence>
-                    {currentLocation.getRooms().map((room, index) => {
+                    {currentLocation.getRooms().map((room) => {
                         let renderImage = room.renderIcon || room.renderImage
                         let disabled = room.disabled
                         let selected = room.id === currentRoom?.id
@@ -149,7 +149,7 @@ export default function Navigation() {
                         if (typeof image === "string") {
                             return (
                                 <NavigationRoundIconButton
-                                    key={"room" + index}
+                                    key={"room" + room.id}
                                     disabled={disabled || selected}
                                     selected={selected}
                                     onClick={() => {
@@ -189,7 +189,7 @@ export default function Navigation() {
                 }}
             >
                 <AnimatePresence>
-                    {currentRoom.activities.map((activity, index) => {
+                    {currentRoom.activities.map((activity) => {
                         let renderImage = activity.renderIcon
                         if (!renderImage) {
                             return
@@ -205,7 +205,7 @@ export default function Navigation() {
                         if (typeof image === "string") {
                             return (
                                 <NavigationRoundIconButton
-                                    key={"activity" + index}
+                                    key={"activity" + activity.id}
                                     disabled={disabled}
                                     onClick={() => {
                                         activity.run({
@@ -224,7 +224,7 @@ export default function Navigation() {
                             return image
                         }
                     })}
-                    {currentRoom.getRoutine().map((commitment, index) => {
+                    {currentRoom.getRoutine().map((commitment) => {
                         let renderImage = commitment.renderIcon
                         if (!renderImage) {
                             return
@@ -240,7 +240,7 @@ export default function Navigation() {
                         if (typeof image === "string") {
                             return (
                                 <NavigationRoundIconButton
-                                    key={"commitment" + index}
+                                    key={"commitment" + commitment.id}
                                     disabled={disabled}
                                     onClick={() => {
                                         if (!commitment.run) {
