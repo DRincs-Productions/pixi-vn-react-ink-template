@@ -1,4 +1,4 @@
-import { ActivityModel, saveActivity, TimeManager } from "@drincs/nqtr";
+import { newActivity, TimeManager } from "@drincs/nqtr";
 import BedIcon from '@mui/icons-material/Bed';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import NavigationRoundIconButton from "../components/NavigationRoundIconButton";
@@ -6,7 +6,7 @@ import { callLabelWithGoNavigationCallBack } from "../labels/navigationCallBackL
 import { napLabel, sleepLabel } from "../labels/sleepNapLabels";
 import { orderProductLabel } from "../labels/variousActionsLabels";
 
-export const nap = new ActivityModel("nap",
+export const nap = newActivity("nap",
     (_, event) => {
         event.navigate("/game")
         if (TimeManager.nowIsBetween(5, 23)) {
@@ -32,7 +32,7 @@ export const nap = new ActivityModel("nap",
     }
 )
 
-export const orderProduct = new ActivityModel("order_product",
+export const orderProduct = newActivity("order_product",
     (_, event) => {
         event.navigate("/game")
         callLabelWithGoNavigationCallBack(orderProductLabel, event)
@@ -52,5 +52,3 @@ export const orderProduct = new ActivityModel("order_product",
         },
     }
 )
-
-saveActivity([nap, orderProduct])
