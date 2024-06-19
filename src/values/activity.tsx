@@ -26,7 +26,11 @@ export const nap = newActivity("nap",
                 }}
                 ariaLabel={activity.name}
             >
-                <BedIcon />
+                <BedIcon
+                    sx={{
+                        fontSize: { sx: "1.5rem", sm: "2rem", md: "2.5rem", lg: "3rem", xl: "4rem" },
+                    }}
+                />
             </NavigationRoundIconButton>
         },
     }
@@ -47,7 +51,11 @@ export const orderProduct = newActivity("order_product",
                 }}
                 ariaLabel={activity.name}
             >
-                <ShoppingCartIcon />
+                <ShoppingCartIcon
+                    sx={{
+                        fontSize: { sx: "1.5rem", sm: "2rem", md: "2.5rem", lg: "3rem", xl: "4rem" },
+                    }}
+                />
             </NavigationRoundIconButton>
         },
     }

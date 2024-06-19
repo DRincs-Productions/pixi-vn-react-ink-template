@@ -20,7 +20,11 @@ const aliceSleep = new CommitmentBaseModel("alice_sleep", alice, aliceRoom, {
             }}
             ariaLabel={commitment.name}
         >
-            <QuestionAnswerIcon />
+            <QuestionAnswerIcon
+                sx={{
+                    fontSize: { sx: "1.5rem", sm: "2rem", md: "2.5rem", lg: "3rem", xl: "4rem" },
+                }}
+            />
         </NavigationRoundIconButton>
     },
     onRun: (_, event) => {
@@ -50,7 +54,11 @@ const aliceSmokes = new CommitmentBaseModel("alice_smokes", alice, terrace, {
             }}
             ariaLabel={commitment.name}
         >
-            <QuestionAnswerIcon />
+            <QuestionAnswerIcon
+                sx={{
+                    fontSize: { sx: "1.5rem", sm: "2rem", md: "2.5rem", lg: "3rem", xl: "4rem" },
+                }}
+            />
         </NavigationRoundIconButton>
     },
     onRun: (_, event) => {
