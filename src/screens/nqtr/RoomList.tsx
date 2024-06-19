@@ -1,5 +1,6 @@
 import { getCurrentRoom, setCurrentRoom } from '@drincs/nqtr';
 import { ImageBackdrop, ImageSrc, StackOverflow } from '@drincs/react-components';
+import { AnimatePresence } from 'framer-motion';
 import { isValidElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
@@ -28,46 +29,48 @@ export default function RoomList() {
                 pointerEvents: "auto",
             }}
         >
-            {currentLocation.getRooms().map((room) => {
-                let renderImage = room.renderIcon || room.renderImage
-                let disabled = room.disabled
-                let selected = room.id === currentRoom?.id
-                if (!renderImage) {
-                    return
-                }
-                let image = renderImage({
-                    navigate: navigate,
-                    t: t,
-                })
-                if (image instanceof ImageTimeSlots) {
-                    image = image.currentImage
-                }
-                if (typeof image === "string") {
-                    return (
-                        <NavigationRoundIconButton
-                            key={"room" + room.id}
-                            disabled={disabled || selected}
-                            selected={selected}
-                            onClick={() => {
-                                if (!disabled) {
-                                    setCurrentRoom(room)
-                                    let r = getCurrentRoom()
-                                    if (r && r.id !== currentRoom.id) {
-                                        setCurrentNavigationData((prev) => ({ ...prev, currentRoom: r }))
+            <AnimatePresence>
+                {currentLocation.getRooms().map((room) => {
+                    let renderImage = room.renderIcon || room.renderImage
+                    let disabled = room.disabled
+                    let selected = room.id === currentRoom?.id
+                    if (!renderImage) {
+                        return
+                    }
+                    let image = renderImage({
+                        navigate: navigate,
+                        t: t,
+                    })
+                    if (image instanceof ImageTimeSlots) {
+                        image = image.currentImage
+                    }
+                    if (typeof image === "string") {
+                        return (
+                            <NavigationRoundIconButton
+                                key={"room" + room.id}
+                                disabled={disabled || selected}
+                                selected={selected}
+                                onClick={() => {
+                                    if (!disabled) {
+                                        setCurrentRoom(room)
+                                        let r = getCurrentRoom()
+                                        if (r && r.id !== currentRoom.id) {
+                                            setCurrentNavigationData((prev) => ({ ...prev, currentRoom: r }))
+                                        }
                                     }
-                                }
-                            }}
-                            ariaLabel={room.name}
-                        >
-                            {image && <ImageSrc image={image ?? ""} />}
-                            {image && <ImageBackdrop />}
-                        </NavigationRoundIconButton>
-                    )
-                }
-                else if (isValidElement(image)) {
-                    return image
-                }
-            })}
+                                }}
+                                ariaLabel={room.name}
+                            >
+                                {image && <ImageSrc image={image ?? ""} />}
+                                {image && <ImageBackdrop />}
+                            </NavigationRoundIconButton>
+                        )
+                    }
+                    else if (isValidElement(image)) {
+                        return image
+                    }
+                })}
+            </AnimatePresence>
         </StackOverflow>
     );
 }
