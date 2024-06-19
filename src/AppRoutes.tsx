@@ -7,12 +7,14 @@ import { canGoBackState } from './atoms/canGoBackState';
 import { nextStepLoadingState } from './atoms/nextStepLoadingState';
 import { reloadInterfaceDataEventState } from './atoms/reloadInterfaceDataEventState';
 import DialogueDataEventInterceptor from './interceptors/DialogueDataEventInterceptor';
+import NQTRDataEventInterceptor from './interceptors/NQTRDataEventInterceptor';
 import SkipAutoInterceptor from './interceptors/SkipAutoInterceptor';
 import Dialogue from './screens/Dialogue';
 import History from './screens/History';
 import MainMenu from './screens/MainMenu';
 import Navigation from './screens/Navigation';
 import QuickActions from './screens/QuickActions';
+import Time from './screens/Time';
 
 export default function AppRoutes() {
     const notifyReloadInterfaceDataEvent = useSetRecoilState(reloadInterfaceDataEventState);
@@ -54,7 +56,13 @@ export default function AppRoutes() {
                     />
                 </>}
             />
-            <Route key={"navigation"} path={"/navigation"} element={<Navigation />} />
+            <Route key={"navigation"} path={"/navigation"} element={
+                <>
+                    <Navigation />
+                    <Time />
+                    <NQTRDataEventInterceptor />
+                </>
+            } />
         </Routes>
     )
 }

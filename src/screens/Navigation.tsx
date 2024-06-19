@@ -13,7 +13,6 @@ import NavigationRoundIconButton from '../components/NavigationRoundIconButton';
 import { ImageTimeSlots } from '../model/TimeSlots';
 import { useMyNavigate } from '../utility/useMyNavigate';
 import { BACKGROUND_ID } from '../values/constants';
-import Time from './Time';
 
 export default function Navigation() {
     const [currentLocation, setAtomCurrentLocation] = useRecoilState(currentLocationState)
@@ -117,7 +116,6 @@ export default function Navigation() {
 
     return (
         <>
-            <Time />
             <StackOverflow
                 direction="row"
                 justifyContent="center"
