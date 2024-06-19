@@ -3,16 +3,14 @@ import { ImageBackdrop, ImageSrc, StackOverflow } from '@drincs/react-components
 import { AnimatePresence } from 'framer-motion';
 import { isValidElement } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { currentLocationState } from '../../atoms/currentLocationState';
-import { currentRoomState } from '../../atoms/currentRoomState';
+import { useRecoilState } from 'recoil';
+import { currentNavigationDataState } from '../../atoms/currentNavigationDataState';
 import NavigationRoundIconButton from '../../components/NavigationRoundIconButton';
 import { ImageTimeSlots } from '../../model/TimeSlots';
 import { useMyNavigate } from '../../utility/useMyNavigate';
 
 export default function RoomList() {
-    const currentLocation = useRecoilValue(currentLocationState)
-    const [currentRoom, setAtomCurrentRoom] = useRecoilState(currentRoomState)
+    const [{ currentLocation, currentRoom }, setCurrentNavigationData] = useRecoilState(currentNavigationDataState)
     const navigate = useMyNavigate();
     const { t } = useTranslation(["translation"]);
 
@@ -57,7 +55,7 @@ export default function RoomList() {
                                         setCurrentRoom(room)
                                         let r = getCurrentRoom()
                                         if (r && r.id !== currentRoom.id) {
-                                            setAtomCurrentRoom(r)
+                                            setCurrentNavigationData((prev) => ({ ...prev, currentRoom: r }))
                                         }
                                     }
                                 }}

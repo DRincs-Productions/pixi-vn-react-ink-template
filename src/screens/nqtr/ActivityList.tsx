@@ -3,15 +3,15 @@ import { AnimatePresence } from 'framer-motion';
 import { isValidElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilValue } from 'recoil';
-import { currentRoomState } from '../../atoms/currentRoomState';
+import { currentRoutineAndActivitiesState } from '../../atoms/currentRoutineAndActivitiesState';
 import NavigationRoundIconButton from '../../components/NavigationRoundIconButton';
 import { ImageTimeSlots } from '../../model/TimeSlots';
 import { useMyNavigate } from '../../utility/useMyNavigate';
 
 export default function ActivityList() {
-    const currentRoom = useRecoilValue(currentRoomState)
     const navigate = useMyNavigate();
     const { t } = useTranslation(["translation"]);
+    const { activities, routine } = useRecoilValue(currentRoutineAndActivitiesState)
 
     return (
         <StackOverflow
@@ -29,7 +29,7 @@ export default function ActivityList() {
             }}
         >
             <AnimatePresence>
-                {currentRoom.activities.map((activity) => {
+                {activities.map((activity) => {
                     let renderImage = activity.renderIcon
                     if (!renderImage) {
                         return
@@ -64,7 +64,7 @@ export default function ActivityList() {
                         return image
                     }
                 })}
-                {currentRoom.getRoutine().map((commitment) => {
+                {routine.map((commitment) => {
                     let renderImage = commitment.renderIcon
                     if (!renderImage) {
                         return

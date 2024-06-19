@@ -4,8 +4,8 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { currentHourState } from '../atoms/currentHourState';
-import { currentLocationState } from '../atoms/currentLocationState';
-import { currentRoomState } from '../atoms/currentRoomState';
+import { currentNavigationDataState } from '../atoms/currentNavigationDataState';
+import { currentRoutineAndActivitiesState } from '../atoms/currentRoutineAndActivitiesState';
 import { reloadInterfaceDataEventState } from '../atoms/reloadInterfaceDataEventState';
 import { ImageTimeSlots } from '../model/TimeSlots';
 import { useMyNavigate } from '../utility/useMyNavigate';
@@ -14,8 +14,8 @@ import { BACKGROUND_ID } from '../values/constants';
 export default function NQTRDataEventInterceptor() {
     const reloadInterfaceDataEvent = useRecoilValue(reloadInterfaceDataEventState);
     const [hour, setHour] = useRecoilState(currentHourState);
-    const setLocation = useSetRecoilState(currentLocationState)
-    const [room, setRoom] = useRecoilState(currentRoomState)
+    const [{ currentRoom }, setCurrentNavigationData] = useRecoilState(currentNavigationDataState)
+    const setCurrentRoutineAndActivities = useSetRecoilState(currentRoutineAndActivitiesState)
     const navigate = useMyNavigate();
     const { t } = useTranslation(["translation"]);
 
@@ -24,20 +24,26 @@ export default function NQTRDataEventInterceptor() {
     }, [reloadInterfaceDataEvent])
 
     useEffect(() => {
-        let location = getCurrenrLocation()
-        if (location) {
-            setLocation(location)
-        }
         let room = getCurrentRoom()
-        if (room) {
-            setRoom(room)
-        }
+        let location = getCurrenrLocation()
+
+        setCurrentNavigationData((prev) => ({
+            currentLocation: location || prev.currentLocation,
+            currentRoom: room || prev.currentRoom,
+        }))
     }, [reloadInterfaceDataEvent, hour])
 
     useEffect(() => {
-        let currentCommitments = room.getRoutine()
-        if (room.renderImage) {
-            let backgroundImage = room.renderImage({
+        setCurrentRoutineAndActivities({
+            routine: currentRoom.getRoutine(),
+            activities: currentRoom.activities,
+        })
+    }, [currentRoom, hour])
+
+    useEffect(() => {
+        let currentCommitments = currentRoom.getRoutine()
+        if (currentRoom.renderImage) {
+            let backgroundImage = currentRoom.renderImage({
                 navigate: navigate,
                 t: t,
             })
@@ -61,7 +67,7 @@ export default function NQTRDataEventInterceptor() {
                 container.addChild(image)
             }
 
-            room.location.getRooms().forEach((room) => {
+            currentRoom.location.getRooms().forEach((room) => {
                 if (!room.renderIcon) {
                     return
                 }
@@ -74,7 +80,7 @@ export default function NQTRDataEventInterceptor() {
                 }
             })
 
-            room.activities.forEach((activity) => {
+            currentRoom.activities.forEach((activity) => {
                 if (!activity.renderIcon) {
                     return
                 }
@@ -110,7 +116,7 @@ export default function NQTRDataEventInterceptor() {
 
             GameWindowManager.addCanvasElement(BACKGROUND_ID, container)
         }
-    }, [room, hour])
+    }, [currentRoom, hour])
 
     return null
 }
