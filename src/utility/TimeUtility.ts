@@ -1,4 +1,4 @@
-import { clearExpiredActivities, clearExpiredRoutine, TimeManager } from "@drincs/nqtr";
+import { clearExpiredActivities, clearExpiredRoutine, startMustStartStageQuests, TimeManager } from "@drincs/nqtr";
 import { getFlag, setFlag } from "@drincs/pixi-vn";
 
 const NOT_CAN_SPEND_TIME_FLAG_KEY = "not_can_spend_time";
@@ -12,6 +12,7 @@ export function sleep(newDayHour?: number): boolean {
     setFlag("not_weekend", !TimeManager.isWeekend)
     clearExpiredRoutine()
     clearExpiredActivities()
+    startMustStartStageQuests({})
     return true
 }
 
