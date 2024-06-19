@@ -1,6 +1,7 @@
 import { newActivity, TimeManager } from "@drincs/nqtr";
 import { GameStepManager } from "@drincs/pixi-vn";
 import BedIcon from '@mui/icons-material/Bed';
+import InventoryIcon from '@mui/icons-material/Inventory';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import NavigationRoundIconButton from "../components/NavigationRoundIconButton";
 import { napLabel, sleepLabel } from "../labels/sleepNapLabels";
@@ -76,7 +77,7 @@ export const takeProduct = newActivity("take_product",
                 }}
                 ariaLabel={activity.name}
             >
-                <ShoppingCartIcon
+                <InventoryIcon
                     sx={{
                         fontSize: { sx: "1.5rem", sm: "2rem", md: "2.5rem", lg: "3rem", xl: "4rem" },
                     }}
