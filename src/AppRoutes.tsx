@@ -12,9 +12,10 @@ import SkipAutoInterceptor from './interceptors/SkipAutoInterceptor';
 import Dialogue from './screens/Dialogue';
 import History from './screens/History';
 import MainMenu from './screens/MainMenu';
-import Navigation from './screens/Navigation';
+import ActivityList from './screens/nqtr/ActivityList';
+import RoomList from './screens/nqtr/RoomList';
+import Time from './screens/nqtr/Time';
 import QuickActions from './screens/QuickActions';
-import Time from './screens/Time';
 
 export default function AppRoutes() {
     const notifyReloadInterfaceDataEvent = useSetRecoilState(reloadInterfaceDataEventState);
@@ -58,7 +59,8 @@ export default function AppRoutes() {
             />
             <Route key={"navigation"} path={"/navigation"} element={
                 <>
-                    <Navigation />
+                    <ActivityList />
+                    <RoomList />
                     <Time />
                     <NQTRDataEventInterceptor />
                 </>

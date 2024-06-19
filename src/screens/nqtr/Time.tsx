@@ -3,8 +3,8 @@ import { RoundIconButton, Stack, Typography, useTheme } from '@drincs/react-comp
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
-import { currentHourState } from '../atoms/currentHourState';
-import { wait } from '../utility/TimeUtility';
+import { currentHourState } from '../../atoms/currentHourState';
+import { wait } from '../../utility/TimeUtility';
 
 export default function Time() {
     const { t } = useTranslation(["translation"]);
