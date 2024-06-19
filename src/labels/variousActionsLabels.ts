@@ -1,8 +1,8 @@
 import { ChoiceMenuOption, ChoiceMenuOptionClose, ChoiceMenuOptionsType, newLabel, setChoiceMenuOptions, setDialogue } from "@drincs/pixi-vn";
 import { aliceQuest } from "../quests/aliceQuest";
-import { orderProduct } from "../values/activity";
+import { orderProduct, takeProduct } from "../values/activity";
 import { liam } from "../values/characters";
-import { mcRoom } from "../values/rooms";
+import { mcRoom, terrace } from "../values/rooms";
 
 export const orderProductLabel = newLabel("OrderProductLabel",
     [
@@ -19,6 +19,8 @@ export const takeKeyLabel = newLabel("TakeKeyLabel",
     [
         () => {
             setDialogue(`Are these the car keys?! Well... I should try to access the car!`)
+            terrace.removeActivity(takeProduct)
+            aliceQuest.completeCurrentStageAndGoNext({}, {})
         },
     ]
 )
@@ -73,7 +75,7 @@ export const talkAliceQuest = newLabel("talkAliceQuest",
                 () => setDialogue("Here's your book."),
                 () => {
                     setDialogue("Thank you, I can finally read something new.")
-                    // $ quest_next_stage(id = "alice")
+                    aliceQuest.completeCurrentStageAndGoNext({}, {})
                 },
             ]
         }

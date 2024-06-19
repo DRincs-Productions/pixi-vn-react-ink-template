@@ -1,7 +1,7 @@
 import { addCommitment, CommitmentBaseModel, newQuest, removeCommitment, saveCommitment, Stage } from "@drincs/nqtr";
 import { GameStepManager } from "@drincs/pixi-vn";
 import { talkAliceQuest } from "../labels/variousActionsLabels";
-import { orderProduct } from "../values/activity";
+import { orderProduct, takeProduct } from "../values/activity";
 import { alice } from "../values/characters";
 import { mcRoom, terrace } from "../values/rooms";
 
@@ -18,22 +18,37 @@ const talkAlice1Commit = new CommitmentBaseModel("talk_alice1", alice, terrace, 
     },
 })
 
-const talkAlice1Stage = new Stage("talk_alice1", {
-    onStart: () => {
-        addCommitment(talkAlice1Commit)
-    },
-    onEnd: () => {
-        mcRoom.addActivity(orderProduct)
-    },
-    name: "Talk to Alice",
-    description: "Talk to Alice on the terrace",
-})
-
 export const aliceQuest = newQuest("aliceQuest",
-    [
-        talkAlice1Stage
+    [ // stages
+        new Stage("talk_alice1", {
+            onStart: () => {
+                addCommitment(talkAlice1Commit)
+            },
+            name: "Talk to Alice",
+            description: "Talk to Alice on the terrace",
+        }),
+        new Stage("order_products", {
+            onStart: () => {
+                mcRoom.addActivity(orderProduct)
+            },
+            name: "Order products",
+            description: "Order the products with your PC",
+        }),
+        new Stage("take_products", {
+            onStart: () => {
+                terrace.addActivity(takeProduct)
+            },
+            name: "Take products",
+            description: "Take products on the Terrace",
+            requestDescription: "Wait for the products you ordered to arrive (2 day)",
+            daysRequiredToStart: 2,
+        }),
+        new Stage("talk_alice2", {
+            name: "Talk to Alice",
+            description: "Talk to Alice on the terrace",
+        }),
     ],
-    {
+    { // props
         name: "Help Alice",
     }
 )
