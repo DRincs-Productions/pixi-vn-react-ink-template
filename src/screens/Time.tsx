@@ -2,14 +2,13 @@ import { TimeManager } from '@drincs/nqtr';
 import { RoundIconButton, Stack, Typography, useTheme } from '@drincs/react-components';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { useTranslation } from 'react-i18next';
+import { useRecoilState } from 'recoil';
+import { currentHourState } from '../atoms/currentHourState';
 import { wait } from '../utility/TimeUtility';
 
-export default function Time(props: {
-    hour: number;
-    setHour: (time: number) => void;
-}) {
+export default function Time() {
     const { t } = useTranslation(["translation"]);
-    const { setHour, hour } = props;
+    const [hour, setHour] = useRecoilState(currentHourState);
 
     return (
         <Stack

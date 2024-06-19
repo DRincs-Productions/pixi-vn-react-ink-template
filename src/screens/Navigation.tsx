@@ -1,10 +1,11 @@
-import { getCurrenrLocation, getCurrentRoom, setCurrentRoom, TimeManager } from '@drincs/nqtr';
+import { getCurrenrLocation, getCurrentRoom, setCurrentRoom } from '@drincs/nqtr';
 import { CanvasBase, CanvasContainer, CanvasImage, GameWindowManager } from '@drincs/pixi-vn';
 import { ImageBackdrop, ImageSrc, StackOverflow } from '@drincs/react-components';
 import { AnimatePresence } from 'framer-motion';
-import { isValidElement, useEffect, useState } from 'react';
+import { isValidElement, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { currentHourState } from '../atoms/currentHourState';
 import { currentLocationState } from '../atoms/currentLocationState';
 import { currentRoomState } from '../atoms/currentRoomState';
 import { reloadInterfaceDataEventState } from '../atoms/reloadInterfaceDataEventState';
@@ -18,7 +19,7 @@ export default function Navigation() {
     const [currentLocation, setAtomCurrentLocation] = useRecoilState(currentLocationState)
     const [currentRoom, setAtomCurrentRoom] = useRecoilState(currentRoomState)
     const reloadInterfaceDataEvent = useRecoilValue(reloadInterfaceDataEventState);
-    const [hour, setHour] = useState(TimeManager.currentHour)
+    const hour = useRecoilValue(currentHourState);
     const navigate = useMyNavigate();
     const { t } = useTranslation(["translation"]);
 
@@ -116,7 +117,7 @@ export default function Navigation() {
 
     return (
         <>
-            <Time hour={hour} setHour={setHour} />
+            <Time />
             <StackOverflow
                 direction="row"
                 justifyContent="center"
