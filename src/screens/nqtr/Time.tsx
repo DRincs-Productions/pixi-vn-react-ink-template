@@ -1,6 +1,7 @@
 import { TimeManager } from '@drincs/nqtr';
 import { RoundIconButton, Stack, Typography, useTheme } from '@drincs/react-components';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
 import { currentHourState } from '../../atoms/currentHourState';
@@ -23,6 +24,23 @@ export default function Time() {
                     opacity: 1,
                 },
             }}
+            component={motion.div}
+            variants={{
+                open: {
+                    opacity: 1,
+                    y: 0,
+                    pointerEvents: "auto",
+                },
+                closed: {
+                    opacity: 0,
+                    y: -100,
+                    pointerEvents: "none",
+                }
+            }}
+            initial={"closed"}
+            animate={"open"}
+            exit={"closed"}
+            transition={{ type: "tween" }}
         >
             <Stack
                 direction="row"

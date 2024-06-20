@@ -1,4 +1,5 @@
-import { getCurrenrLocation, getCurrentRoom, TimeManager } from '@drincs/nqtr';
+import { currentActivities, getCurrenrLocation, getCurrentRoom, TimeManager } from '@drincs/nqtr';
+import { getCurrentRoomRoutine } from '@drincs/nqtr/dist/functions/RoutineFunctions';
 import { CanvasBase, CanvasContainer, CanvasImage, GameWindowManager } from '@drincs/pixi-vn';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -35,8 +36,8 @@ export default function NQTRDataEventInterceptor() {
 
     useEffect(() => {
         setCurrentRoutineAndActivities({
-            routine: currentRoom.getRoutine(),
-            activities: currentRoom.activities,
+            routine: getCurrentRoomRoutine(),
+            activities: currentActivities(),
         })
     }, [currentRoom, hour])
 

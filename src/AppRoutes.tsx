@@ -13,6 +13,7 @@ import Dialogue from './screens/Dialogue';
 import History from './screens/History';
 import MainMenu from './screens/MainMenu';
 import ActivityList from './screens/nqtr/ActivityList';
+import Quest from './screens/nqtr/Quests';
 import RoomList from './screens/nqtr/RoomList';
 import Time from './screens/nqtr/Time';
 import QuickActions from './screens/QuickActions';
@@ -47,6 +48,7 @@ export default function AppRoutes() {
             <Route key={"game"} path={"/game"}
                 element={<>
                     <History />
+                    <Quest />
                     <QuickActions />
                     <DialogueDataEventInterceptor />
                     <Dialogue
@@ -59,6 +61,8 @@ export default function AppRoutes() {
             />
             <Route key={"navigation"} path={"/navigation"} element={
                 <>
+                    <History />
+                    <Quest />
                     <ActivityList />
                     <RoomList />
                     <Time />

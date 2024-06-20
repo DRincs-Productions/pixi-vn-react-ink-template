@@ -1,4 +1,5 @@
-import { ActivityRoom, CommitmentBaseModel, LocationBaseModel, MapBaseModel, RoomBaseModel } from "@drincs/nqtr";
+import { ActivityRoom, CommitmentBaseModel, currentActivities, LocationBaseModel, MapBaseModel, RoomBaseModel } from "@drincs/nqtr";
+import { getCurrentRoomRoutine } from "@drincs/nqtr/dist/functions/RoutineFunctions";
 import { atom } from "recoil";
 
 export const currentRoutineAndActivitiesState = atom<{
@@ -7,7 +8,7 @@ export const currentRoutineAndActivitiesState = atom<{
 }>({
     key: 'currentLocationState',
     default: {
-        routine: [],
-        activities: []
+        routine: getCurrentRoomRoutine(),
+        activities: currentActivities()
     },
 });
