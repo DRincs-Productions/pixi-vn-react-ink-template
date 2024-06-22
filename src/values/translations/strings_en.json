@@ -52,5 +52,6 @@
 		, "nap_menu_item" : "{{hour}} hours"
 		, "nap" : "Nap"
 		, "sleep" : "Sleep"
+		, "wait" : "Wait"
 	}
 }
