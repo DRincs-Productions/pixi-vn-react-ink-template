@@ -33,7 +33,7 @@ export default function History() {
     function onkeydown(event: KeyboardEvent) {
         if (event.code == 'KeyH') {
             let open = methods.getValues("open")
-            methods.setValue("open", !open)
+            !open && methods.setValue("open", !open)
         }
     }
 
@@ -44,7 +44,7 @@ export default function History() {
             render={({ field: { value: open } }) => (
                 <ModalDialogExtended
                     open={open}
-                    setOpen={setOpen}
+                    setOpen={(value) => methods.setValue("open", value)}
                     head={<Stack
                         sx={{
                             width: "100%",
@@ -55,12 +55,18 @@ export default function History() {
                                 {t("history")}
                             </Typography>
                         </Stack>
-                        <Input
-                            placeholder={t("search")}
-                            value={searchString}
-                            onChange={(e) => setSearchString(e.target.value)}
-                            startDecorator={<SearchRoundedIcon />}
-                            aria-label={t("search")}
+                        <Controller
+                            control={methods.control}
+                            name="searchString"
+                            render={({ field: { value, onChange } }) => (
+                                <Input
+                                    placeholder={t("search")}
+                                    value={value}
+                                    onChange={onChange}
+                                    startDecorator={<SearchRoundedIcon />}
+                                    aria-label={t("search")}
+                                />
+                            )}
                         />
                     </Stack>}
                     minWidth="80%"
@@ -80,66 +86,73 @@ export default function History() {
                         }}
                     >
                         <Stack spacing={2} justifyContent="flex-end">
-                            {getDialogueHistory<DialogueModel>()
-                                .map((step) => {
-                                    let character = step.dialoge?.characterId ? getCharacterById(step.dialoge?.characterId) ?? new CharacterBaseModel(step.dialoge?.characterId, { name: t(step.dialoge?.characterId) }) : undefined
-                                    return {
-                                        character: character?.name ? character.name + (character.surname ? " " + character.surname : "") : undefined,
-                                        text: step.dialoge?.text || "",
-                                        icon: character?.icon,
-                                        choices: step.choices?.map((choice) => {
+                            <Controller
+                                control={methods.control}
+                                name="searchString"
+                                render={({ field: { value: searchString } }) => {
+                                    let list = getDialogueHistory<DialogueModel>()
+                                        .map((step) => {
+                                            let character = step.dialoge?.characterId ? getCharacterById(step.dialoge?.characterId) ?? new CharacterBaseModel(step.dialoge?.characterId, { name: t(step.dialoge?.characterId) }) : undefined
                                             return {
-                                                text: choice.text,
-                                                isResponse: choice.isResponse,
+                                                character: character?.name ? character.name + (character.surname ? " " + character.surname : "") : undefined,
+                                                text: step.dialoge?.text || "",
+                                                icon: character?.icon,
+                                                choices: step.choices?.map((choice) => {
+                                                    return {
+                                                        text: choice.text,
+                                                        isResponse: choice.isResponse,
+                                                    }
+                                                })
                                             }
                                         })
-                                    }
-                                })
-                                .filter((data) => {
-                                    if (!searchString) return true
-                                    return data.character?.toLowerCase().includes(searchString.toLowerCase()) || data.text?.toLowerCase().includes(searchString.toLowerCase())
-                                })
-                                .map((data, index) => {
-                                    return <React.Fragment key={"history" + index}>
-                                        <Stack
-                                            direction="row"
-                                            spacing={1.5}
-                                        >
-                                            <Avatar
-                                                size="sm"
-                                                src={data.icon}
-                                            />
-                                            <Box sx={{ flex: 1 }}>
-                                                {data.character && <Typography level="title-sm">{data.character}</Typography>}
-                                                <Typography level="body-sm">{data.text}</Typography>
-                                            </Box>
-                                        </Stack>
-                                        <Stack
-                                            direction="row"
-                                            spacing={0.5}
-                                        >
-                                            <Box sx={{ flex: 1 }}>
-                                                {data.choices && data.choices.map((choice, index) => {
-                                                    if (choice.isResponse) {
-                                                        return <Chip
-                                                            key={"choices-success" + index}
-                                                            color="success"
-                                                            endDecorator={<CheckIcon />}
-                                                        >
-                                                            {choice.text}
-                                                        </Chip>
-                                                    }
-                                                    return <Chip
-                                                        key={"choices" + index}
-                                                        color="primary"
-                                                    >
-                                                        {choice.text}
-                                                    </Chip>
-                                                })}
-                                            </Box>
-                                        </Stack>
-                                    </React.Fragment>
-                                })}
+                                        .filter((data) => {
+                                            if (!searchString) return true
+                                            return data.character?.toLowerCase().includes(searchString.toLowerCase()) || data.text?.toLowerCase().includes(searchString.toLowerCase())
+                                        })
+                                        .map((data, index) => {
+                                            return <React.Fragment key={"history" + index}>
+                                                <Stack
+                                                    direction="row"
+                                                    spacing={1.5}
+                                                >
+                                                    <Avatar
+                                                        size="sm"
+                                                        src={data.icon}
+                                                    />
+                                                    <Box sx={{ flex: 1 }}>
+                                                        {data.character && <Typography level="title-sm">{data.character}</Typography>}
+                                                        <Typography level="body-sm">{data.text}</Typography>
+                                                    </Box>
+                                                </Stack>
+                                                <Stack
+                                                    direction="row"
+                                                    spacing={0.5}
+                                                >
+                                                    <Box sx={{ flex: 1 }}>
+                                                        {data.choices && data.choices.map((choice, index) => {
+                                                            if (choice.isResponse) {
+                                                                return <Chip
+                                                                    key={"choices-success" + index}
+                                                                    color="success"
+                                                                    endDecorator={<CheckIcon />}
+                                                                >
+                                                                    {choice.text}
+                                                                </Chip>
+                                                            }
+                                                            return <Chip
+                                                                key={"choices" + index}
+                                                                color="primary"
+                                                            >
+                                                                {choice.text}
+                                                            </Chip>
+                                                        })}
+                                                    </Box>
+                                                </Stack>
+                                            </React.Fragment>
+                                        })
+                                    return <>{list}</>
+                                }}
+                            />
                         </Stack>
                     </Box>
                 </ModalDialogExtended>

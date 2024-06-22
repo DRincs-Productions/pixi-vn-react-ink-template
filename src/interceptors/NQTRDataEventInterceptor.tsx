@@ -1,5 +1,4 @@
-import { currentActivities, getCurrenrLocation, getCurrentRoom, TimeManager } from '@drincs/nqtr';
-import { getCurrentRoomRoutine } from '@drincs/nqtr/dist/functions/RoutineFunctions';
+import { currentActivities, getCurrenrLocation, getCurrentRoom, getCurrentRoomRoutine, TimeManager } from '@drincs/nqtr';
 import { CanvasBase, CanvasContainer, CanvasImage, GameWindowManager } from '@drincs/pixi-vn';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
