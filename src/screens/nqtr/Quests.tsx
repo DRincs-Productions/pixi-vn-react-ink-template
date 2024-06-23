@@ -1,16 +1,23 @@
-import { Box, ModalDialogExtended, Sheet } from '@drincs/react-components';
+import { getAllStartedQuests, Quest } from '@drincs/nqtr';
+import { Box, Link, ModalDialogExtended, Sheet } from '@drincs/react-components';
 import { AspectRatio, Divider, Stack, Typography } from "@mui/joy";
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useMyNavigate } from '../../utility/useMyNavigate';
 
-export default function Quest() {
+export default function Memo() {
     const { t } = useTranslation(["translation"]);
+    const navigate = useMyNavigate();
     const methods = useForm<{
         open: boolean,
+        selectedQuest: Quest | undefined,
+        questImage: string | undefined,
     }>({
         defaultValues: {
             open: false,
+            selectedQuest: undefined,
+            questImage: undefined,
         }
     });
 
@@ -73,60 +80,99 @@ export default function Quest() {
                             }}
                         >
                             <Box>
-                                dwqe
+                                {getAllStartedQuests().map((quest) => (
+                                    <Box
+                                        key={quest.id}
+                                        sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: 1,
+                                        }}
+                                    >
+                                        <Link
+                                            onClick={() => {
+                                                methods.setValue("selectedQuest", quest)
+                                                let image: string | undefined = undefined
+                                                if (quest.renderImage) {
+                                                    let renderImage = quest.renderImage({
+                                                        navigate,
+                                                        t,
+                                                    })
+                                                    if (typeof renderImage === "string") {
+                                                        image = renderImage
+                                                    }
+                                                }
+                                                methods.setValue("questImage", image)
+                                            }}
+                                        >
+                                            {quest.name}
+                                        </Link>
+                                    </Box>
+                                ))}
                             </Box>
                         </Sheet>
-                        <Sheet
-                            component="main"
-                            className="MainContent"
-                            sx={{
-                                flex: 1,
-                                display: "flex",
-                                flexDirection: "column",
-                                minWidth: 0,
-                                gap: 1,
-                                overflow: "auto",
-                                p: 5,
-                            }}
-                        >
-                            <Stack
-                                spacing={1}
-                            >
-                                <AspectRatio
-                                    maxHeight={"10dvh"}
-                                >
-                                    <img
-                                        src="https://images.unsplash.com/photo-1502657877623-f66bf489d236?auto=format&fit=crop&w=800"
-                                        srcSet="https://images.unsplash.com/photo-1502657877623-f66bf489d236?auto=format&fit=crop&w=800&dpr=2 2x"
-                                        alt=""
-                                    />
-                                </AspectRatio>
-                                <Typography
-                                    level="h2"
-                                    textAlign={"center"}
-                                    maxHeight={"10dvh"}
+                        <Controller
+                            control={methods.control}
+                            name="selectedQuest"
+                            render={({ field: { value: selectedQuest } }) => (
+                                <Sheet
+                                    component="main"
+                                    className="MainContent"
                                     sx={{
-                                        overflowY: "auto",
+                                        flex: 1,
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        minWidth: 0,
+                                        gap: 1,
+                                        overflow: "auto",
+                                        p: 5,
                                     }}
                                 >
-                                </Typography>
-                                <Typography
-                                    maxHeight={"20dvh"}
-                                    sx={{
-                                        overflowY: 'scroll',
-                                    }}
-                                >
-                                </Typography>
-                                <Divider />
-                                <Typography
-                                    maxHeight={"20dvh"}
-                                    sx={{
-                                        overflowY: 'scroll',
-                                    }}
-                                >
-                                </Typography>
-                            </Stack>
-                        </Sheet>
+                                    <Stack
+                                        spacing={1}
+                                    >
+                                        {selectedQuest?.renderImage && <Controller
+                                            control={methods.control}
+                                            name="questImage"
+                                            render={({ field: { value: questImage } }) => (
+                                                <AspectRatio
+                                                    maxHeight={"10dvh"}
+                                                    objectFit="cover"
+                                                >
+                                                    <img
+                                                        src={questImage}
+                                                    />
+                                                </AspectRatio>
+                                            )}
+                                        />}
+                                        <Typography
+                                            level="h2"
+                                            textAlign={"center"}
+                                        >
+                                            {selectedQuest?.name}
+                                        </Typography>
+                                        <Typography
+                                            maxHeight={"20dvh"}
+                                            textColor={"primary.500"}
+                                            sx={{
+                                                overflowY: "auto",
+                                            }}
+                                        >
+                                            {selectedQuest?.description}
+                                        </Typography>
+                                        <Divider />
+                                        <Typography
+                                            maxHeight={"20dvh"}
+                                            sx={{
+                                                overflowY: "auto",
+                                            }}
+                                        >
+                                            {selectedQuest?.currentStage?.description}
+                                        </Typography>
+                                    </Stack>
+                                </Sheet>
+                            )}
+                        />
                     </Box>
                 </ModalDialogExtended>
             )}
