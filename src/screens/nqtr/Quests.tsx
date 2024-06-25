@@ -30,6 +30,7 @@ export default function Memo() {
             quests: [],
         }
     });
+    const selectedQuest = methods.getValues("selectedQuest")
 
     useEffect(() => {
         window.addEventListener('keydown', onkeydown);
@@ -132,6 +133,7 @@ export default function Memo() {
                                                 }}
                                             >
                                                 <Link
+                                                    selected={selectedQuest?.id === quest.id}
                                                     onClick={() => {
                                                         methods.setValue("selectedQuest", quest)
                                                     }}
@@ -144,62 +146,56 @@ export default function Memo() {
                                 )}
                             />
                         </Sheet>
-                        <Controller
-                            control={methods.control}
-                            name="selectedQuest"
-                            render={({ field: { value: selectedQuest } }) => (
-                                <Sheet
-                                    component="main"
-                                    className="MainContent"
+                        <Sheet
+                            component="main"
+                            className="MainContent"
+                            sx={{
+                                flex: 1,
+                                display: "flex",
+                                flexDirection: "column",
+                                minWidth: 0,
+                                gap: 1,
+                                overflow: "auto",
+                                p: 5,
+                            }}
+                        >
+                            <Stack
+                                spacing={1}
+                            >
+                                {selectedQuest?.questImage && <AspectRatio
+                                    maxHeight={"10dvh"}
+                                    objectFit="cover"
+                                >
+                                    <img
+                                        src={selectedQuest.questImage}
+                                    />
+                                </AspectRatio>}
+                                <Typography
+                                    level="h2"
+                                    textAlign={"center"}
+                                >
+                                    {selectedQuest?.name}
+                                </Typography>
+                                <Typography
+                                    maxHeight={"20dvh"}
+                                    textColor={"primary.500"}
                                     sx={{
-                                        flex: 1,
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        minWidth: 0,
-                                        gap: 1,
-                                        overflow: "auto",
-                                        p: 5,
+                                        overflowY: "auto",
                                     }}
                                 >
-                                    <Stack
-                                        spacing={1}
-                                    >
-                                        {selectedQuest?.questImage && <AspectRatio
-                                            maxHeight={"10dvh"}
-                                            objectFit="cover"
-                                        >
-                                            <img
-                                                src={selectedQuest.questImage}
-                                            />
-                                        </AspectRatio>}
-                                        <Typography
-                                            level="h2"
-                                            textAlign={"center"}
-                                        >
-                                            {selectedQuest?.name}
-                                        </Typography>
-                                        <Typography
-                                            maxHeight={"20dvh"}
-                                            textColor={"primary.500"}
-                                            sx={{
-                                                overflowY: "auto",
-                                            }}
-                                        >
-                                            {selectedQuest?.description}
-                                        </Typography>
-                                        <Divider />
-                                        <Typography
-                                            maxHeight={"20dvh"}
-                                            sx={{
-                                                overflowY: "auto",
-                                            }}
-                                        >
-                                            {selectedQuest?.currentStage?.description}
-                                        </Typography>
-                                    </Stack>
-                                </Sheet>
-                            )}
-                        />
+                                    {selectedQuest?.description}
+                                </Typography>
+                                <Divider />
+                                <Typography
+                                    maxHeight={"20dvh"}
+                                    sx={{
+                                        overflowY: "auto",
+                                    }}
+                                >
+                                    {selectedQuest?.currentStage?.description}
+                                </Typography>
+                            </Stack>
+                        </Sheet>
                     </Box>
                 </ModalDialogExtended>
             )}

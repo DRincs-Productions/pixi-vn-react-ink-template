@@ -53,5 +53,6 @@
 		, "nap" : "Nap"
 		, "sleep" : "Sleep"
 		, "wait" : "Wait"
+		, "quests" : "Quests"
 	}
 }
