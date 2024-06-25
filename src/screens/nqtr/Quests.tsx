@@ -1,4 +1,4 @@
-import { getAllStartedQuests, Quest } from '@drincs/nqtr';
+import { getAllStartedQuests } from '@drincs/nqtr';
 import { Box, Link, ModalDialogExtended, Sheet } from '@drincs/react-components';
 import { AspectRatio, Divider, Stack, Typography } from "@mui/joy";
 import { useEffect } from 'react';
@@ -6,18 +6,28 @@ import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useMyNavigate } from '../../utility/useMyNavigate';
 
+type QuestDescription = {
+    id: string;
+    name: string;
+    description: string;
+    currentStage: {
+        description: string;
+    }
+    questImage?: string,
+}
+
 export default function Memo() {
     const { t } = useTranslation(["translation"]);
     const navigate = useMyNavigate();
     const methods = useForm<{
         open: boolean,
-        selectedQuest: Quest | undefined,
-        questImage: string | undefined,
+        selectedQuest: QuestDescription | undefined,
+        quests: QuestDescription[],
     }>({
         defaultValues: {
             open: false,
             selectedQuest: undefined,
-            questImage: undefined,
+            quests: [],
         }
     });
 
@@ -31,7 +41,35 @@ export default function Memo() {
     function onkeydown(event: KeyboardEvent) {
         if (event.code == 'KeyJ') {
             let open = methods.getValues("open")
-            methods.setValue("open", !open)
+            if (!open) {
+                let selectedQuest = methods.getValues("selectedQuest")
+                methods.setValue("open", !open)
+                let quests: QuestDescription[] = getAllStartedQuests().map((quest) => {
+                    let image: string | undefined = undefined
+                    if (quest.renderImage) {
+                        let renderImage = quest.renderImage({
+                            navigate,
+                            t,
+                        })
+                        if (typeof renderImage === "string") {
+                            image = renderImage
+                        }
+                    }
+                    return {
+                        id: quest.id,
+                        name: quest.name,
+                        description: quest.description,
+                        currentStage: {
+                            description: quest.currentStage?.description || "",
+                        },
+                        questImage: image,
+                    }
+                })
+                methods.setValue("quests", quests)
+                if (!selectedQuest && quests.length > 0) {
+                    methods.setValue("selectedQuest", quests[0])
+                }
+            }
         }
     }
 
@@ -79,37 +117,32 @@ export default function Memo() {
                                 gap: 2,
                             }}
                         >
-                            <Box>
-                                {getAllStartedQuests().map((quest) => (
-                                    <Box
-                                        key={quest.id}
-                                        sx={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            gap: 1,
-                                        }}
-                                    >
-                                        <Link
-                                            onClick={() => {
-                                                methods.setValue("selectedQuest", quest)
-                                                let image: string | undefined = undefined
-                                                if (quest.renderImage) {
-                                                    let renderImage = quest.renderImage({
-                                                        navigate,
-                                                        t,
-                                                    })
-                                                    if (typeof renderImage === "string") {
-                                                        image = renderImage
-                                                    }
-                                                }
-                                                methods.setValue("questImage", image)
-                                            }}
-                                        >
-                                            {quest.name}
-                                        </Link>
+                            <Controller
+                                control={methods.control}
+                                name="quests"
+                                render={({ field: { value: quests } }) => (
+                                    <Box>
+                                        {quests.map((quest) => (
+                                            <Box
+                                                key={quest.id}
+                                                sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    gap: 1,
+                                                }}
+                                            >
+                                                <Link
+                                                    onClick={() => {
+                                                        methods.setValue("selectedQuest", quest)
+                                                    }}
+                                                >
+                                                    {quest.name}
+                                                </Link>
+                                            </Box>
+                                        ))}
                                     </Box>
-                                ))}
-                            </Box>
+                                )}
+                            />
                         </Sheet>
                         <Controller
                             control={methods.control}
@@ -131,20 +164,14 @@ export default function Memo() {
                                     <Stack
                                         spacing={1}
                                     >
-                                        {selectedQuest?.renderImage && <Controller
-                                            control={methods.control}
-                                            name="questImage"
-                                            render={({ field: { value: questImage } }) => (
-                                                <AspectRatio
-                                                    maxHeight={"10dvh"}
-                                                    objectFit="cover"
-                                                >
-                                                    <img
-                                                        src={questImage}
-                                                    />
-                                                </AspectRatio>
-                                            )}
-                                        />}
+                                        {selectedQuest?.questImage && <AspectRatio
+                                            maxHeight={"10dvh"}
+                                            objectFit="cover"
+                                        >
+                                            <img
+                                                src={selectedQuest.questImage}
+                                            />
+                                        </AspectRatio>}
                                         <Typography
                                             level="h2"
                                             textAlign={"center"}
