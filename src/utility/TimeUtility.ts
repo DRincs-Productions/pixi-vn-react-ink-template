@@ -20,6 +20,9 @@ export function wait(timeSpent?: number): boolean {
     if (getFlag(NOT_CAN_SPEND_TIME_FLAG_KEY)) {
         return false;
     }
+    if (TimeManager.currentHour >= 23) {
+        return false;
+    }
     TimeManager.increaseHour(timeSpent)
     setFlag("weekend", TimeManager.isWeekend)
     setFlag("not_weekend", !TimeManager.isWeekend)
