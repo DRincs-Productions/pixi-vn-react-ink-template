@@ -40,7 +40,7 @@ export const aliceQuest = newQuest("aliceQuest",
             },
             name: "Take products",
             description: "Take products on the Terrace",
-            requestDescription: "Wait for the products you ordered to arrive (2 day)",
+            requestDescriptionToStart: "Wait for the products you ordered to arrive (2 day)",
             daysRequiredToStart: 2,
         }),
         new Stage("talk_alice2", {

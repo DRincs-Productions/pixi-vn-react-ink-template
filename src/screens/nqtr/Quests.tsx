@@ -30,7 +30,7 @@ export default function Memo() {
             quests: [],
         }
     });
-    const selectedQuest = methods.getValues("selectedQuest")
+    const selectedQuest = methods.watch("selectedQuest")
 
     useEffect(() => {
         window.addEventListener('keydown', onkeydown);
@@ -43,7 +43,7 @@ export default function Memo() {
         if (event.code == 'KeyJ') {
             let open = methods.getValues("open")
             if (!open) {
-                let selectedQuest = methods.getValues("selectedQuest")
+                // let selectedQuest = methods.getValues("selectedQuest")
                 methods.setValue("open", !open)
                 let quests: QuestDescription[] = getAllStartedQuests().map((quest) => {
                     let image: string | undefined = undefined
@@ -56,20 +56,29 @@ export default function Memo() {
                             image = renderImage
                         }
                     }
+
+                    let currentStageDescription = ""
+                    if (quest.currentStage) {
+                        if (!quest.currentStage.started && quest.currentStage.requestDescriptionToStart) {
+                            currentStageDescription = quest.currentStage.requestDescriptionToStart
+                        }
+                        else if (quest.currentStage.description) {
+                            currentStageDescription = quest.currentStage.description
+                        }
+                    }
+
                     return {
                         id: quest.id,
                         name: quest.name,
                         description: quest.description,
                         currentStage: {
-                            description: quest.currentStage?.description || "",
+                            description: currentStageDescription
                         },
                         questImage: image,
                     }
                 })
                 methods.setValue("quests", quests)
-                if (!selectedQuest && quests.length > 0) {
-                    methods.setValue("selectedQuest", quests[0])
-                }
+                methods.setValue("selectedQuest", quests[0])
             }
         }
     }
@@ -133,7 +142,7 @@ export default function Memo() {
                                                 }}
                                             >
                                                 <Link
-                                                    selected={selectedQuest?.id === quest.id}
+                                                    disabled={selectedQuest?.id === quest.id}
                                                     onClick={() => {
                                                         methods.setValue("selectedQuest", quest)
                                                     }}
