@@ -2,6 +2,7 @@ import { TimeManager } from '@drincs/nqtr';
 import { RoundIconButton, Stack, Typography, useTheme } from '@drincs/react-components';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { motion } from 'framer-motion';
+import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
 import { currentHourState } from '../../atoms/currentHourState';
@@ -9,6 +10,7 @@ import { wait } from '../../utility/TimeUtility';
 
 export default function Time() {
     const { t } = useTranslation(["translation"]);
+    const { enqueueSnackbar } = useSnackbar();
     const [hour, setHour] = useRecoilState(currentHourState);
 
     return (
@@ -70,7 +72,7 @@ export default function Time() {
                         backgroundColor: "#0000007c",
                     }}
                     onClick={() => {
-                        wait(1)
+                        wait(1, (message, variant) => enqueueSnackbar(message, { variant }))
                         setHour(TimeManager.currentHour)
                     }}
                     elevation="sm"

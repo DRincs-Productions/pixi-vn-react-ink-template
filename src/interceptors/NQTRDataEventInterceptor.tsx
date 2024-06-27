@@ -1,5 +1,6 @@
 import { currentActivities, getCurrenrLocation, getCurrentRoom, getCurrentRoomRoutine, TimeManager } from '@drincs/nqtr';
 import { CanvasBase, CanvasContainer, CanvasImage, GameWindowManager } from '@drincs/pixi-vn';
+import { useSnackbar } from 'notistack';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -17,6 +18,7 @@ export default function NQTRDataEventInterceptor() {
     const [{ currentRoom }, setCurrentNavigationData] = useRecoilState(currentNavigationDataState)
     const setCurrentRoutineAndActivities = useSetRecoilState(currentRoutineAndActivitiesState)
     const navigate = useMyNavigate();
+    const { enqueueSnackbar } = useSnackbar();
     const { t } = useTranslation(["translation"]);
 
     useEffect(() => {
@@ -46,11 +48,13 @@ export default function NQTRDataEventInterceptor() {
             let backgroundImage = currentRoom.renderImage({
                 navigate: navigate,
                 t: t,
+                notify: (message, variant) => enqueueSnackbar(message, { variant }),
             })
             if (currentCommitments.length > 0 && currentCommitments[0].renderImage) {
                 backgroundImage = currentCommitments[0].renderImage({
                     navigate: navigate,
                     t: t,
+                    notify: (message, variant) => enqueueSnackbar(message, { variant }),
                 })
             }
             let container = new CanvasContainer()
@@ -74,6 +78,7 @@ export default function NQTRDataEventInterceptor() {
                 let icon = room.renderIcon({
                     navigate: navigate,
                     t: t,
+                    notify: (message, variant) => enqueueSnackbar(message, { variant }),
                 })
                 if (icon instanceof CanvasBase) {
                     container.addChild(icon)
@@ -87,6 +92,7 @@ export default function NQTRDataEventInterceptor() {
                 let icon = activity.renderIcon({
                     navigate: navigate,
                     t: t,
+                    notify: (message, variant) => enqueueSnackbar(message, { variant }),
                 })
                 if (icon instanceof CanvasBase) {
                     container.addChild(icon)
@@ -100,6 +106,7 @@ export default function NQTRDataEventInterceptor() {
                 let icon = commitment.renderIcon({
                     navigate: navigate,
                     t: t,
+                    notify: (message, variant) => enqueueSnackbar(message, { variant }),
                 })
                 if (icon instanceof CanvasBase) {
                     container.addChild(icon)
@@ -111,6 +118,7 @@ export default function NQTRDataEventInterceptor() {
                 automaticCommitment.run({
                     navigate: navigate,
                     t: t,
+                    notify: (message, variant) => enqueueSnackbar(message, { variant }),
                 })
             }
 

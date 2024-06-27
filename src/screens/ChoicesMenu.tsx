@@ -1,6 +1,7 @@
 import { ChoiceMenuOption, ChoiceMenuOptionClose, clearChoiceMenuOptions, GameStepManager, GameWindowManager } from '@drincs/pixi-vn';
 import { Box, Grid } from '@drincs/react-components';
 import { motion, Variants } from "framer-motion";
+import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -25,6 +26,7 @@ export default function ChoicesMenu(props: IProps) {
     const navigate = useMyNavigate();
     const { menu, hidden } = useRecoilValue(choiceMenuState)
     const notifyReloadInterfaceDataEvent = useSetRecoilState(reloadInterfaceDataEventState);
+    const { enqueueSnackbar } = useSnackbar();
     const itemVariants: Variants = {
         open: {
             opacity: 1,
@@ -41,6 +43,7 @@ export default function ChoicesMenu(props: IProps) {
             GameStepManager.callLabel(item.label, {
                 navigate: navigate,
                 t: t,
+                notify: (message, variant) => enqueueSnackbar(message, { variant }),
                 ...item.props
             })
                 .then(() => {
@@ -56,6 +59,7 @@ export default function ChoicesMenu(props: IProps) {
             GameStepManager.jumpLabel(item.label, {
                 navigate: navigate,
                 t: t,
+                notify: (message, variant) => enqueueSnackbar(message, { variant }),
                 ...item.props
             })
                 .then(() => {
@@ -71,6 +75,7 @@ export default function ChoicesMenu(props: IProps) {
             GameStepManager.closeChoiceMenu(item.label, {
                 navigate: navigate,
                 t: t,
+                notify: (message, variant) => enqueueSnackbar(message, { variant }),
                 ...item.props
             })
                 .then(() => {

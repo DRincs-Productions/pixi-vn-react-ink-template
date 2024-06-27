@@ -1,6 +1,7 @@
 import { addImage, clearAllGameDatas, GameStepManager, GameWindowManager } from '@drincs/pixi-vn';
 import Stack from '@mui/joy/Stack';
 import { motion } from 'framer-motion';
+import { useSnackbar } from 'notistack';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSetRecoilState } from 'recoil';
@@ -17,6 +18,7 @@ export default function MainMenu() {
     const setOpenSettings = useSetRecoilState(openSettingsState);
     const notifyReloadInterfaceDataEvent = useSetRecoilState(reloadInterfaceDataEventState);
     const setHideInterface = useSetRecoilState(hideInterfaceState);
+    const { enqueueSnackbar } = useSnackbar();
     const { t } = useTranslation(["translation"]);
 
     useEffect(() => {
@@ -47,7 +49,8 @@ export default function MainMenu() {
                     GameWindowManager.removeCanvasElements()
                     GameStepManager.callLabel(startLabel, {
                         navigate: navigate,
-                        t: t
+                        t: t,
+                        notify: (message, variant) => enqueueSnackbar(message, { variant }),
                     }).then(() => {
                         notifyReloadInterfaceDataEvent((prev) => prev + 1)
                     })

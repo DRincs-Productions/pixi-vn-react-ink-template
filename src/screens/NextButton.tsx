@@ -1,6 +1,7 @@
 import { StepLabelProps } from '@drincs/pixi-vn/dist/override';
 import { Button } from '@drincs/react-components';
 import { motion } from "framer-motion";
+import { useSnackbar } from 'notistack';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -15,6 +16,7 @@ export default function NextButton({ nextOnClick }: {
     const [skip, setSkip] = useRecoilState(skipEnabledState)
     const nextStepLoading = useRecoilValue(nextStepLoadingState)
     const canGoNext = useRecoilValue(canGoNextState)
+    const { enqueueSnackbar } = useSnackbar();
     const navigate = useMyNavigate();
     const { t } = useTranslation(["translation"]);
     useEffect(() => {
@@ -33,6 +35,7 @@ export default function NextButton({ nextOnClick }: {
             nextOnClick({
                 t,
                 navigate,
+                notify: (message, variant) => enqueueSnackbar(message, { variant }),
             })
             if (skip) {
                 setSkip(false)
@@ -61,6 +64,7 @@ export default function NextButton({ nextOnClick }: {
                 nextOnClick({
                     t,
                     navigate,
+                    notify: (message, variant) => enqueueSnackbar(message, { variant }),
                 })
             }}
             component={motion.div}

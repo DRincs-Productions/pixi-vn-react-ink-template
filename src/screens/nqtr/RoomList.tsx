@@ -1,6 +1,7 @@
 import { getCurrentRoom, setCurrentRoom } from '@drincs/nqtr';
 import { ImageBackdrop, ImageSrc, StackOverflow } from '@drincs/react-components';
 import { AnimatePresence } from 'framer-motion';
+import { useSnackbar } from 'notistack';
 import { isValidElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
@@ -13,6 +14,7 @@ export default function RoomList() {
     const [{ currentLocation, currentRoom }, setCurrentNavigationData] = useRecoilState(currentNavigationDataState)
     const navigate = useMyNavigate();
     const { t } = useTranslation(["translation"]);
+    const { enqueueSnackbar } = useSnackbar();
 
     return (
         <StackOverflow
@@ -40,6 +42,7 @@ export default function RoomList() {
                     let image = renderImage({
                         navigate: navigate,
                         t: t,
+                        notify: (message, variant) => enqueueSnackbar(message, { variant }),
                     })
                     if (image instanceof ImageTimeSlots) {
                         image = image.currentImage

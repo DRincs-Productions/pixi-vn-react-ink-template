@@ -1,3 +1,5 @@
+import { VariantType } from "notistack"
+
 declare module '@drincs/pixi-vn/dist/override' {
     interface StepLabelResult {
         [key: string]: any
@@ -15,6 +17,13 @@ declare module '@drincs/pixi-vn/dist/override' {
          * @returns The translated string.
          */
         t: TFunction<[string], undefined>
+        /**
+         * Show a notification.
+         * @param message The message to show.
+         * @param variant The variant of the notification.
+         * @returns 
+         */
+        notify: (message: string, variant: VariantType) => void
         [key: string]: any
     }
 }

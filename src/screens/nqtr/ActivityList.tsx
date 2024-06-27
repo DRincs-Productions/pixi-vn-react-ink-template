@@ -1,5 +1,6 @@
 import { ImageBackdrop, ImageSrc, StackOverflow } from '@drincs/react-components';
 import { AnimatePresence } from 'framer-motion';
+import { useSnackbar } from 'notistack';
 import { isValidElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilValue } from 'recoil';
@@ -11,6 +12,7 @@ import { useMyNavigate } from '../../utility/useMyNavigate';
 export default function ActivityList() {
     const navigate = useMyNavigate();
     const { t } = useTranslation(["translation"]);
+    const { enqueueSnackbar } = useSnackbar();
     const { activities, routine } = useRecoilValue(currentRoutineAndActivitiesState)
 
     return (
@@ -37,6 +39,7 @@ export default function ActivityList() {
                     let image = renderImage({
                         navigate: navigate,
                         t: t,
+                        notify: (message, variant) => enqueueSnackbar(message, { variant }),
                     })
                     let disabled = activity.disabled
                     if (image instanceof ImageTimeSlots) {
@@ -51,6 +54,7 @@ export default function ActivityList() {
                                     activity.run({
                                         navigate: navigate,
                                         t: t,
+                                        notify: (message, variant) => enqueueSnackbar(message, { variant }),
                                     })
                                 }}
                                 ariaLabel={activity.name}
@@ -72,6 +76,7 @@ export default function ActivityList() {
                     let image = renderImage({
                         navigate: navigate,
                         t: t,
+                        notify: (message, variant) => enqueueSnackbar(message, { variant }),
                     })
                     let disabled = commitment.disabled
                     if (image instanceof ImageTimeSlots) {
@@ -89,6 +94,7 @@ export default function ActivityList() {
                                     commitment.run({
                                         navigate: navigate,
                                         t: t,
+                                        notify: (message, variant) => enqueueSnackbar(message, { variant }),
                                     })
                                 }}
                                 ariaLabel={commitment.name}

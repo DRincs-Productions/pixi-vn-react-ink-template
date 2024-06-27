@@ -1,4 +1,5 @@
 import { StepLabelProps } from '@drincs/pixi-vn/dist/override';
+import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecoilValue } from 'recoil';
@@ -14,12 +15,14 @@ export default function SkipAutoInterceptor({ nextOnClick }: {
     const skipEnabled = useRecoilValue(skipEnabledState)
     const autoEnabled = useRecoilValue(autoEnabledState)
     const [recheckSkipAuto, setRecheckSkipAuto] = useState<number>(0)
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
         if (skipEnabled || autoEnabled) {
             nextOnClick({
                 t,
                 navigate,
+                notify: (message, variant) => enqueueSnackbar(message, { variant }),
             }).then(() => {
                 nextOnClickInternal()
             })
