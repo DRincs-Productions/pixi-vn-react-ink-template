@@ -6,7 +6,7 @@ const sleepHourLabel = newLabel<{
 }>("Sleep1HourLabel",
     [
         ({ wakeupHour, ...rest }) => {
-            sleep(wakeupHour, rest.notify)
+            sleep(wakeupHour, rest)
             GameStepManager.runNextStep(rest)
         }
     ]

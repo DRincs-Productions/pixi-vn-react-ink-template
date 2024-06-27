@@ -7,20 +7,20 @@ import { mcRoom, terrace } from "../values/rooms";
 export const orderProductLabel = newLabel("OrderProductLabel",
     [
         () => setDialogue(`OK! Let's see, let's look for a book....`),
-        () => {
+        (props) => {
             setDialogue(`Here's R****, for $1. Just the thing for me.`)
             mcRoom.removeActivity(orderProduct)
-            aliceQuest.completeCurrentStageAndGoNext({}, {})
+            aliceQuest.completeCurrentStageAndGoNext(props, {})
         },
     ]
 )
 
 export const takeKeyLabel = newLabel("TakeKeyLabel",
     [
-        () => {
+        (props) => {
             setDialogue(`Are these the car keys?! Well... I should try to access the car!`)
             terrace.removeActivity(takeProduct)
-            aliceQuest.completeCurrentStageAndGoNext({}, {})
+            aliceQuest.completeCurrentStageAndGoNext(props, {})
         },
     ]
 )
@@ -52,9 +52,9 @@ export const talkAliceQuest = newLabel("talkAliceQuest",
             return [
                 () => setDialogue("Hi, can you order me a new book from pc?"),
                 () => setDialogue("Ok"),
-                () => {
+                (props) => {
                     setDialogue("Thanks")
-                    aliceQuest.completeCurrentStageAndGoNext({}, {})
+                    aliceQuest.completeCurrentStageAndGoNext(props, {})
                 },
             ]
         }
@@ -73,9 +73,9 @@ export const talkAliceQuest = newLabel("talkAliceQuest",
         else if (aliceQuest.currentStageIndex == 3) {
             return [
                 () => setDialogue("Here's your book."),
-                () => {
+                (props) => {
                     setDialogue("Thank you, I can finally read something new.")
-                    aliceQuest.completeCurrentStageAndGoNext({}, {})
+                    aliceQuest.completeCurrentStageAndGoNext(props, {})
                 },
             ]
         }

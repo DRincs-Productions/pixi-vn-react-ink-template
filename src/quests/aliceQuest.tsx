@@ -51,7 +51,7 @@ export const aliceQuest = newQuest("aliceQuest",
     { // props
         name: "Help Alice",
         description: "To learn more about how the repo works, Talk to Alice. \nGoing when she is there will automatically start an \"Event\" (see aliceQuest.tsx to learn more). \nAfter that an action will be added to open the pc, in MC room. \n\n(during the quest you can talk to Alice and you will see her talking during the quests of the same Quest)",
-        renderImage: "https://raw.githubusercontent.com/DRincs-Productions/NQTR-System/main/game/images/Alice/terrace0A.webp"
+        renderImage: "https://raw.githubusercontent.com/DRincs-Productions/NQTR-System/main/game/images/Alice/terrace0A.webp",
     }
 )
 

@@ -28,7 +28,7 @@ export const startLabel = newLabel(START_LABEL_ID,
             setCurrentRoom(mcRoom)
             setFlag("weekend", TimeManager.isWeekend)
             setFlag("not_weekend", !TimeManager.isWeekend)
-            aliceQuest.start({})
+            aliceQuest.start(props)
             GameStepManager.callLabel(goToNavigationFather, props)
         },
         ({ navigate }) => {
