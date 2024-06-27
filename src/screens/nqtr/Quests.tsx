@@ -14,6 +14,8 @@ type QuestDescription = {
         description: string;
     }
     questImage?: string,
+    completed?: boolean,
+    isInDevelopment?: boolean,
 }
 
 export default function Memo() {
@@ -23,11 +25,13 @@ export default function Memo() {
         open: boolean,
         selectedQuest: QuestDescription | undefined,
         quests: QuestDescription[],
+        completedQuests: QuestDescription[],
     }>({
         defaultValues: {
             open: false,
             selectedQuest: undefined,
             quests: [],
+            completedQuests: [],
         }
     });
     const selectedQuest = methods.watch("selectedQuest")
@@ -59,7 +63,15 @@ export default function Memo() {
 
                     let currentStageDescription = ""
                     if (quest.currentStage) {
-                        if (!quest.currentStage.started && quest.currentStage.requestDescriptionToStart) {
+                        if (quest.completed) {
+                            if (quest.isInDevelopment) {
+                                currentStageDescription = t("quest_is_in_development")
+                            }
+                            else {
+                                currentStageDescription = t("completed")
+                            }
+                        }
+                        else if (!quest.currentStage.started && quest.currentStage.requestDescriptionToStart) {
                             currentStageDescription = quest.currentStage.requestDescriptionToStart
                         }
                         else if (quest.currentStage.description) {
@@ -75,9 +87,18 @@ export default function Memo() {
                             description: currentStageDescription
                         },
                         questImage: image,
+                        completed: quest.completed,
+                        isInDevelopment: quest.isInDevelopment,
                     }
                 })
+                let completedQuests: QuestDescription[] = quests.filter((quest) => {
+                    return quest.completed
+                })
+                quests = quests.filter((quest) => {
+                    return !quest.completed
+                })
                 methods.setValue("quests", quests)
+                methods.setValue("completedQuests", completedQuests)
                 methods.setValue("selectedQuest", quests[0])
             }
         }
@@ -130,6 +151,36 @@ export default function Memo() {
                             <Controller
                                 control={methods.control}
                                 name="quests"
+                                render={({ field: { value: quests } }) => (
+                                    <Box>
+                                        {quests.map((quest) => (
+                                            <Box
+                                                key={quest.id}
+                                                sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    gap: 1,
+                                                }}
+                                            >
+                                                <Link
+                                                    disabled={selectedQuest?.id === quest.id}
+                                                    onClick={() => {
+                                                        methods.setValue("selectedQuest", quest)
+                                                    }}
+                                                >
+                                                    {quest.name}
+                                                </Link>
+                                            </Box>
+                                        ))}
+                                    </Box>
+                                )}
+                            />
+                            <Typography level="h3">
+                                {t("completed")}
+                            </Typography>
+                            <Controller
+                                control={methods.control}
+                                name="completedQuests"
                                 render={({ field: { value: quests } }) => (
                                     <Box>
                                         {quests.map((quest) => (
