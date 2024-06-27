@@ -1,3 +1,4 @@
+import { SnackbarProvider } from 'notistack';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import { useI18n } from './i18n';
@@ -14,7 +15,14 @@ export default function AppImports(props: Iprops) {
         <BrowserRouter>
             <RecoilRoot>
                 <MyThemeProvider>
-                    {props.children}
+                    <SnackbarProvider
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left',
+                        }}
+                    >
+                        {props.children}
+                    </SnackbarProvider>
                 </MyThemeProvider>
             </RecoilRoot>
         </BrowserRouter>

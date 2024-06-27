@@ -23,8 +23,8 @@ export function wait(timeSpent: number, notify: (message: string, variant: Varia
         notify("You can't sleep now", "info")
         return false;
     }
-    if (TimeManager.currentHour >= 23) {
-        notify("You can't wait anymore", "info")
+    if (TimeManager.currentHour + timeSpent >= 23) {
+        notify("You can't wait anymore, you should sleep now", "info")
         return false;
     }
     TimeManager.increaseHour(timeSpent)
