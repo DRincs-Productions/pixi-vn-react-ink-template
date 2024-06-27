@@ -57,5 +57,7 @@
 		, "completed" : "Completed"
 		, "quest_completed_description" : "This quest has been completed."
 		, "quest_is_in_development" : "That is all for the moment. The quest is in development."
+		, "notify_quest_is_started" : "The \"{{quest}}\" quest has started."
+		, "notify_quest_is_updated" : "The \"{{quest}}\" quest has been updated."
 	}
 }
