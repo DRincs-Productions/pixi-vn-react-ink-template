@@ -200,7 +200,6 @@ export default function Memo() {
                                                     onClick={() => {
                                                         methods.setValue("selectedQuest", quest)
                                                     }}
-                                                    textColor={"text.primary"}
                                                 >
                                                     {quest.name}
                                                 </Link>
