@@ -10,7 +10,7 @@ export const orderProductLabel = newLabel("OrderProductLabel",
         (props) => {
             setDialogue(`Here's R****, for $1. Just the thing for me.`)
             mcRoom.removeActivity(orderProduct)
-            aliceQuest.completeCurrentStageAndGoNext(props, {})
+            aliceQuest.completeCurrentStageAndGoNext(props)
         },
     ]
 )
@@ -20,7 +20,7 @@ export const takeKeyLabel = newLabel("TakeKeyLabel",
         (props) => {
             setDialogue(`Are these the car keys?! Well... I should try to access the car!`)
             terrace.removeActivity(takeProduct)
-            aliceQuest.completeCurrentStageAndGoNext(props, {})
+            aliceQuest.completeCurrentStageAndGoNext(props)
         },
     ]
 )
@@ -54,7 +54,7 @@ export const talkAliceQuest = newLabel("talkAliceQuest",
                 () => setDialogue("Ok"),
                 (props) => {
                     setDialogue("Thanks")
-                    aliceQuest.completeCurrentStageAndGoNext(props, {})
+                    aliceQuest.completeCurrentStageAndGoNext(props)
                 },
             ]
         }
@@ -75,7 +75,7 @@ export const talkAliceQuest = newLabel("talkAliceQuest",
                 () => setDialogue("Here's your book."),
                 (props) => {
                     setDialogue("Thank you, I can finally read something new.")
-                    aliceQuest.completeCurrentStageAndGoNext(props, {})
+                    aliceQuest.completeCurrentStageAndGoNext(props)
                 },
             ]
         }

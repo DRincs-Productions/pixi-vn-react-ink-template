@@ -1,11 +1,11 @@
 import { clearExpiredActivities, clearExpiredRoutine, startMustStartStageQuests, TimeManager } from "@drincs/nqtr";
-import { OnStartStageQuest } from "@drincs/nqtr/dist/override";
+import { OnStartEndStageQuest } from "@drincs/nqtr/dist/override";
 import { getFlag, setFlag } from "@drincs/pixi-vn";
 import { VariantType } from "notistack";
 
 const NOT_CAN_SPEND_TIME_FLAG_KEY = "not_can_spend_time";
 
-export function sleep(newDayHour: number, props: OnStartStageQuest): boolean {
+export function sleep(newDayHour: number, props: OnStartEndStageQuest): boolean {
     if (getFlag(NOT_CAN_SPEND_TIME_FLAG_KEY)) {
         props.notify("You can't sleep now", "info")
         return false;

@@ -5,5 +5,5 @@ declare module '@drincs/nqtr/dist/override' {
     interface OnRunProps extends StepLabelProps { }
     interface OnRenderGraphicItemProps extends StepLabelProps { }
     interface GraphicItemInterface extends ImageTimeSlots { }
-    interface OnStartStageQuest extends StepLabelProps { }
+    interface OnStartEndStageQuest extends StepLabelProps { }
 }
