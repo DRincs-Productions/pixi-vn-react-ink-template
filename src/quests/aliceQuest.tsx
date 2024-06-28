@@ -35,9 +35,9 @@ export const aliceQuest = newQuest("aliceQuest",
             description: "Order the products with your PC",
         }),
         new Stage("take_products", {
-            onStart: (_, props) => {
+            onStart: (_, { notify }) => {
                 terrace.addActivity(takeProduct)
-                props.notify("You can take the products on the Terrace", "info")
+                notify("You can take the products on the Terrace", "info")
             },
             name: "Take products",
             description: "Take products on the Terrace",
