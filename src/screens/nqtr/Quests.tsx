@@ -178,14 +178,14 @@ export default function Memo() {
                                     </Box>
                                 )}
                             />
-                            <Typography level="h3">
-                                {t("completed")}
-                            </Typography>
                             <Controller
                                 control={methods.control}
                                 name="completedQuests"
                                 render={({ field: { value: quests } }) => (
                                     <Box>
+                                        {quests.length > 0 && <Typography level="h4">
+                                            {t("completed")}
+                                        </Typography>}
                                         {quests.map((quest) => (
                                             <Box
                                                 key={quest.id}
