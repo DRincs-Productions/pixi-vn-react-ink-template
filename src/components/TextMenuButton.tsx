@@ -13,6 +13,9 @@ export default function TextMenuButton(props: LinkProps) {
                 userSelect: "none",
                 ...sx
             }}
+            selectedTextColor={"primary.500"}
+            disabledTextColor={"neutral.500"}
+            textColor={"neutral.300"}
             {...rest}
         />
     );
