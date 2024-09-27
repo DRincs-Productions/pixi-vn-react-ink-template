@@ -1,24 +1,15 @@
+-> start
 === start ===
-We arrived into London at 9.45pm exactly.
+{start && start: "I saw him. Only for a moment." }
+"His real name was {start.learned_his_name: Franz|a secret}."
+{start: "I saw him. Only for a moment. His real name was {start.learned_his_name: Franz|kept a secret}." | [ Loop ] -> start }
+{start: "Letter: {a|b|{start: {c|d}}}" }
+{learned_his_name: "OK" | -> learned_his_name }
+{learned_his_name: "OK" | -> END }
++ [ Loop ] -> start
++ [ learned_his_name ] -> learned_his_name
++ [ Exit ] -> END
 
-*	"There is not a moment to lose!"[] I declared.
-	-> hurry_outside
-
-*	"Monsieur, let us savour this moment!"[] I declared.
-	My master clouted me firmly around the head and dragged me out of the door.
-	-> dragged_outside
-
-*	[We hurried home] -> hurry_outside
-
-
-=== hurry_outside ===
-We hurried home to Savile Row -> as_fast_as_we_could
-
-
-=== dragged_outside ===
-He insisted that we hurried home to Savile Row
--> as_fast_as_we_could
-
-
-=== as_fast_as_we_could ===
-<> as fast as we could.
+= learned_his_name
+learned_his_name
+-> start
